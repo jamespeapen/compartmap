@@ -73,8 +73,7 @@ bootstrapCompartments <- function(obj, original.obj, bootstrap.samples = 1000,
         prior.means = boot.mean,
         chr = chr, res = res, assay = assay, genome = genome
       )
-      if (group) cor.bins <- getCorMatrix(s.bins, squeeze = FALSE)
-      if (isFALSE(group)) cor.bins <- getCorMatrix(s.bins, squeeze = TRUE)
+      cor.bins <- getCorMatrix(s.bins, squeeze = !group)
       # Stupid check for perfect correlation with global mean
       if (any(is.na(cor.bins$binmat.cor))) {
         absig <- matrix(rep(NA, nrow(cor.bins$binmat.cor)))
@@ -94,7 +93,7 @@ bootstrapCompartments <- function(obj, original.obj, bootstrap.samples = 1000,
         prior.means = boot.mean,
         chr = chr, res = res, assay = assay, genome = genome
       )
-      cor.bins <- getCorMatrix(s.bins, squeeze = TRUE)
+      cor.bins <- getCorMatrix(s.bins, squeeze = !group)
       # Stupid check for perfect correlation with global mean
       if (any(is.na(cor.bins$binmat.cor))) {
         absig <- matrix(rep(NA, nrow(cor.bins$binmat.cor)))

@@ -81,11 +81,10 @@ bootstrapCompartments <- function(obj, original.obj, bootstrap.samples = 1000,
 
     # Stupid check for perfect correlation with global mean
     if (any(is.na(cor.bins$binmat.cor))) {
-      absig <- matrix(rep(NA, nrow(cor.bins$binmat.cor)))
+      matrix(rep(NA, nrow(cor.bins$binmat.cor)))
     } else {
-      absig <- getABSignal(cor.bins, assay = assay)
+      getABSignal(cor.bins, assay = assay)
     }
-    return(absig)
   }, mc.cores = ifelse(parallel, cores, 1))
 
   # summarize the bootstraps and compute confidence intervals

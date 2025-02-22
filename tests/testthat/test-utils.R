@@ -57,3 +57,24 @@ test_that("getChrs", {
   )
 })
 
+
+nrows <- 200
+ncols <- 6
+counts1 <- matrix(runif(nrows * ncols, 1, 1e4), nrows)
+counts2 <- matrix(runif(nrows * ncols, 1, 1e4), nrows)
+counts3 <- matrix(runif(nrows * ncols, 1, 1e4), nrows)
+colData <- DataFrame(
+  Treatment = rep(c("a", "b"), 3),
+  row.names = LETTERS[1:6]
+)
+se <- SummarizedExperiment(
+  assays = SimpleList(one = counts1, two = counts2, three = counts3),
+  colData = colData
+)
+
+test_that("getAssayNames", {
+  expect_equal(
+    getAssayNames(se),
+    c("one", "two", "three")
+  )
+})

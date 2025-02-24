@@ -72,9 +72,46 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"meth_array_450k_chr14"</span>, package <span class="op">=</span> <span class="st">"compartmap"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">cleanAssayCols</span><span class="op">(</span><span class="va">array.data.chr.14</span>, assay <span class="op">=</span> <span class="st">"array"</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'array.data.chr.14' not found</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/hansenlab/minfi" class="external-link">minfi</a></span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"meth_array_450k_chr14"</span>, package <span class="op">=</span> <span class="st">"compartmap"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu">cleanAssayCols</span><span class="op">(</span><span class="va">array.data.chr14</span>, assay <span class="op">=</span> <span class="st">"array"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: minfi</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: Biostrings</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: XVector</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Attaching package: ‘Biostrings’</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following object is masked from ‘package:base’:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     strsplit</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: bumphunter</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: foreach</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: iterators</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: parallel</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: locfit</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> locfit 1.5-9.11 	 2025-01-27</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Setting options('download.file.method.GEOquery'='auto')</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Setting options('GEOquery.inmemory.gpl'=FALSE)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Attaching package: ‘minfi’</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following object is masked from ‘package:bsseq’:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     getMeth</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> class: GenomicRatioSet </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> dim: 15078 11 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> metadata(1): SNPs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> assays(2): Beta CN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> rownames(15078): cg07948143 cg20517615 ... cg23902114 cg24746738</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> rowData names(0):</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> colnames(11): naive.1 rTreg.2 ... act_rTreg.10 birth.11</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> colData names(10): Sample_Name Sample_Well ... Basename filenames</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Annotation</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   array: IlluminaHumanMethylation450k</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   annotation: ilmn12.hg19</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Preprocessing</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Method: SeSAMe (type I)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   minfi version: 1.27.8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Manifest version: 0.6.0</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

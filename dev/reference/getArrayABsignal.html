@@ -137,11 +137,28 @@
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"meth_array_450k_chr14"</span>, package <span class="op">=</span> <span class="st">"compartmap"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">array_compartments</span> <span class="op">&lt;-</span> <span class="fu">getArrayABsignal</span><span class="op">(</span><span class="va">array.data.chr14</span>, parallel<span class="op">=</span><span class="cn">FALSE</span>, chr<span class="op">=</span><span class="st">"chr14"</span>, bootstrap<span class="op">=</span><span class="cn">FALSE</span>, genome<span class="op">=</span><span class="st">"hg19"</span>, array.type<span class="op">=</span><span class="st">"hm450"</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: minfi</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>there is no package called ‘minfi’</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in h(simpleError(msg, call)):</span> error in evaluating the argument 'x' in selecting a method for function 'seqinfo': unable to find required package ‘minfi’</span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/hansenlab/minfi" class="external-link">minfi</a></span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"meth_array_450k_chr14"</span>, package <span class="op">=</span> <span class="st">"compartmap"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">array_compartments</span> <span class="op">&lt;-</span> <span class="fu">getArrayABsignal</span><span class="op">(</span><span class="va">array.data.chr14</span>, parallel<span class="op">=</span><span class="cn">FALSE</span>, chr<span class="op">=</span><span class="st">"chr14"</span>, bootstrap<span class="op">=</span><span class="cn">FALSE</span>, genome<span class="op">=</span><span class="st">"hg19"</span>, array.type<span class="op">=</span><span class="st">"hm450"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Filtering to open sea CpG loci...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Converting to squeezed M-values.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Imputing missing values.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Dropping samples with &gt;80% NAs.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Imputing missing data with kNN.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Cluster size 3332 broken into 518 2814 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Done cluster 518 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Cluster size 2814 broken into 969 1845 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Done cluster 969 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Cluster size 1845 broken into 600 1245 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Done cluster 600 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Done cluster 1245 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Done cluster 1845 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Done cluster 2814 </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on naive.1</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Computing compartments for chr14</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 108 bins created...</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in if (nrow(x.bin) &lt; 2) stop("There are not enough non-empty bins to continue..."):</span> argument is of length zero</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

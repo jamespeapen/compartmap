@@ -29,7 +29,7 @@
 #'
 #' @examples
 #'
-#' if (require(minfi)) {
+#' if (requireNamespace("minfi", quietly = TRUE)) {
 #'   data("meth_array_450k_chr14", package = "compartmap")
 #'   array_compartments <- getArrayABsignal(
 #'     array.data.chr14,
@@ -168,7 +168,7 @@ getArrayABsignal <- function(
 #' @import SummarizedExperiment
 #'
 #' @examples
-#' if (require(minfiData)) {
+#' if (requireNamespace("minfiData", quietly = TRUE)) {
 #'   grSet <- mapToGenome(ratioConvert(preprocessNoob(RGsetEx.sub)))
 #'   preprocessArrays(grSet)
 #' }

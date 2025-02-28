@@ -78,7 +78,7 @@ transformTFIDF <- function(mat, scale.factor = 1e5) {
 #' @import Matrix
 #' @import DelayedMatrixStats
 #' @import DelayedArray
-#' @import HDF5Array
+#' @importClassesFrom HDF5Array HDF5Array
 #' @importFrom methods as is
 #'
 #' @examples

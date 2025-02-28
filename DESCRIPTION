@@ -23,8 +23,8 @@ Depends:
    R (>= 4.4.0),
    SummarizedExperiment,
    RaggedExperiment,
-   HDF5Array
 Imports:
+   HDF5Array,
    BiocSingular,
    rlang,
    S4Vectors,

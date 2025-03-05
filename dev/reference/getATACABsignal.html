@@ -147,8 +147,17 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"k562_scatac_chr14"</span>, package <span class="op">=</span> <span class="st">"compartmap"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">atac_compartments</span> <span class="op">&lt;-</span> <span class="fu">getATACABsignal</span><span class="op">(</span><span class="va">k562_scatac_chr14</span>, parallel<span class="op">=</span><span class="cn">FALSE</span>, chr<span class="op">=</span><span class="st">"chr14"</span>, bootstrap<span class="op">=</span><span class="cn">FALSE</span>, genome<span class="op">=</span><span class="st">"hg19"</span>, group <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"csaw"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"k562_scatac_chr14"</span>, package <span class="op">=</span> <span class="st">"compartmap"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">atac_compartments</span> <span class="op">&lt;-</span> <span class="fu">getATACABsignal</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="va">k562_scatac_chr14</span>,</span></span>
+<span class="r-in"><span>    parallel <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>    chr <span class="op">=</span> <span class="st">"chr14"</span>,</span></span>
+<span class="r-in"><span>    bootstrap <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>    genome <span class="op">=</span> <span class="st">"hg19"</span>,</span></span>
+<span class="r-in"><span>    group <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Computing compartments for chr14</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> 108 bins created...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Calculating correlations...</span>

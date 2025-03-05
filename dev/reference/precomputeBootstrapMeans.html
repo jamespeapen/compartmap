@@ -92,10 +92,13 @@
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"k562_scrna_chr14"</span>, package <span class="op">=</span> <span class="st">"compartmap"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">scrna.bootstrap.global.means</span> <span class="op">&lt;-</span> <span class="fu">precomputeBootstrapMeans</span><span class="op">(</span><span class="va">k562_scrna_chr14</span>, assay <span class="op">=</span> <span class="st">"rna"</span>, num.bootstraps <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">scrna.bootstrap.global.means</span> <span class="op">&lt;-</span> <span class="fu">precomputeBootstrapMeans</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">k562_scrna_chr14</span>,</span></span>
+<span class="r-in"><span>  assay <span class="op">=</span> <span class="st">"rna"</span>,</span></span>
+<span class="r-in"><span>  num.bootstraps <span class="op">=</span> <span class="fl">2</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Working on bootstrap 1</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Working on bootstrap 2</span>
-<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

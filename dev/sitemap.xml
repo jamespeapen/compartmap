@@ -9,6 +9,7 @@
 <url><loc>/dev/reference/array.data.chr14.html</loc></url>
 <url><loc>/dev/reference/bootstrapCompartments.html</loc></url>
 <url><loc>/dev/reference/checkAssayType.html</loc></url>
+<url><loc>/dev/reference/cleanAssay.html</loc></url>
 <url><loc>/dev/reference/cleanAssayCols.html</loc></url>
 <url><loc>/dev/reference/cleanAssayRows.html</loc></url>
 <url><loc>/dev/reference/condenseRE.html</loc></url>
@@ -34,6 +35,7 @@
 <url><loc>/dev/reference/getCorMatrix.html</loc></url>
 <url><loc>/dev/reference/getDenoisedMatrix.html</loc></url>
 <url><loc>/dev/reference/getDomainInflections.html</loc></url>
+<url><loc>/dev/reference/getGenome.html</loc></url>
 <url><loc>/dev/reference/getGlobalMeans.html</loc></url>
 <url><loc>/dev/reference/getMatrixBlocks.html</loc></url>
 <url><loc>/dev/reference/getSVD.html</loc></url>

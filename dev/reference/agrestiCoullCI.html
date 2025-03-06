@@ -69,11 +69,19 @@
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>the approximate (q x 100) percent confidence interval for (p|n1,n0,q)</p>
     </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>\(z_\alpha = \Phi^{-1}(1 - \frac{\alpha}{2})\)</p>
+<p>\(\tilde{n} = n_{\text{successes}} + n_{\text{failures}} + z^2_\alpha\)</p>
+<p>\(\tilde{p} = \frac{1}{\tilde{n}}(n_{\text{success}} + \frac{z^2_\alpha}{2})\)</p>
+<p>\(p \approx \tilde{p} \pm z_\alpha \times \sqrt{\frac{\tilde{p}}{\tilde{n}} \times (1 - \tilde{p})}\)</p>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">binom.ci</span> <span class="op">&lt;-</span> <span class="fu">agrestiCoullCI</span><span class="op">(</span><span class="fl">10</span>, <span class="fl">3</span>, <span class="fl">0.95</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">agrestiCoullCI</span><span class="op">(</span><span class="fl">10</span>, <span class="fl">3</span>, <span class="fl">0.95</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       low       est      high </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.4906280 0.7078205 0.9250129 </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

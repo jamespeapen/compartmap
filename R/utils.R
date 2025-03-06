@@ -46,6 +46,7 @@ verifySE <- function(obj) {
   }
 }
 
+
 #' Throw error if assay does not contain coordinates
 #'
 #' @param obj Input object
@@ -149,7 +150,7 @@ fexpit <- function(x, sqz = 0.000001) {
 #' data("k562_scrna_chr14", package = "compartmap")
 #' getChrs(k562_scrna_chr14)
 #'
-#' @export
+#' @keywords internal
 getChrs <- function(obj) {
   # get the chromosomes present in the object
   return(unique(as.character(seqnames(obj))))
@@ -164,11 +165,39 @@ getChrs <- function(obj) {
 #' @param obj Input list object with elements 'pc' and 'gr'
 #' @return A filtered list object
 #' @export
+#' @keywords internal
 removeEmptyBoots <- function(obj) {
   Filter(Negate(anyNA), obj)
 }
 
-#' Get the seqlengths of a chromosome
+#' Get a GRanges object from bundled compartmap genomes
+#'
+#' @param genome The desired genome to use ("hg19", "hg38", "mm9", "mm10")
+#' @param type The type of data - full genome or open sea regions
+#'
+#' @return Granges of the genome
+#'
+#' @examples
+#' hg19 <- getGenome(genome = "hg19")
+#'
+#' @keywords internal
+getGenome <- function(
+  genome = c("hg19", "hg38", "mm9", "mm10"),
+  type = "genome"
+) {
+  genome.name <- match.arg(genome) |> tryCatch(error = function(e) {
+    e <- gsub("'arg'", "'genome'", e)
+    msg <- paste0(e, "Only human and mouse genomes are supported for the time being.")
+    stop(msg)
+  })
+  gr <- switch(type,
+    genome = paste0(genome.name, ".gr"),
+    openseas = paste0("openSeas.", genome.name)
+  )
+  return(get(gr))
+}
+
+#' Get the seqlengths of a chromosome from a given genome's GRanges
 #'
 #' The goal for this function is to eliminate the need to lug around
 #' large packages when we only want seqlengths for things.
@@ -385,7 +414,47 @@ importBigWig <- function(
   return(bw.sub)
 }
 
-#' Remove rows with NAs exceeding a threshold
+#' Generate function to filter rows/columns with NAs exceeding a threshold
+#'
+#' @details
+#' Since removing NAs from rows vs columns only differs by whether rowMeans or
+#' colMeans is used, and by where the comma goes in the subset operation,
+#' code repetition can be avoided by consolidating these operations.
+#' This `cleanAssay` function can generate two functions to remove NA's from
+#' rows and columns using the `by` argument based on which it selects the
+#' appropriate 'mean' and subset functions. This maintains the clarity of
+#' having the operation in the function name when used: `cleanAssayRows` and
+#' `cleanAssayCols`.
+#' @param by Whether to filter by rows or columns
+#'
+#' @return A function to filter assay rows/columns
+#' @keywords internal
+cleanAssay <- function(by = c("row", "col")) {
+  by <- match.arg(by)
+  if (by == "row") {
+    mean.fun <- rowMeans
+    subset.fun <- function(se, rows) {
+      se[rows, ]
+    }
+  } else {
+    mean.fun <- colMeans
+    subset.fun <- function(se, cols) {
+      se[, cols]
+    }
+  }
+
+  function(se, na.max = 0.8, assay = c("array", "bisulfite")) {
+    assay <- match.arg(assay)
+    assay.data <- switch(assay,
+      array = assays(se)$Beta,
+      bisulfite = assays(se)$counts
+    )
+    toKeep <- mean.fun(is.na(assay.data)) < na.max
+    subset.fun(se, toKeep)
+  }
+}
+
+#' Remove rows with NAs exceeding a threshold. See `cleanAssay()`
 #'
 #' @param se Input SummarizedExperiment object
 #' @param rowmax The maximum NAs allowed in a row as a fraction
@@ -399,17 +468,8 @@ importBigWig <- function(
 #'   data("array_data_chr14", package = "compartmap")
 #'   cleanAssayRows(array.data.chr14, assay = "array")
 #' }
-cleanAssayRows <- function(
-  se,
-  rowmax = 0.5,
-  assay = c("array", "bisulfite")
-) {
-  assay <- match.arg(assay)
-  switch(assay,
-    array = se[rowMeans(is.na(assays(se)$Beta)) < rowmax, ],
-    bisulfite = se[rowMeans(is.na(assays(se)$counts)) < rowmax, ]
-  )
-}
+#' @keywords internal
+cleanAssayRows <- cleanAssay(by = "row")
 
 #' Remove columns/cells/samples with NAs exceeding a threshold
 #'
@@ -425,17 +485,8 @@ cleanAssayRows <- function(
 #'   data("array_data_chr14", package = "compartmap")
 #'   cleanAssayCols(array.data.chr14, assay = "array")
 #' }
-cleanAssayCols <- function(
-  se,
-  colmax = 0.8,
-  assay = c("array", "bisulfite")
-) {
-  assay <- match.arg(assay)
-  switch(assay,
-    array = se[, colMeans(is.na(assays(se)$Beta)) < colmax],
-    bisulfite = se[, colMeans(is.na(assays(se)$counts)) < colmax]
-  )
-}
+#' @keywords internal
+cleanAssayCols <- cleanAssay(by = "col")
 
 #' Filter to open sea CpG loci
 #'

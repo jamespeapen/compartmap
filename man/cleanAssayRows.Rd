@@ -25,3 +25,4 @@ if (requireNamespace("minfi", quietly = TRUE)) {
   cleanAssayRows(array.data.chr14, assay = "array")
 }
 }
+\keyword{internal}

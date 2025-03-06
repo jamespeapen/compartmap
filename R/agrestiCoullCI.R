@@ -1,9 +1,10 @@
 #' Normal alpha/2 quantile
-#' 
-#' @param q   the quantile at which to extract Z
-#' 
-#' @return    Z
 #'
+#' @details
+#' \eqn{z_\alpha = \Phi^{-1}(1 - \frac{\alpha}{2})}
+#' @param q   the quantile at which to extract Z
+#'
+#' @return    Z
 #' @keywords internal
 .z <- function(q) {
   qnorm(1 - ((1 - q) / 2))
@@ -42,6 +43,12 @@
 #' Agresti-Coull confidence interval for a binomial proportion
 #'
 #' @details
+#' \eqn{z_\alpha = \Phi^{-1}(1 - \frac{\alpha}{2})}
+#'
+#' \eqn{\tilde{n} = n_{\text{successes}} + n_{\text{failures}} + z^2_\alpha}
+#'
+#' \eqn{\tilde{p} = \frac{1}{\tilde{n}}(n_{\text{success}} + \frac{z^2_\alpha}{2})}
+#'
 #' \eqn{p \approx \tilde{p} \pm z_\alpha \times \sqrt{\frac{\tilde{p}}{\tilde{n}} \times (1 - \tilde{p})}}
 #'
 #' @param n1  number of successes/ones 
@@ -52,7 +59,7 @@
 #' @export
 #' 
 #' @examples 
-#' binom.ci <- agrestiCoullCI(10, 3, 0.95)
+#' agrestiCoullCI(10, 3, 0.95)
 agrestiCoullCI <- function(n1, n0, q) {
   p_apx <- .p_approx(n1, n0, q)
   n_apx <- .n_approx(n1, n0, q)

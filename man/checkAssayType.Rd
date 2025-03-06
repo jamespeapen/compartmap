@@ -19,3 +19,4 @@ Check if the assay is a SummarizedExperiment
 data("k562_scrna_chr14", package = "compartmap")
 checkAssayType(k562_scrna_chr14)
 }
+\keyword{internal}

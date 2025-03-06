@@ -41,6 +41,7 @@ extractOpenClosed <- function(
 #' @examples
 #' data("k562_scrna_chr14", package = "compartmap")
 #' checkAssayType(k562_scrna_chr14)
+#' @keywords internal
 checkAssayType <- function(obj) {
   # helper function to check the class of an object
   is(obj, "SummarizedExperiment")
@@ -128,7 +129,7 @@ fexpit <- function(x, sqz = 0.000001) {
 #' data("k562_scrna_chr14", package = "compartmap")
 #' getChrs(k562_scrna_chr14)
 #'
-#' @export
+#' @keywords internal
 getChrs <- function(obj) {
   # get the chromosomes present in the object
   return(unique(as.character(seqnames(obj))))
@@ -140,6 +141,7 @@ getChrs <- function(obj) {
 #'
 #' @return A filtered list object
 #' @export
+#' @keywords internal
 removeEmptyBoots <- function(obj) {
   # remove NAs from a bootstrap list
   # this can happen if the correlation between the bins and eigenvector fails
@@ -159,7 +161,7 @@ removeEmptyBoots <- function(obj) {
 #' @examples
 #' hg19 <- getGenome(genome = "hg19")
 #'
-#' @export
+#' @keywords internal
 getGenome <- function(
   genome = c("hg19", "hg38", "mm9", "mm10"),
   type = "genome"
@@ -401,6 +403,7 @@ importBigWig <- function(
 #' @param by Whether to filter by rows or columns
 #'
 #' @return A function to filter assay rows/columns
+#' @keywords internal
 cleanAssay <- function(by = c("row", "col")) {
   by <- match.arg(by)
   if (by == "row") {
@@ -439,6 +442,7 @@ cleanAssay <- function(by = c("row", "col")) {
 #'   data("array_data_chr14", package = "compartmap")
 #'   cleanAssayRows(array.data.chr14, assay = "array")
 #' }
+#' @keywords internal
 cleanAssayRows <- cleanAssay(by = "row")
 
 #' Remove columns/cells/samples with NAs exceeding a threshold. See `cleanAssay()`
@@ -454,6 +458,7 @@ cleanAssayRows <- cleanAssay(by = "row")
 #'   data("array_data_chr14", package = "compartmap")
 #'   cleanAssayCols(array.data.chr14, assay = "array")
 #' }
+#' @keywords internal
 cleanAssayCols <- cleanAssay(by = "col")
 
 #' Filter to open sea CpG loci

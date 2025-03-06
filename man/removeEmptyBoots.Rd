@@ -15,3 +15,4 @@ A filtered list object
 \description{
 Remove bootstrap estimates that failed
 }
+\keyword{internal}

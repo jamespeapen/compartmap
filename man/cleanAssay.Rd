@@ -25,3 +25,4 @@ appropriate 'mean' and subset functions. This maintains the clarity of
 having the operation in the function name when used: \code{cleanAssayRows} and
 \code{cleanAssayCols}.
 }
+\keyword{internal}

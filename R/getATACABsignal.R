@@ -147,6 +147,7 @@ getATACABsignal <- function(
 }
 
 # worker function
+#' @export
 atacCompartments <- function(
   obj,
   original.obj,

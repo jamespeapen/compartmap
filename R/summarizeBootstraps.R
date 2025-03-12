@@ -101,6 +101,7 @@ summarizeBootstraps <- function(boot.list, est.ab, q = 0.95, assay = c("rna", "a
 # For methylation the logic is flipped:
 # eigen < 0 - open
 # eigen > 0 - closed
+#' @export
 .isCompartmentOpen <- function(is.atac_or_rna, eigen) {
   (is.atac_or_rna & eigen > 0) | (!is.atac_or_rna & eigen < 0)
 }

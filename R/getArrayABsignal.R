@@ -218,6 +218,7 @@ preprocessArrays <- function(obj,
 
 
 # worker function
+#' @export
 .arrayCompartments <- function(
   obj,
   original.obj,

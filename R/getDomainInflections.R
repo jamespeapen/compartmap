@@ -110,6 +110,7 @@ getDomainInflections <- function(
 
 
 # convert to pos and negative signs
+#' @export
 .getInflections <- function(gr, what = "score") {
   gr.signs <- sign(mcols(gr)[[what]])
   # find the inflected compartment

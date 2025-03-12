@@ -431,6 +431,7 @@ cleanAssay <- function(by = c("row", "col")) {
 #' @param assay The type of assay we are working with
 #'
 #' @return A filtered matrix
+#' @export
 #'
 #' @examples
 #' if (requireNamespace("minfi", quietly = TRUE)) {
@@ -446,6 +447,7 @@ cleanAssayRows <- cleanAssay(by = "row")
 #' @param assay The type of assay we are working with
 #'
 #' @return A filtered matrix
+#' @export
 #'
 #' @examples
 #' if (requireNamespace("minfi", quietly = TRUE)) {

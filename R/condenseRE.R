@@ -64,7 +64,12 @@ condenseSE <- function(obj, sample.name = NULL) {
 
   # check and see how many samples we are extracting
   if (length(sample.name) == 1) {
-    obj.dense <- lapply(1:length(obj), .condenseGR, obj = obj, sample = sample.name)
+    obj.dense <- lapply(
+      1:length(obj),
+      .condenseGR,
+      obj = obj,
+      sample = sample.name
+    )
     return(Reduce("merge", obj.dense))
   } else {
     obj.dense.lst <- lapply(sample.name, function(s) {

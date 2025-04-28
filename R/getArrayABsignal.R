@@ -65,7 +65,8 @@ getArrayABsignal <- function(
   if (preprocess) {
     obj <- preprocessArrays(
       obj = obj,
-      genome = genome, other = other,
+      genome = genome,
+      other = other,
       array.type = array.type
     )
   }
@@ -96,51 +97,69 @@ getArrayABsignal <- function(
   if (bootstrap) {
     message("Pre-computing the bootstrap global means.")
     bmeans <- precomputeBootstrapMeans(
-      obj = obj, targets = targets, num.bootstraps = num.bootstraps,
-      assay = "array", parallel = parallel, num.cores = cores
+      obj = obj,
+      targets = targets,
+      num.bootstraps = num.bootstraps,
+      assay = "array",
+      parallel = parallel,
+      num.cores = cores
     )
   }
 
   if (group) {
-    array.compartments.list <- mclapply(chr, function(c) {
-      .arrayCompartments(
-        obj, obj,
-        res = res,
-        chr = c,
-        targets = targets,
-        genome = genome,
-        bootstrap = bootstrap,
-        num.bootstraps = num.bootstraps,
-        prior.means = prior.means,
-        parallel = boot.parallel,
-        cores = boot.cores,
-        group = group,
-        bootstrap.means = bmeans
-      )
-    }, mc.cores = cores)
-    array.compartments <- sort(unlist(as(array.compartments.list, "GRangesList")))
-  } else {
-    array.compartments <- mclapply(columns, function(s) {
-      obj.sub <- obj[, s]
-      message("Working on ", s)
-      array.compartments.list <- lapply(chr, function(c) {
+    array.compartments.list <- mclapply(
+      chr,
+      function(c) {
         .arrayCompartments(
-          obj.sub, obj,
+          obj,
+          obj,
           res = res,
           chr = c,
           targets = targets,
           genome = genome,
           bootstrap = bootstrap,
-          prior.means = prior.means,
           num.bootstraps = num.bootstraps,
+          prior.means = prior.means,
           parallel = boot.parallel,
           cores = boot.cores,
           group = group,
           bootstrap.means = bmeans
         )
-      })
-      sort(unlist(as(array.compartments.list, "GRangesList")))
-    }, mc.cores = ifelse(parallel, cores, 1), mc.preschedule = F)
+      },
+      mc.cores = cores
+    )
+    array.compartments <- sort(unlist(as(
+      array.compartments.list,
+      "GRangesList"
+    )))
+  } else {
+    array.compartments <- mclapply(
+      columns,
+      function(s) {
+        obj.sub <- obj[, s]
+        message("Working on ", s)
+        array.compartments.list <- lapply(chr, function(c) {
+          .arrayCompartments(
+            obj.sub,
+            obj,
+            res = res,
+            chr = c,
+            targets = targets,
+            genome = genome,
+            bootstrap = bootstrap,
+            prior.means = prior.means,
+            num.bootstraps = num.bootstraps,
+            parallel = boot.parallel,
+            cores = boot.cores,
+            group = group,
+            bootstrap.means = bmeans
+          )
+        })
+        sort(unlist(as(array.compartments.list, "GRangesList")))
+      },
+      mc.cores = ifelse(parallel, cores, 1),
+      mc.preschedule = F
+    )
   }
 
   # if group-level treat a little differently
@@ -174,10 +193,12 @@ getArrayABsignal <- function(
 #' }
 #'
 #' @export
-preprocessArrays <- function(obj,
-                             genome = c("hg19", "hg38", "mm9", "mm10"),
-                             other = NULL, array.type = c("hm450", "EPIC")) {
-
+preprocessArrays <- function(
+  obj,
+  genome = c("hg19", "hg38", "mm9", "mm10"),
+  other = NULL,
+  array.type = c("hm450", "EPIC")
+) {
   if (!requireNamespace("minfi", quietly = TRUE)) {
     stop("The minfi package must be installed for this functionality")
   }
@@ -286,7 +307,8 @@ preprocessArrays <- function(obj,
     colnames(bmeans) <- rep("globalMean", ncol(bmeans))
   }
 
-  obj.bootstrap <- bootstrapCompartments(obj,
+  obj.bootstrap <- bootstrapCompartments(
+    obj,
     original.obj,
     bootstrap.samples = num.bootstraps,
     chr = chr,

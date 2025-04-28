@@ -20,7 +20,11 @@ computeGlobalMean <- function(mat) {
 #' @examples
 #' data("k562_scrna_chr14", package = "compartmap")
 #' scrna.global.means <- getGlobalMeans(k562_scrna_chr14, assay = "rna")
-getGlobalMeans <- function(obj, targets = NULL, assay = c("atac", "rna", "array")) {
+getGlobalMeans <- function(
+  obj,
+  targets = NULL,
+  assay = c("atac", "rna", "array")
+) {
   # match the assay arg
   assay <- match.arg(assay)
 
@@ -30,7 +34,11 @@ getGlobalMeans <- function(obj, targets = NULL, assay = c("atac", "rna", "array"
   # check if shrinkage targets are being used
   if (!is.null(targets)) {
     stargets <- getShrinkageTargets(obj, targets)
-    message("Using ", paste(shQuote(targets), collapse = ", "), " as shrinkage targets...")
+    message(
+      "Using ",
+      paste(shQuote(targets), collapse = ", "),
+      " as shrinkage targets..."
+    )
     globalMean.input <- stargets
   } else {
     globalMean.input <- obj
@@ -84,12 +92,16 @@ precomputeBootstrapMeans <- function(
     if (length(targets) < 5) stop("Need more than 5 samples for targeted bootstrapping to work.")
     obj <- getShrinkageTargets(obj, targets)
   }
-  bootMean <- mclapply(1:num.bootstraps, function(b) {
-    message("Working on bootstrap ", b)
-    assay.data <- .getAssay(obj, is.array)
-    resamp.mat <- .resampleMatrix(assay.data)
-    computeGlobalMean(resamp.mat)
-  }, mc.cores = ifelse(parallel, num.cores, 1))
+  bootMean <- mclapply(
+    1:num.bootstraps,
+    function(b) {
+      message("Working on bootstrap ", b)
+      assay.data <- .getAssay(obj, is.array)
+      resamp.mat <- .resampleMatrix(assay.data)
+      computeGlobalMean(resamp.mat)
+    },
+    mc.cores = ifelse(parallel, num.cores, 1)
+  )
 
   bootResult <- do.call("cbind", bootMean)
   rownames(bootResult) <- as.character(granges(obj))

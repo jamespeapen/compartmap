@@ -13,8 +13,15 @@
 #' @examples
 filterCompartments <- function(obj, min.conf = 0.7, min.eigen = 0.02) {
   # filter compartments
-  message("Filtering compartments based on a minimum confidence of ", min.conf * 100, "%")
-  message("Filtering compartments based on a minimum absolute eigen value of ", min.eigen)
+  message(
+    "Filtering compartments based on a minimum confidence of ",
+    min.conf * 100,
+    "%"
+  )
+  message(
+    "Filtering compartments based on a minimum absolute eigen value of ",
+    min.eigen
+  )
   if (is(obj, "list")) {
     lapply(obj, function(x) {
       filt <- filterer(x, min.conf, min.eigen)
@@ -32,7 +39,8 @@ filterer <- function(obj, min.conf, min.eigen) {
     flip <- "flip.score" %in% names(x)
     conf.name <- ifelse(flip, "filp.conf.est", "conf.est")
     score.name <- ifelse(flip, "filp.score", "score")
-    filt.score <- as.numeric(x[conf.name]) >= min.conf & abs(as.numeric(x[score.name])) >= min.eigen
+    filt.score <- as.numeric(x[conf.name]) >= min.conf &
+      abs(as.numeric(x[score.name])) >= min.eigen
     return(filt.score)
   })
 }

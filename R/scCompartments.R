@@ -42,7 +42,6 @@ scCompartments <- function(
   group = FALSE,
   assay = c("atac", "rna")
 ) {
-
   verifySE(obj)
   verifyCoords(obj)
 

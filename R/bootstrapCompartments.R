@@ -56,7 +56,11 @@ bootstrapCompartments <- function(
   if (bootstrap.samples == ncol(bootstrap.means)) {
     bmeans <- bootstrap.means
   } else {
-    bmeans <- sample.int(bootstrap.means, size = bootstrap.samples, replace = FALSE)
+    bmeans <- sample.int(
+      bootstrap.means,
+      size = bootstrap.samples,
+      replace = FALSE
+    )
     colnames(bmeans) <- rep("globalMean", ncol(bmeans))
   }
 
@@ -68,32 +72,41 @@ bootstrapCompartments <- function(
   }
 
   # bootstrap and recompute compartments
-  resamp.compartments <- mclapply(1:ncol(bmeans), function(b) {
-    # get the shrunken bins with new global mean
-    boot.mean <- as.matrix(bmeans[, b])
-    colnames(boot.mean) <- "globalMean"
-    s.bins <- shrinkBins(
-      obj,
-      original.obj,
-      prior.means = boot.mean,
-      chr = chr,
-      res = res,
-      assay = assay,
-      genome = genome
-    )
-    cor.bins <- getCorMatrix(s.bins, squeeze = !group)
+  resamp.compartments <- mclapply(
+    1:ncol(bmeans),
+    function(b) {
+      # get the shrunken bins with new global mean
+      boot.mean <- as.matrix(bmeans[, b])
+      colnames(boot.mean) <- "globalMean"
+      s.bins <- shrinkBins(
+        obj,
+        original.obj,
+        prior.means = boot.mean,
+        chr = chr,
+        res = res,
+        assay = assay,
+        genome = genome
+      )
+      cor.bins <- getCorMatrix(s.bins, squeeze = !group)
 
-    # Stupid check for perfect correlation with global mean
-    if (any(is.na(cor.bins$binmat.cor))) {
-      absig <- matrix(rep(NA, nrow(cor.bins$binmat.cor)))
-    } else {
-      absig <- getABSignal(cor.bins, assay = assay)
-    }
-    return(absig)
-  }, mc.cores = ifelse(parallel, cores, 1))
+      # Stupid check for perfect correlation with global mean
+      if (any(is.na(cor.bins$binmat.cor))) {
+        absig <- matrix(rep(NA, nrow(cor.bins$binmat.cor)))
+      } else {
+        absig <- getABSignal(cor.bins, assay = assay)
+      }
+      return(absig)
+    },
+    mc.cores = ifelse(parallel, cores, 1)
+  )
 
   # summarize the bootstraps and compute confidence intervals
-  resamp.compartments <- summarizeBootstraps(resamp.compartments, svd, q = q, assay = assay)
+  resamp.compartments <- summarizeBootstraps(
+    resamp.compartments,
+    svd,
+    q = q,
+    assay = assay
+  )
   return(resamp.compartments)
 }
 

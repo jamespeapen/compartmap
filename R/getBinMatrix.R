@@ -52,14 +52,13 @@ getBinMatrix <- function(
   chr.start = 0,
   chr.end = NULL,
   res = 100000,
-  FUN=sum,
+  FUN = sum,
   genome = c("hg19", "hg38", "mm9", "mm10")
 ) {
-
-  if (any(is.na(mat))){
+  if (any(is.na(mat))) {
     stop("Matrix must not contain NAs")
   }
-  if (nrow(mat) != length(genloc)){
+  if (nrow(mat) != length(genloc)) {
     stop("Provided GRanges must have length equal to the matrix number of rows")
   }
 
@@ -77,8 +76,8 @@ getBinMatrix <- function(
 
   # Subset the non-empty bins
   wh <- rowSums(mat.bin) != 0
-  mat.bin <- mat.bin[wh,]
-  gr.bin  <- gr.bin[wh]
+  mat.bin <- mat.bin[wh, ]
+  gr.bin <- gr.bin[wh]
 
   if (nrow(mat.bin) < 2) stop("There are not enough non-empty bins to continue...")
 
@@ -96,7 +95,7 @@ getBinMatrix <- function(
 
 .summarizeBins <- function(matCol, binCount, ids, fun) {
   zvec <- rep(0, binCount)
-  a <- tapply(matCol, INDEX = ids, FUN = fun)  # Summarize with user defined function
+  a <- tapply(matCol, INDEX = ids, FUN = fun) # Summarize with user defined function
   zvec[as.numeric(names(a))] <- a
   zvec
 }

@@ -44,7 +44,8 @@ verifyCoords <- function(obj) {
 #' @return Error if the right assay type is not present, NULL if it is
 #' @keywords internal
 verifyAssayNames <- function(se, assay) {
-  reqName <- switch(assay,
+  reqName <- switch(
+    assay,
     rna = "counts",
     atac = "counts",
     array = "Beta",
@@ -52,7 +53,13 @@ verifyAssayNames <- function(se, assay) {
     stop(shQuote(assay), " is unsupported")
   )
   if (!reqName %in% assayNames(se)) {
-    stop("The 'assays' slot should contain ", shQuote(reqName), " for ", assay, " data")
+    stop(
+      "The 'assays' slot should contain ",
+      shQuote(reqName),
+      " for ",
+      assay,
+      " data"
+    )
   }
 }
 
@@ -172,12 +179,17 @@ getGenome <- function(
   genome = c("hg19", "hg38", "mm9", "mm10"),
   type = "genome"
 ) {
-  genome.name <- match.arg(genome) |> tryCatch(error = function(e) {
-    e <- gsub("'arg'", "'genome'", e)
-    msg <- paste0(e, "Only human and mouse genomes are supported for the time being.")
-    stop(msg)
-  })
-  gr <- switch(type,
+  genome.name <- match.arg(genome) |>
+    tryCatch(error = function(e) {
+      e <- gsub("'arg'", "'genome'", e)
+      msg <- paste0(
+        e,
+        "Only human and mouse genomes are supported for the time being."
+      )
+      stop(msg)
+    })
+  gr <- switch(
+    type,
     genome = paste0(genome.name, ".gr"),
     openseas = paste0("openSeas.", genome.name)
   )
@@ -206,7 +218,9 @@ getSeqLengths <- function(genome.gr, chr = "chr14") {
   if (is.na(sl)) {
     genome.build <- unique(genome(genome.gr))
     msg <- paste(
-      chr, "not found in seqlevels of", genome.build,
+      chr,
+      "not found in seqlevels of",
+      genome.build,
       "- check that the 'genome' and 'chr' arguments are correct"
     )
     stop(msg)
@@ -305,33 +319,55 @@ sparseToDenseMatrix <- function(
   }
 
   # do block-wise reconstruction of matrix
-  chunks <- getMatrixBlocks(mat,
+  chunks <- getMatrixBlocks(
+    mat,
     chunk.size = chunk.size,
-    by.row = by.row, by.col = by.col
+    by.row = by.row,
+    by.col = by.col
   )
 
   if (by.row & parallel) {
-    return(do.call("rbind", mclapply(chunks, function(r) {
-      return(as(mat[r, ], "matrix"))
-    }, mc.cores = cores)))
+    return(do.call(
+      "rbind",
+      mclapply(
+        chunks,
+        function(r) {
+          return(as(mat[r, ], "matrix"))
+        },
+        mc.cores = cores
+      )
+    ))
   }
 
   if (by.row & !parallel) {
-    return(do.call("rbind", lapply(chunks, function(r) {
-      return(as(mat[r, ], "matrix"))
-    })))
+    return(do.call(
+      "rbind",
+      lapply(chunks, function(r) {
+        return(as(mat[r, ], "matrix"))
+      })
+    ))
   }
 
   # assumes column-wise conversion
   if (by.col & parallel) {
-    return(do.call("cbind", mclapply(chunks, function(r) {
-      return(as(mat[, r], "matrix"))
-    }, mc.cores = cores)))
+    return(do.call(
+      "cbind",
+      mclapply(
+        chunks,
+        function(r) {
+          return(as(mat[, r], "matrix"))
+        },
+        mc.cores = cores
+      )
+    ))
   }
 
-  return(do.call("cbind", lapply(chunks, function(r) {
-    return(as(mat[, r], "matrix"))
-  })))
+  return(do.call(
+    "cbind",
+    lapply(chunks, function(r) {
+      return(as(mat[, r], "matrix"))
+    })
+  ))
 }
 
 #' Import and optionally summarize a bigwig at a given resolution
@@ -372,9 +408,17 @@ importBigWig <- function(
   } else {
     species <- "Mus_musculus"
   }
-  bw.sub <- keepStandardChromosomes(bw.raw, species = species, pruning.mode = "coarse")
+  bw.sub <- keepStandardChromosomes(
+    bw.raw,
+    species = species,
+    pruning.mode = "coarse"
+  )
   if (!is.null(bins)) {
-    bins <- keepSeqlevels(bins, value = seqlevels(bw.sub), pruning.mode = "coarse")
+    bins <- keepSeqlevels(
+      bins,
+      value = seqlevels(bw.sub),
+      pruning.mode = "coarse"
+    )
   }
   if (summarize) {
     # make sure it's sorted
@@ -386,7 +430,9 @@ importBigWig <- function(
     bw.bin <- GenomicRanges::binnedAverage(bins, bw.score, "ave_score")
     # cast to a SummarizedExperiment to bin them
     bw.se <- SummarizedExperiment(
-      assays = S4Vectors::SimpleList(counts = as.matrix(mcols(bw.bin)$ave_score)),
+      assays = S4Vectors::SimpleList(
+        counts = as.matrix(mcols(bw.bin)$ave_score)
+      ),
       rowRanges = granges(bw.bin)
     )
     colnames(bw.se) <- as.character(bw)
@@ -415,7 +461,8 @@ cleanAssayRows <- function(
   assay = c("array", "bisulfite")
 ) {
   assay <- match.arg(assay)
-  switch(assay,
+  switch(
+    assay,
     array = se[rowMeans(is.na(assays(se)$Beta)) < rowmax, ],
     bisulfite = se[rowMeans(is.na(assays(se)$counts)) < rowmax, ]
   )
@@ -441,7 +488,8 @@ cleanAssayCols <- function(
   assay = c("array", "bisulfite")
 ) {
   assay <- match.arg(assay)
-  switch(assay,
+  switch(
+    assay,
     array = se[, colMeans(is.na(assays(se)$Beta)) < colmax],
     bisulfite = se[, colMeans(is.na(assays(se)$counts)) < colmax]
   )
@@ -473,11 +521,19 @@ filterOpenSea <- function(
   genome = c("hg19", "hg38", "mm10", "mm9"),
   other = NULL
 ) {
-  stopifnot("'obj' needs to be a GRanges or SummarizedExperiment" = is(obj, "GRanges") | is(obj, "SummarizedExperiment"))
+  stopifnot(
+    "'obj' needs to be a GRanges or SummarizedExperiment" = is(obj, "GRanges") |
+      is(obj, "SummarizedExperiment")
+  )
 
   # get the desired open sea loci given the genome GRanges
   openseas.genome <- other %||% getGenome(genome, type = "openseas")
-  stopifnot("The 'other' input needs to be a GRanges of open sea regions" = is(openseas.genome, "GRanges"))
+  stopifnot(
+    "The 'other' input needs to be a GRanges of open sea regions" = is(
+      openseas.genome,
+      "GRanges"
+    )
+  )
 
   # Subset by overlaps
   message("Filtering to open sea CpG loci...")

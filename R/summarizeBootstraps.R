@@ -15,7 +15,12 @@
 #' @export
 #'
 #' @examples
-summarizeBootstraps <- function(boot.list, est.ab, q = 0.95, assay = c("rna", "atac")) {
+summarizeBootstraps <- function(
+  boot.list,
+  est.ab,
+  q = 0.95,
+  assay = c("rna", "atac")
+) {
   # go through the estimated A/B compartments and compute proportions from the boot.list
   est.ab$score <- est.ab$pc
 
@@ -32,7 +37,10 @@ summarizeBootstraps <- function(boot.list, est.ab, q = 0.95, assay = c("rna", "a
 
   # eunumerate bootstraps
   .getBootRowSums <- function(index) {
-    rowSums(do.call("cbind", lapply(boot.summary.mat.lst, function(x) x[, index])))
+    rowSums(do.call(
+      "cbind",
+      lapply(boot.summary.mat.lst, function(x) x[, index])
+    ))
   }
   est.ab$boot.open <- .getBootRowSums(1)
   est.ab$boot.closed <- .getBootRowSums(2)
@@ -57,8 +65,14 @@ summarizeBootstraps <- function(boot.list, est.ab, q = 0.95, assay = c("rna", "a
 
   # overlap by common intervals
   ol <- findOverlaps(gr.boot, est.ab.dummy)
-  mcols(est.ab.dummy)$boot.open[subjectHits(ol)] <- mcols(est.ab.dummy)$boot.open[subjectHits(ol)] + mcols(gr.boot)$open[queryHits(ol)]
-  mcols(est.ab.dummy)$boot.closed[subjectHits(ol)] <- mcols(est.ab.dummy)$boot.closed[subjectHits(ol)] + mcols(gr.boot)$closed[queryHits(ol)]
+  mcols(est.ab.dummy)$boot.open[subjectHits(ol)] <- mcols(
+    est.ab.dummy
+  )$boot.open[subjectHits(ol)] +
+    mcols(gr.boot)$open[queryHits(ol)]
+  mcols(est.ab.dummy)$boot.closed[subjectHits(ol)] <- mcols(
+    est.ab.dummy
+  )$boot.closed[subjectHits(ol)] +
+    mcols(gr.boot)$closed[queryHits(ol)]
 
   # return the dummy mcols for bootstrapped open and closed calls
   return(as.matrix(cbind(

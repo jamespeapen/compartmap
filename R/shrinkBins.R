@@ -50,7 +50,11 @@ shrinkBins <- function(
 
   # get the prior means
   if (is.null(prior.means)) {
-    prior.means <- getGlobalMeans(obj = original.x, targets = targets, assay = assay)
+    prior.means <- getGlobalMeans(
+      obj = original.x,
+      targets = targets,
+      assay = assay
+    )
   }
 
   # helper function for summary
@@ -90,7 +94,9 @@ shrinkBins <- function(
     r.prior.m <- r["globalMean"]
 
     if (!is.null(targets) & length(r.samps[targets]) == 1) {
-      stop("Cannot perform targeted bin-level shrinkage with one target sample.")
+      stop(
+        "Cannot perform targeted bin-level shrinkage with one target sample."
+      )
     }
 
     if (jse) {
@@ -110,7 +116,11 @@ shrinkBins <- function(
     bin.mat$x <- bin.mat$x[bin.mat$x[, "globalMean"] != 0, ]
   }
 
-  return(list(gr = bin.mat$gr, x = x.shrink[, colnames(x)], gmeans = bin.mat$x[, "globalMean"]))
+  return(list(
+    gr = bin.mat$gr,
+    x = x.shrink[, colnames(x)],
+    gmeans = bin.mat$x[, "globalMean"]
+  ))
 }
 
 # helper functions for computing shrunken means

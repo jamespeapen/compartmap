@@ -8,12 +8,12 @@
 <url><loc>/dev/reference/agrestiCoullCI.html</loc></url>
 <url><loc>/dev/reference/array.data.chr14.html</loc></url>
 <url><loc>/dev/reference/bootstrapCompartments.html</loc></url>
-<url><loc>/dev/reference/checkAssayType.html</loc></url>
 <url><loc>/dev/reference/cleanAssay.html</loc></url>
 <url><loc>/dev/reference/cleanAssayCols.html</loc></url>
 <url><loc>/dev/reference/cleanAssayRows.html</loc></url>
 <url><loc>/dev/reference/condenseRE.html</loc></url>
 <url><loc>/dev/reference/condenseSE.html</loc></url>
+<url><loc>/dev/reference/dot-getUV.html</loc></url>
 <url><loc>/dev/reference/dot-n_approx.html</loc></url>
 <url><loc>/dev/reference/dot-p_approx.html</loc></url>
 <url><loc>/dev/reference/dot-z.html</loc></url>
@@ -69,5 +69,8 @@
 <url><loc>/dev/reference/ss3_umi_sce.html</loc></url>
 <url><loc>/dev/reference/summarizeBootstraps.html</loc></url>
 <url><loc>/dev/reference/transformTFIDF.html</loc></url>
+<url><loc>/dev/reference/verifyAssayNames.html</loc></url>
+<url><loc>/dev/reference/verifyCoords.html</loc></url>
+<url><loc>/dev/reference/verifySE.html</loc></url>
 </urlset>
 

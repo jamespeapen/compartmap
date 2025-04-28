@@ -80,11 +80,9 @@
 <span class="r-in"><span><span class="co">#Modified from https://www.biostars.org/p/225520/</span></span></span>
 <span class="r-in"><span><span class="va">random_genomic_int</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>chr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"chr14"</span>, <span class="fl">100</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">random_genomic_int</span><span class="op">$</span><span class="va">start</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">random_genomic_int</span>, <span class="fl">1</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fu"><a href="getSeqLengths.html">getSeqLengths</a></span><span class="op">(</span>chr <span class="op">=</span> <span class="va">x</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>, <span class="fl">0</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fu"><a href="getSeqLengths.html">getSeqLengths</a></span><span class="op">(</span><span class="fu"><a href="getGenome.html">getGenome</a></span><span class="op">(</span><span class="st">"hg19"</span><span class="op">)</span>, chr <span class="op">=</span> <span class="va">x</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>, <span class="fl">0</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in h(simpleError(msg, call)):</span> error in evaluating the argument 'x' in selecting a method for function 'seqlengths': argument "genome.gr" is missing, with no default</span>
 <span class="r-in"><span><span class="va">random_genomic_int</span><span class="op">$</span><span class="va">end</span> <span class="op">&lt;-</span> <span class="va">random_genomic_int</span><span class="op">$</span><span class="va">start</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1000</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in `$&lt;-.data.frame`(`*tmp*`, end, value = numeric(0)):</span> replacement has 0 rows, data has 100</span>
 <span class="r-in"><span><span class="va">random_genomic_int</span><span class="op">$</span><span class="va">strand</span> <span class="op">&lt;-</span> <span class="st">"*"</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#Generate random counts</span></span></span>
@@ -101,17 +99,18 @@
 <span class="r-in"><span>  chr <span class="op">=</span> <span class="st">"chr14"</span>,</span></span>
 <span class="r-in"><span>  genome <span class="op">=</span> <span class="st">"hg19"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in .find_start_end_cols(df_colnames0, start.field0, end.field0):</span> cannnot determine start/end columns</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 1074 bins created...</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#Calculate correlations</span></span></span>
 <span class="r-in"><span><span class="va">bin.cor.counts</span> <span class="op">&lt;-</span> <span class="fu"><a href="getCorMatrix.html">getCorMatrix</a></span><span class="op">(</span><span class="va">bin.counts</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Calculating correlations...</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'bin.counts' not found</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Done...</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#Get A/B signal</span></span></span>
 <span class="r-in"><span><span class="va">absignal</span> <span class="op">&lt;-</span> <span class="fu">getABSignal</span><span class="op">(</span><span class="va">bin.cor.counts</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Calculating eigenvectors.</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in h(simpleError(msg, call)):</span> error in evaluating the argument 'x' in selecting a method for function 't': error in evaluating the argument 'x' in selecting a method for function 'scale': error in evaluating the argument 'x' in selecting a method for function 't': object 'bin.cor.counts' not found</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Smoothing eigenvector.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Done smoothing.</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

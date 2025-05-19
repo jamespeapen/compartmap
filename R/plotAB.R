@@ -84,46 +84,41 @@ plotAB <- function(
   # what <- match.arg(what)
   # (no, don't do that)
   stopifnot("'grAB' is not a GRanges object" = is(grAB, "GenomicRanges"))
-  if (!what %in% names(mcols(grAB))) stop(what, " is not among names(mcols(x))")
+  mcolnames <- names(mcols(grAB))
+  if (with.ci & !"conf.est" %in% mcolnames)
+    stop("conf.est isn't found in the mcols() of the input - run the compartmentCI() first.")
+
+  # TODO: remove 'what' arg since only one column (score/pc which are the same) is plotted.
+  if (!what %in% mcolnames) stop(what, " is not among names(mcols(x))")
 
   # check if plotting CI
   # FIXME: refactor this
   if (with.ci) {
     if (!is.null(chr)) grAB <- keepSeqlevels(grAB, chr, pruning.mode = "coarse")
-    if (("conf.est" %in% names(mcols(grAB)))) {
-      if (filter) {
-        grAB <- grAB[abs(as(mcols(grAB)[what], "matrix")) > filter.min.eigen, ]
-      }
-      x.mat <- as(mcols(grAB)[what], "matrix")
-      if (unitarize) x.mat <- .unitarize(x.mat)
-      x.mat <- as.numeric(x.mat)
-      if (reverse) x.mat <- -x.mat
-      n <- length(x.mat)
-      col <- rep(top.col, n)
-      col[x.mat < 0] <- bot.col
-      par(mar = c(1, 5, 1, 1))
-      par(mfrow = c(2, 1))
-      barplot(
-        x.mat,
-        ylim = ylim,
-        bty = "n",
-        xlab = "",
-        ylab = "Eigenvector",
-        border = col,
-        col = col,
-        main = main
-      )
-
-      barplot(
-        grAB$conf.est,
-        ylim = c(0, 1),
-        ylab = "Compartment confidence estimate"
-      )
-      if (median.conf) abline(h = median(grAB$conf.est), col = "red", lty = 2, lwd = 3)
-    } else {
-      message("conf.est isn't found in the mcols() of the input")
-      stop("Run the compartmentCI() first.")
+    if (filter) {
+      grAB <- grAB[abs(as(mcols(grAB)[what], "matrix")) > filter.min.eigen, ]
     }
+    x.mat <- as(mcols(grAB)[what], "matrix")
+    if (unitarize) x.mat <- .unitarize(x.mat)
+    x.mat <- as.numeric(x.mat)
+    if (reverse) x.mat <- -x.mat
+    n <- length(x.mat)
+    col <- rep(top.col, n)
+    col[x.mat < 0] <- bot.col
+    par(mar = c(1, 5, 1, 1))
+    par(mfrow = c(2, 1))
+    barplot(
+      x.mat,
+      ylim = ylim,
+      bty = "n",
+      xlab = "",
+      ylab = "Eigenvector",
+      border = col,
+      col = col,
+      main = main
+    )
+    barplot(grAB$conf.est, ylim = c(0, 1), ylab = "Compartment confidence estimate")
+    if (median.conf) abline(h = median(grAB$conf.est), col = "red", lty = 2, lwd = 3)
   } else {
     if (!is.null(chr)) grAB <- keepSeqlevels(grAB, chr, pruning.mode = "coarse")
     grAB <- as(mcols(grAB)[, what], "matrix")

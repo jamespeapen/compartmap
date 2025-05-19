@@ -80,9 +80,6 @@ plotAB <- function(
   filter.min.eigen = 0.02,
   median.conf = FALSE
 ) {
-  #what are we plotting
-  # what <- match.arg(what)
-  # (no, don't do that)
   stopifnot("'grAB' is not a GRanges object" = is(grAB, "GenomicRanges"))
   mcolnames <- names(mcols(grAB))
   if (with.ci & !"conf.est" %in% mcolnames)

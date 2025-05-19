@@ -5,7 +5,7 @@
 \title{Plots A/B compartment estimates on a per chromosome basis}
 \usage{
 plotAB(
-  x,
+  grAB,
   chr = NULL,
   what = "score",
   main = "",
@@ -21,7 +21,7 @@ plotAB(
 )
 }
 \arguments{
-\item{x}{The matrix obejct returned from getCompartments}
+\item{grAB}{The GRanges object returned from scCompartments and getArrayABsignal}
 
 \item{chr}{Chromosome to subset to for plotting}
 

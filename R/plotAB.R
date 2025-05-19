@@ -2,7 +2,7 @@
 #'
 #' Plot A/B compartments bins
 #'
-#' @param x                 The matrix obejct returned from getCompartments
+#' @param grAB              The GRanges object returned from scCompartments and getArrayABsignal
 #' @param chr               Chromosome to subset to for plotting
 #' @param what              Which metadata column to plot
 #' @param main              Title for the plot
@@ -66,7 +66,7 @@
 #' par(mfrow=c(1,1))
 #' plotAB(absignal, what = "pc")
 plotAB <- function(
-  x,
+  grAB,
   chr = NULL,
   what = "score",
   main = "",
@@ -83,18 +83,18 @@ plotAB <- function(
   #what are we plotting
   # what <- match.arg(what)
   # (no, don't do that)
-  if (!what %in% names(mcols(x))) stop(what, " is not among names(mcols(x))")
+  if (!what %in% names(mcols(grAB))) stop(what, " is not among names(mcols(x))")
 
   # check if plotting CI
   # FIXME: refactor this
   if (with.ci) {
-    if (is(x, "GRanges")) {
-      if (!is.null(chr)) x <- keepSeqlevels(x, chr, pruning.mode = "coarse")
-      if (("conf.est" %in% names(mcols(x)))) {
+    if (is(grAB, "GRanges")) {
+      if (!is.null(chr)) grAB <- keepSeqlevels(grAB, chr, pruning.mode = "coarse")
+      if (("conf.est" %in% names(mcols(grAB)))) {
         if (filter) {
-          x <- x[abs(as(mcols(x)[what], "matrix")) > filter.min.eigen, ]
+          grAB <- grAB[abs(as(mcols(grAB)[what], "matrix")) > filter.min.eigen, ]
         }
-        x.mat <- as(mcols(x)[what], "matrix")
+        x.mat <- as(mcols(grAB)[what], "matrix")
         if (unitarize) x.mat <- .unitarize(x.mat)
         x.mat <- as.numeric(x.mat)
         if (reverse) x.mat <- -x.mat
@@ -115,11 +115,11 @@ plotAB <- function(
         )
 
         barplot(
-          x$conf.est,
+          grAB$conf.est,
           ylim = c(0, 1),
           ylab = "Compartment confidence estimate"
         )
-        if (median.conf) abline(h = median(x$conf.est), col = "red", lty = 2, lwd = 3)
+        if (median.conf) abline(h = median(grAB$conf.est), col = "red", lty = 2, lwd = 3)
       } else {
         message("conf.est isn't found in the mcols() of the input")
         stop("Run the compartmentCI() first.")
@@ -128,20 +128,20 @@ plotAB <- function(
       stop("Input needs to be a GRanges object.")
     }
   } else {
-    if (is(x, "GRanges")) {
-      if (!is.null(chr)) x <- keepSeqlevels(x, chr, pruning.mode = "coarse")
-      x <- as(mcols(x)[, what], "matrix")
+    if (is(grAB, "GRanges")) {
+      if (!is.null(chr)) grAB <- keepSeqlevels(grAB, chr, pruning.mode = "coarse")
+      grAB <- as(mcols(grAB)[, what], "matrix")
     }
-    if (unitarize) x <- .unitarize(x)
-    if (filter) x <- x[abs(x) > filter.min.eigen]
-    x <- as.numeric(x)
-    if (reverse) x <- -x
+    if (unitarize) grAB <- .unitarize(grAB)
+    if (filter) grAB <- grAB[abs(grAB) > filter.min.eigen]
+    grAB <- as.numeric(grAB)
+    if (reverse) grAB <- -grAB
 
-    n <- length(x)
+    n <- length(grAB)
     col <- rep(top.col, n)
-    col[x < 0] <- bot.col
+    col[grAB < 0] <- bot.col
     barplot(
-      x,
+      grAB,
       ylim = ylim,
       bty = "n",
       xlab = "",

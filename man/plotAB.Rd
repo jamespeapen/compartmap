@@ -90,7 +90,5 @@ bin.cor.counts <- getCorMatrix(bin.counts)
 absignal <- getABSignal(bin.cor.counts)
 
 # Plot the A/B signal
-par(mar=c(1,1,1,1))
-par(mfrow=c(1,1))
 plotAB(absignal, what = "pc")
 }

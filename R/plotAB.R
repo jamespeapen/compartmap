@@ -105,8 +105,7 @@ plotAB <- function(
     n <- length(x.mat)
     col <- rep(top.col, n)
     col[x.mat < 0] <- bot.col
-    par(mar = c(1, 5, 1, 1))
-    par(mfrow = c(2, 1))
+    par(mar = c(1, 5, 1, 1), mfrow = c(2, 1))
     barplot(
       x.mat,
       ylim = ylim,

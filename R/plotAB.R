@@ -80,14 +80,13 @@ plotAB <- function(
   filter.min.eigen = 0.02,
   median.conf = FALSE
 ) {
-  #what are we plotting
-  # what <- match.arg(what)
-  # (no, don't do that)
   stopifnot("'grAB' is not a GRanges object" = is(grAB, "GenomicRanges"))
   mcolnames <- names(mcols(grAB))
   stopifnot(
     "conf.est isn't found in the mcols() of the input - run the compartmentCI() first." = "conf.est" %in% mcolnames
   )
+
+  # TODO: remove 'what' arg since only one column (score/pc which are the same) is plotted.
   if (!what %in% mcolnames) stop(what, " is not among names(mcols(x))")
 
   if (!is.null(chr)) grAB <- keepSeqlevels(grAB, chr, pruning.mode = "coarse")

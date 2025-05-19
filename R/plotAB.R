@@ -91,57 +91,25 @@ plotAB <- function(
   # TODO: remove 'what' arg since only one column (score/pc which are the same) is plotted.
   if (!what %in% mcolnames) stop(what, " is not among names(mcols(x))")
 
-  # check if plotting CI
-  # FIXME: refactor this
+  if (!is.null(chr)) grAB <- keepSeqlevels(grAB, chr, pruning.mode = "coarse")
+  mat.AB <- as(mcols(grAB)[, what], "matrix")
+  if (unitarize) mat.AB <- .unitarize(mat.AB)
+  if (filter) mat.AB <- mat.AB[abs(mat.AB) > filter.min.eigen]
+  if (reverse) mat.AB <- -mat.AB
+  mat.AB <- as.numeric(mat.AB)
+
+  n <- length(mat.AB)
+  col <- rep(top.col, n)
+  col[mat.AB < 0] <- bot.col
   if (with.ci) {
-    if (!is.null(chr)) grAB <- keepSeqlevels(grAB, chr, pruning.mode = "coarse")
-    if (filter) {
-      grAB <- grAB[abs(as(mcols(grAB)[what], "matrix")) > filter.min.eigen, ]
-    }
-    x.mat <- as(mcols(grAB)[what], "matrix")
-    if (unitarize) x.mat <- .unitarize(x.mat)
-    x.mat <- as.numeric(x.mat)
-    if (reverse) x.mat <- -x.mat
-    n <- length(x.mat)
-    col <- rep(top.col, n)
-    col[x.mat < 0] <- bot.col
     par(mar = c(1, 5, 1, 1), mfrow = c(2, 1))
-    barplot(
-      x.mat,
-      ylim = ylim,
-      bty = "n",
-      xlab = "",
-      ylab = "Eigenvector",
-      border = col,
-      col = col,
-      main = main
-    )
+    .barplotAB(mat.AB, ylim, col, main)
     barplot(grAB$conf.est, ylim = c(0, 1), ylab = "Compartment confidence estimate")
     if (median.conf) abline(h = median(grAB$conf.est), col = "red", lty = 2, lwd = 3)
   } else {
-    if (!is.null(chr)) grAB <- keepSeqlevels(grAB, chr, pruning.mode = "coarse")
-    grAB <- as(mcols(grAB)[, what], "matrix")
-    if (unitarize) grAB <- .unitarize(grAB)
-    if (filter) grAB <- grAB[abs(grAB) > filter.min.eigen]
-    grAB <- as.numeric(grAB)
-    if (reverse) grAB <- -grAB
-
-    n <- length(grAB)
-    col <- rep(top.col, n)
-    col[grAB < 0] <- bot.col
-    barplot(
-      grAB,
-      ylim = ylim,
-      bty = "n",
-      xlab = "",
-      ylab = "Eigenvector",
-      border = col,
-      col = col,
-      main = main
-    )
+    .barplotAB(mat.AB, ylim, col, main)
   }
 }
-
 
 # helper fn
 .unitarize <- function(x, medianCenter = TRUE) {
@@ -155,4 +123,17 @@ plotAB <- function(
     )
   }
   x
+}
+
+.barplotAB <- function(mat.AB, ylim, col, main) {
+  barplot(
+    mat.AB,
+    ylim = ylim,
+    bty = "n",
+    xlab = "",
+    ylab = "Eigenvector",
+    border = col,
+    col = col,
+    main = main
+  )
 }

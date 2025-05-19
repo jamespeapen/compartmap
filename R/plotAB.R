@@ -109,14 +109,10 @@ plotAB <- function(
 # helper fn
 .unitarize <- function(x, medianCenter = TRUE) {
   if (medianCenter) x <- x - median(x, na.rm = TRUE)
-  bad <- is.na(x)
-  x[!bad] <- x[!bad] / sqrt(sum(x[!bad]^2))
-  n.bad <- sum(bad)
-  if (n.bad > 0) {
-    message(
-      sprintf("[.unitarize] %i missing values were ignored.\n", n.bad)
-    )
-  }
+  NAs <- is.na(x)
+  x[!NAs] <- x[!NAs] / sqrt(sum(x[!NAs]^2))
+  na.count <- sum(NAs)
+  if (na.count > 0) message(sprintf("[.unitarize] %i missing values were ignored.\n", na.count))
   x
 }
 

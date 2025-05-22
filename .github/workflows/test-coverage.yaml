@@ -5,6 +5,17 @@ name: coverage
 on:
   push:
     branches: [main, master, dev]
+  pull_request:
+    paths-ignore:
+      - '**/README.md'
+      - '**.nix'
+      - '**.toml'
+      - 'pkgdown/**'
+      - 'flake.lock'
+      - '.gitignore'
+      - 'Makefile'
+      - 'LICENSE'
+      - 'NEWS.md'
 
 env:
   _R_CHECK_FORCE_SUGGESTS_: "true"

@@ -16,6 +16,15 @@ test_that("meanSmoother", {
     "length(mat) >= k is not TRUE",
     fixed = TRUE
   )
+
+  # no NAs in output
+  mat <- matrix(1:5, nrow = 5, ncol = 5)
+  mat[5:6] <- NA
+  expect_true(
+    all(!is.na(meanSmoother(mat))),
+  )
+})
+
 })
 
 test_that(".meanSmoother.internal", {

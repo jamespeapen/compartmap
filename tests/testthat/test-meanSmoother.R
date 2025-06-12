@@ -94,4 +94,43 @@ test_that(".window.mean edge cases", {
 })
 
 test_that(".meanSmoother.internal", {
+  .meanSmoother.internal <- compartmap:::.meanSmoother.internal
+
+  mat <- matrix(1:25, nrow = 5)
+  weights.same <- rep(1, length(mat))
+  weights.diff <- sample(1:2, size = length(mat), replace = TRUE)
+
+  # k becomes 0 so should return 1
+  window1 <- weighted.mean(mat[0:1], weights.same[0:1])
+
+  # k remains 1
+  window2 <- lapply(2:24, function(i) {
+    stride <- (i - 1 - 1):(i + 1)
+    weighted.mean(mat[stride], weights.same[stride])
+  }) |>
+    unlist()
+
+  # k becomes 0 so should return 25
+  window3 <- mat[25]
+
+  expected_result <- c(window1, window2, window3)
+
+  expect_equal(
+    .meanSmoother.internal(mat, weights.same, k = 1),
+    expected_result
+  )
+
+  window1 <- mat[1]
+  window2 <- lapply(2:24, function(i) {
+    stride <- (i - 1 - 1):(i + 1)
+    weighted.mean(mat[stride], weights.diff[stride])
+  }) |>
+    unlist()
+  window3 <- mat[25]
+
+  expected_result <- c(window1, window2, window3)
+  expect_equal(
+    .meanSmoother.internal(mat, weights.diff, k = 1),
+    expected_result
+  )
 })

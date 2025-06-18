@@ -13,10 +13,11 @@ getOpenSeas(gr)
 GRanges object that can be used with filterOpenSea()
 }
 \description{
-This function accepts a GRanges input of CpG islands that can
-be derived from UCSC table browser and rtracklayer::import(yourbed.bed). It
-resizes the inteval to create 4kb flanking open sea regions around the CpG
-islands as defined by \href{https://doi.org/10.1186/s13059-015-0741-y}{Fortin and Hansen (Genome Biology, 2015)}.
+This function accepts a GRanges input of CpG islands that can be derived
+from UCSC table browser and rtracklayer::import(yourbed.bed). It resizes the
+intevals to create 4kb flanking regions around CpG islands. Open sea
+regions, as defined by \href{https://doi.org/10.1186/s13059-015-0741-y}{Fortin by and Hansen (Genome Biology, 2015)}, are outside this flanking
+regions and obtained as their complement.
 }
 \examples{
 #cpgi <- rtracklayer::import(system.file("inst/extdata/mm10_cpgi.bed", package = "compartmap"))

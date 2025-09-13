@@ -295,7 +295,9 @@ importBigWig <- function(
   )
 
   bw.sub <- keepStandardChromosomes(bw.raw, species = species, pruning.mode = "coarse")
-  bins <- bins %||% keepSeqlevels(bins, value = seqlevels(bw.sub), pruning.mode = "coarse")
+  if (!is.null(bins)) {
+    bins <- keepSeqlevels(bins, value = seqlevels(bw.sub), pruning.mode = "coarse")
+  }
 
   if (summarize) {
     bw.sub <- sort(bw.sub)

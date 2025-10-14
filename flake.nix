@@ -29,6 +29,7 @@
         RMTstat
         rtracklayer
         scales
+        S7
       ];
 
       Suggests = with pkgs.rPackages; [

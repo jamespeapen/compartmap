@@ -46,6 +46,9 @@ Imports:
    Matrix,
    RMTstat,
    impute
+   impute,
+   data.table,
+   S7
 Suggests:
    csaw,
    minfi,

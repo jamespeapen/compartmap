@@ -2,7 +2,7 @@
 % Please edit documentation in R/scCompartments.R
 \name{scCompartments}
 \alias{scCompartments}
-\title{Estimate A/B compartments from single-cell sequencing data}
+\title{Estimate A/B compartments from single-cell RNA or ATAC sequencing data}
 \usage{
 scCompartments(
   obj,

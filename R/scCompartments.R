@@ -1,4 +1,4 @@
-#' @title Estimate A/B compartments from single-cell sequencing data
+#' @title Estimate A/B compartments from single-cell RNA or ATAC sequencing data
 #'
 #' @description
 #' \code{scCompartments} returns estimated A/B compartments from sc-seq data.

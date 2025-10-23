@@ -23,7 +23,7 @@ reference:
 - title: Compartment mapping
   contents:
     - scCompartments
-    - getArrayABsignal
+    - arrayCompartments
 - title: Compartment helper
   contents:
     - filterCompartments

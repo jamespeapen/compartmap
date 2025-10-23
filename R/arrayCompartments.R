@@ -1,7 +1,7 @@
 #' @title Estimate A/B compartments from methylation array data
 #'
 #' @description
-#' \code{getArrayABsignal} returns estimated A/B compartments from methylation array data.
+#' \code{arrayCompartments} returns estimated A/B compartments from methylation array data.
 #'
 #' @param obj Input SummarizedExperiment object
 #' @param res Compartment resolution in bp
@@ -31,7 +31,7 @@
 #'
 #' if (requireNamespace("minfi", quietly = TRUE)) {
 #'   data("array_data_chr14", package = "compartmap")
-#'   array_compartments <- getArrayABsignal(
+#'   array_compartments <- arrayCompartments(
 #'     array.data.chr14,
 #'     chr="chr14",
 #'     parallel=FALSE,
@@ -40,7 +40,7 @@
 #'     array.type="hm450"
 #'   )
 #' }
-getArrayABsignal <- function(
+arrayCompartments <- function(
   obj,
   res = 1e6,
   chr = NULL,

@@ -30,7 +30,6 @@ reference:
     - fixCompartments
     - extractOpenClosed
     - getABSignal
-    - getATACABsignal
     - getRNAABsignal
 - title: Correlation matrix
   contents:

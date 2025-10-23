@@ -49,9 +49,9 @@ scCompartments <- function(
   if (!all(assay %in% c("atac", "rna"))) stop("Supported assays are 'atac', and 'rna'.")
   assay <- tolower(match.arg(assay))
   verifyAssayNames(obj, assay = assay)
-
-  sc_compartments <- getATACABsignal(
+  getCompartments(
     obj = obj,
+    assay = "atac",
     res = res,
     parallel = parallel,
     chr = chr,
@@ -59,8 +59,9 @@ scCompartments <- function(
     cores = cores,
     bootstrap = bootstrap,
     num.bootstraps = num.bootstraps,
+    boot.parallel = boot.parallel,
+    boot.cores = boot.cores,
     genome = genome,
     group = group
   )
-  return(sc_compartments)
 }

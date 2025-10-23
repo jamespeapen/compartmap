@@ -7,19 +7,19 @@
 getArrayABsignal(
   obj,
   res = 1000000,
-  parallel = TRUE,
   chr = NULL,
   targets = NULL,
   preprocess = TRUE,
+  parallel = TRUE,
   cores = 2,
   bootstrap = TRUE,
   num.bootstraps = 1000,
-  genome = c("hg19", "hg38", "mm9", "mm10"),
-  other = NULL,
-  array.type = c("hm450", "EPIC"),
-  group = FALSE,
   boot.parallel = TRUE,
-  boot.cores = 2
+  boot.cores = 2,
+  genome = c("hg19", "hg38", "mm9", "mm10"),
+  group = FALSE,
+  other = NULL,
+  array.type = c("hm450", "EPIC")
 )
 }
 \arguments{
@@ -27,13 +27,13 @@ getArrayABsignal(
 
 \item{res}{Compartment resolution in bp}
 
-\item{parallel}{Whether to run samples in parallel}
-
 \item{chr}{What chromosome to work on (leave as NULL to run on all chromosomes)}
 
 \item{targets}{Samples/cells to shrink towards}
 
 \item{preprocess}{Whether to preprocess the arrays prior to compartment inference}
+
+\item{parallel}{Whether to run samples in parallel}
 
 \item{cores}{How many cores to use when running samples in parallel}
 
@@ -41,17 +41,17 @@ getArrayABsignal(
 
 \item{num.bootstraps}{How many bootstraps to run}
 
+\item{boot.parallel}{Whether to run the bootstrapping in parallel}
+
+\item{boot.cores}{How many cores to use for the bootstrapping}
+
 \item{genome}{What genome to work on ("hg19", "hg38", "mm9", "mm10")}
+
+\item{group}{Whether to treat this as a group set of samples}
 
 \item{other}{Another arbitrary genome to compute compartments on}
 
 \item{array.type}{What type of array is this ("hm450", "EPIC")}
-
-\item{group}{Whether to treat this as a group set of samples}
-
-\item{boot.parallel}{Whether to run the bootstrapping in parallel}
-
-\item{boot.cores}{How many cores to use for the bootstrapping}
 }
 \value{
 A RaggedExperiment of inferred compartments
@@ -65,8 +65,8 @@ if (requireNamespace("minfi", quietly = TRUE)) {
   data("array_data_chr14", package = "compartmap")
   array_compartments <- getArrayABsignal(
     array.data.chr14,
-    parallel=FALSE,
     chr="chr14",
+    parallel=FALSE,
     bootstrap=FALSE,
     genome="hg19",
     array.type="hm450"

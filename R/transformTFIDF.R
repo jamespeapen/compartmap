@@ -44,7 +44,7 @@ transformTFIDF <- function(mat, scale.factor = 1e5, binarize = FALSE) {
   tfidf <- .tfidf(tf, idf) # transform
 
   # cast back to a matrix since things like UMAP don't like sparse matrices
-  as.matrix(t(tfidf))
+  as.matrix(tfidf)
 }
 
 .binarize <- function(v) {

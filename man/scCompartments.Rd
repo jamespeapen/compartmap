@@ -8,16 +8,16 @@ scCompartments(
   obj,
   res = 1000000,
   chr = NULL,
+  group = FALSE,
   targets = NULL,
-  parallel = FALSE,
-  cores = 2,
   bootstrap = TRUE,
   num.bootstraps = 100,
-  boot.parallel = FALSE,
-  boot.cores = 2,
   genome = c("hg19", "hg38", "mm9", "mm10"),
-  group = FALSE,
-  assay = c("atac", "rna")
+  assay = c("atac", "rna"),
+  parallel = FALSE,
+  cores = 2,
+  boot.parallel = FALSE,
+  boot.cores = 2
 )
 }
 \arguments{
@@ -27,25 +27,25 @@ scCompartments(
 
 \item{chr}{What chromosome to work on (leave as NULL to run on all chromosomes)}
 
+\item{group}{Whether to treat this as a group set of samples}
+
 \item{targets}{Samples/cells to shrink towards}
-
-\item{parallel}{Whether to run samples in parallel}
-
-\item{cores}{How many cores to use when running samples in parallel}
 
 \item{bootstrap}{Whether we should perform bootstrapping of inferred compartments}
 
 \item{num.bootstraps}{How many bootstraps to run}
 
+\item{genome}{What genome to work on ("hg19", "hg38", "mm9", "mm10")}
+
+\item{assay}{What type of single-cell assay is the input data ("atac" or "rna")}
+
+\item{parallel}{Whether to run samples in parallel}
+
+\item{cores}{How many cores to use when running samples in parallel}
+
 \item{boot.parallel}{Whether to run the bootstrapping in parallel}
 
 \item{boot.cores}{How many cores to use for the bootstrapping}
-
-\item{genome}{What genome to work on ("hg19", "hg38", "mm9", "mm10")}
-
-\item{group}{Whether to treat this as a group set of samples}
-
-\item{assay}{What type of single-cell assay is the input data ("atac" or "rna")}
 }
 \value{
 A RaggedExperiment of inferred compartments

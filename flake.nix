@@ -17,6 +17,7 @@
       ];
 
       Imports = with pkgs.rPackages; [
+        BiocParallel
         DelayedArray
         DelayedMatrixStats
         GenomicRanges

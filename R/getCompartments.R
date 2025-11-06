@@ -1,17 +1,17 @@
 getCompartments <- function(
   obj,
-  assay,
   res,
-  parallel,
   chr,
+  group,
   targets,
-  cores,
   bootstrap,
   num.bootstraps,
-  boot.parallel,
-  boot.cores,
   genome,
-  group
+  assay,
+  parallel,
+  cores,
+  boot.parallel,
+  boot.cores
 ) {
   if (is.null(chr)) {
     message("Assuming we want to process all chromosomes.")

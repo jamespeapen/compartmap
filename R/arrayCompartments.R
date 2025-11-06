@@ -6,18 +6,18 @@
 #' @param obj Input SummarizedExperiment object
 #' @param res Compartment resolution in bp
 #' @param chr What chromosome to work on (leave as NULL to run on all chromosomes)
+#' @param group Whether to treat this as a group set of samples
 #' @param targets Samples/cells to shrink towards
-#' @param preprocess Whether to preprocess the arrays prior to compartment inference
-#' @param parallel Whether to run samples in parallel
-#' @param cores How many cores to use when running samples in parallel
 #' @param bootstrap Whether we should perform bootstrapping of inferred compartments
 #' @param num.bootstraps How many bootstraps to run
-#' @param boot.parallel Whether to run the bootstrapping in parallel
-#' @param boot.cores How many cores to use for the bootstrapping
+#' @param preprocess Whether to preprocess the arrays prior to compartment inference
+#' @param array.type What type of array is this ("hm450", "EPIC")
 #' @param genome What genome to work on ("hg19", "hg38", "mm9", "mm10")
 #' @param other Another arbitrary genome to compute compartments on
-#' @param group Whether to treat this as a group set of samples
-#' @param array.type What type of array is this ("hm450", "EPIC")
+#' @param parallel Whether to run samples in parallel
+#' @param cores How many cores to use when running samples in parallel
+#' @param boot.parallel Whether to run the bootstrapping in parallel
+#' @param boot.cores How many cores to use for the bootstrapping
 #'
 #' @return A RaggedExperiment of inferred compartments
 #' @import SummarizedExperiment
@@ -44,18 +44,18 @@ arrayCompartments <- function(
   obj,
   res = 1e6,
   chr = NULL,
+  group = FALSE,
   targets = NULL,
-  preprocess = TRUE,
-  parallel = TRUE,
-  cores = 2,
   bootstrap = TRUE,
   num.bootstraps = 1000,
-  boot.parallel = TRUE,
-  boot.cores = 2,
+  preprocess = TRUE,
+  array.type = c("hm450", "EPIC"),
   genome = c("hg19", "hg38", "mm9", "mm10"),
-  group = FALSE,
   other = NULL,
-  array.type = c("hm450", "EPIC")
+  parallel = TRUE,
+  cores = 2,
+  boot.parallel = TRUE,
+  boot.cores = 2
 ) {
   verifySE(obj)
   verifyCoords(obj)

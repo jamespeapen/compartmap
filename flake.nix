@@ -24,6 +24,7 @@
         ggplot2
         impute
         Matrix
+        parallelly
         reshape2
         RMTstat
         rtracklayer

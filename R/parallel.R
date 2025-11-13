@@ -2,19 +2,31 @@
 #' @keywords internal
 check_worker_count <- function(bpparam, boot.parallel, avail_workers = parallelly::availableCores()) {
   workers <- get_bpnworkers(bpparam)
-  total <- sum(Reduce(`*`, workers), workers[1])
+  total <- required_workers(workers)
   if (verify_workers(total)) {
     return(TRUE)
   }
 
-  msg <- sprintf(
-    "Using %1$d outer and %2$d inner workers would require %3$d workers (%1$d + (%1$d x %2$d)) but your system has only %4$d cores.
-  See parallelly::availableCores() for more information on available resources",
-    workers[1],
-    workers[2],
-    total,
-    avail_workers
-  )
+  avail_msg <- sprintf("but your system has only %d cores", avail_workers)
+  info_msg <- "See parallelly::availableCores(which = 'all') for more information on available resources"
+  if (workers[1] == 1 | workers[2] == 1) {
+    msg <- sprintf(
+      "Requested %d %s workers %s\n%s",
+      max(workers),
+      ifelse(workers[1] == 1, "inner", "outer"),
+      avail_msg,
+      info_msg
+    )
+  } else {
+    msg <- sprintf(
+      "Requested %1$d outer and %2$d inner workers that require %3$d total workers (%1$d + (%1$d x %2$d)) %4$s\n%5$s",
+      workers[1],
+      workers[2],
+      total,
+      avail_msg,
+      info_msg
+    )
+  }
   stop(msg)
 }
 
@@ -32,6 +44,16 @@ get_bpnworkers <- function(bp) {
 #' @keywords internal
 bpnworkers.list <- function(bplist) {
   unlist(Map(bpnworkers, bplist))
+}
+
+required_workers <- function(workers) {
+  if (workers[1] == 1) {
+    return(workers[2])
+  }
+  if (workers[2] == 1) {
+    return(workers[1])
+  }
+  sum(Reduce(`*`, workers), workers[1])
 }
 
 #' Verify that the input BiocParallelParam is valid

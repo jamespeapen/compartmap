@@ -27,6 +27,7 @@ Depends:
 Imports:
    BiocSingular,
    BiocParallel,
+   futile.logger,
    rlang,
    S4Vectors,
    IRanges,

@@ -61,6 +61,7 @@ bootstrapCompartments <- function(
   # if (ncol(original.obj) < 6) stop("We need more than 5 samples to bootstrap with for the results to be meaningful.")
 
   # bootstrap and recompute compartments
+  BiocParallel::bpprogressbar(BPPARAM) <- FALSE
   resamp.compartments <- bplapply(
     1:ncol(bmeans),
     function(b) {

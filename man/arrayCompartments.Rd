@@ -16,10 +16,8 @@ arrayCompartments(
   array.type = c("hm450", "EPIC"),
   genome = c("hg19", "hg38", "mm9", "mm10"),
   other = NULL,
-  parallel = TRUE,
-  cores = 2,
   boot.parallel = TRUE,
-  boot.cores = 2
+  BPPARAM = bpparam()
 )
 }
 \arguments{
@@ -45,13 +43,9 @@ arrayCompartments(
 
 \item{other}{Another arbitrary genome to compute compartments on}
 
-\item{parallel}{Whether to run samples in parallel}
+\item{boot.parallel}{Whether to run the bootstrapping in parallel. See details.}
 
-\item{cores}{How many cores to use when running samples in parallel}
-
-\item{boot.parallel}{Whether to run the bootstrapping in parallel}
-
-\item{boot.cores}{How many cores to use for the bootstrapping}
+\item{BPPARAM}{BiocParallelParam object to use for parallelization. See details.}
 }
 \value{
 A RaggedExperiment of inferred compartments

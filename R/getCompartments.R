@@ -36,14 +36,16 @@ getCompartments <- function(
     )
   }
 
+  boot_msg <- ""
   if (bootstrap & boot.parallel) {
-    flog.info("Bootstrapping in parallel with %d cores", bpnworkers(bpparams[[2]]))
+    boot_msg <- sprintf("Bootstrapping in parallel with %d cores", bpnworkers(bpparams[[2]]))
   } else if (bootstrap & !boot.parallel) {
-    flog.info("Not bootstrapping in parallel will take a long time...")
+    boot_msg <- "Not bootstrapping in parallel will take a long time..."
   }
 
   if (group) {
     flog.info("Computing group level compartments")
+    flog.info(boot_msg)
     compartments.list <- bplapply(
       chr,
       function(c) {
@@ -71,6 +73,7 @@ getCompartments <- function(
   }
 
   flog.info("Computing single-cell level compartments")
+  flog.info(boot_msg)
   compartments <- bplapply(
     columns,
     function(s) {

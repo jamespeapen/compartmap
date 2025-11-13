@@ -40,13 +40,13 @@ preprocessArrays <- function(
   # this should be default but allows handling if given M-values in Beta slot
   is.beta <- min(assays(obj)$Beta, na.rm = TRUE) > 0
   if (is.beta) {
-    message("Converting to squeezed M-values.")
+    flog.debug("Converting to squeezed M-values.")
     assays(obj.opensea)$Beta <- flogit(assays(obj.opensea)$Beta)
   }
 
   # impute missing values if possible
   if (any(is.na(minfi::getBeta(obj.opensea)))) {
-    message("Imputing missing values.")
+    flog.debug("Imputing missing values.")
     obj.opensea <- imputeKNN(obj.opensea, assay = "array")
   }
 

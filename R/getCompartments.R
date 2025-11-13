@@ -1,5 +1,6 @@
 #' Run compartment inference
 #' @importFrom BiocParallel bplapply
+#' @importFrom futile.logger flog.info flog.debug
 getCompartments <- function(
   obj,
   res,
@@ -14,7 +15,7 @@ getCompartments <- function(
   bpparams
 ) {
   if (is.null(chr)) {
-    message("Assuming we want to process all chromosomes.")
+    flog.info("Assuming we want to process all chromosomes.")
     chr <- getChrs(obj)
   }
 
@@ -25,7 +26,7 @@ getCompartments <- function(
   prior.means <- getGlobalMeans(obj = obj, targets = targets, assay = assay)
 
   if (bootstrap) {
-    message("Pre-computing the bootstrap global means.")
+    flog.info("Pre-computing the bootstrap global means.")
     bmeans <- precomputeBootstrapMeans(
       obj = obj,
       BPPARAM = bpparams[[1]],
@@ -35,8 +36,14 @@ getCompartments <- function(
     )
   }
 
+  if (boot.parallel) {
+    flog.info("Bootstrapping in parallel with %d cores", bpnworkers(bpparams[[2]]))
+  } else {
+    flog.info("Not bootstrapping in parallel will take a long time...")
+  }
+
   if (group) {
-    message("Computing group level compartments")
+    flog.info("Computing group level compartments")
     compartments.list <- bplapply(
       chr,
       function(c) {
@@ -44,7 +51,7 @@ getCompartments <- function(
           obj,
           obj,
           assay = assay,
-          BPPARAM = innerBPPARAM,
+          BPPARAM = bpparams[[2]],
           res = res,
           chr = c,
           group = group,
@@ -63,7 +70,7 @@ getCompartments <- function(
     return(compartments)
   }
 
-  message("Computing single-cell level compartments")
+  flog.info("Computing single-cell level compartments")
   compartments <- bplapply(
     columns,
     function(s) {
@@ -74,7 +81,7 @@ getCompartments <- function(
         obj.sub,
         obj,
         assay = assay,
-        BPPARAM = innerBPPARAM,
+        BPPARAM = bpparams[[2]],
         res = res,
         chr = c,
         group = group,
@@ -114,7 +121,7 @@ getCompartments <- function(
   genome <- match.arg(genome)
 
   # update
-  message("Computing compartments for ", chr)
+  flog.debug("Computing compartments for %s", chr)
   obj <- keepSeqlevels(obj, chr, pruning.mode = "coarse")
   original.obj <- keepSeqlevels(original.obj, chr, pruning.mode = "coarse")
 

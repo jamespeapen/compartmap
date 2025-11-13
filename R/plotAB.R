@@ -113,7 +113,7 @@ plotAB <- function(
   NAs <- is.na(x)
   x[!NAs] <- x[!NAs] / sqrt(sum(x[!NAs]^2))
   na.count <- sum(NAs)
-  if (na.count > 0) message(sprintf("[.unitarize] %i missing values were ignored.\n", na.count))
+  if (na.count > 0) flog.debug("[.unitarize] %i missing values were ignored.\n", na.count)
   x
 }
 

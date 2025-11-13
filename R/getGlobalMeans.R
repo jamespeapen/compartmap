@@ -30,7 +30,7 @@ getGlobalMeans <- function(obj, targets = NULL, assay = c("atac", "rna", "array"
   # check if shrinkage targets are being used
   if (!is.null(targets)) {
     stargets <- getShrinkageTargets(obj, targets)
-    message("Using ", paste(shQuote(targets), collapse = ", "), " as shrinkage targets...")
+    flog.debug("Using %s as shrinkage targets", paste(shQuote(targets), collapse = ", "))
     globalMean.input <- stargets
   } else {
     globalMean.input <- obj
@@ -86,7 +86,7 @@ precomputeBootstrapMeans <- function(
   bootMean <- bplapply(
     1:num.bootstraps,
     function(b) {
-      # message("Working on bootstrap ", b)
+      flog.debug("Working on bootstrap ", b)
       resamp.mat <- .resampleMatrix(assay.data)
       computeGlobalMean(resamp.mat)
     },

@@ -59,11 +59,6 @@ bootstrapCompartments <- function(
   }
 
   # if (ncol(original.obj) < 6) stop("We need more than 5 samples to bootstrap with for the results to be meaningful.")
-  # if (parallel) {
-  #   message("Bootstrapping in parallel with ", cores, " cores.")
-  # } else {
-  #   message("Not bootstrapping in parallel will take a long time...")
-  # }
 
   # bootstrap and recompute compartments
   resamp.compartments <- bplapply(

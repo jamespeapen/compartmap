@@ -1,3 +1,5 @@
+#' Run compartment inference
+#' @importFrom BiocParallel bplapply
 getCompartments <- function(
   obj,
   res,
@@ -8,10 +10,8 @@ getCompartments <- function(
   num.bootstraps,
   genome,
   assay,
-  parallel,
-  cores,
   boot.parallel,
-  boot.cores
+  bpparams
 ) {
   if (is.null(chr)) {
     message("Assuming we want to process all chromosomes.")
@@ -28,11 +28,10 @@ getCompartments <- function(
     message("Pre-computing the bootstrap global means.")
     bmeans <- precomputeBootstrapMeans(
       obj = obj,
+      BPPARAM = bpparams[[1]],
       targets = targets,
       num.bootstraps = num.bootstraps,
-      assay = assay,
-      parallel = parallel,
-      num.cores = cores
+      assay = assay
     )
   }
 

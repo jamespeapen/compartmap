@@ -35,12 +35,6 @@ getCompartments <- function(
     )
   }
 
-  if (boot.parallel) {
-    innerBPPARAM <- bpparams[[2]]
-  } else {
-    innerBPPARAM <- BiocParallel::SerialParam()
-  }
-
   if (group) {
     message("Computing group level compartments")
     compartments.list <- bplapply(

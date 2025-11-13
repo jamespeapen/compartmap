@@ -15,6 +15,52 @@
 #' @param boot.parallel Whether to run the bootstrapping in parallel. See details.
 #' @param BPPARAM BiocParallelParam object to use for parallelization. See details.
 #'
+#' @details
+#'
+#' compartmap uses `BiocParallel` to parallelize operations in four
+#' configurations. The default setting is to parallelize across columns but not
+#' bootstraps using the thread count as reported by `BiocParallel::bpparam()`,
+#' which is usually two cores fewer than the number of available cores.
+#' Parallel bootstrapping is disabled by default to avoid nested parallelism
+#' issues but can be done independent of column-wise parallelization.
+#'
+
+#' ## Available configurations
+#'
+#' ### Serial bootstrapping
+#'
+#' - Serially with just one core:
+#'   `BPPARAM = BiocParallel::SerialParam()`
+#'
+#' - Parallel across columns and serially across bootstraps:
+#'   `BPPARAM = BiocParallel::MulticoreParam(n)` where `n` is the number of
+#'   threads to use
+#'
+#' See `?BiocParallel::BiocParallelParam` for other parallel backends. Parallel
+#' backends may also be passed to `BiocParallel::register()` to make them
+#' available to `bpparam()`.
+
+#' ### Parallel bootstrapping
+#'
+#' Set `boot.parallel = TRUE` for one the these configurations:
+#'
+#' - Serially across columns and parallel across bootstraps: Set `BPPARAM =
+#' list(SerialParam(), MulticoreParam(n))'
+#'
+#' - Parallel across both columns and bootstraps: Set `BPPARAM =
+#' list(MulticoreParam(outer), MulticoreParam(inner))` where `outer` is the
+#' thread count for column-wise operations and `inner` the thread count for
+#' bootstrapping. The required number of threads is given by
+#'
+#' `( outer * inner ) + outer`
+#'
+#' We recommend using an explicit list of two BiocParallelParam backends over
+#' relying on `register()` and `bpparam()` for parallelizing across bootstraps.
+#' With nested `bplapply` calls, the registered backend is used for both the
+#' outer and inner parallel loops. On a system with 8 available threads if the
+#' registered backend asks for 4 workers, it will try to use 20 threads in the
+#' nested loops. Instead to use all 8 cores, set
+#' `BPPARAM = list(MulticoreParam(2), MulticoreParam(3))`.
 #'
 #' @return A RaggedExperiment of inferred compartments
 #' @import SummarizedExperiment

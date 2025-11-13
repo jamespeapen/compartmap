@@ -17,6 +17,7 @@
 #' @param boot.parallel Whether to run the bootstrapping in parallel. See details.
 #' @param BPPARAM BiocParallelParam object to use for parallelization. See details.
 #'
+#' @inherit scCompartments details
 #'
 #' @return A RaggedExperiment of inferred compartments
 #' @import SummarizedExperiment

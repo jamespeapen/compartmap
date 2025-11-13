@@ -36,9 +36,9 @@ getCompartments <- function(
     )
   }
 
-  if (boot.parallel) {
+  if (bootstrap & boot.parallel) {
     flog.info("Bootstrapping in parallel with %d cores", bpnworkers(bpparams[[2]]))
-  } else {
+  } else if (bootstrap & !boot.parallel) {
     flog.info("Not bootstrapping in parallel will take a long time...")
   }
 

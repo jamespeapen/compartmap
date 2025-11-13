@@ -26,6 +26,7 @@ Depends:
    HDF5Array
 Imports:
    BiocSingular,
+   BiocParallel,
    rlang,
    S4Vectors,
    IRanges,

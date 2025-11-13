@@ -14,10 +14,8 @@ scCompartments(
   num.bootstraps = 100,
   genome = c("hg19", "hg38", "mm9", "mm10"),
   assay = c("atac", "rna"),
-  parallel = FALSE,
-  cores = 2,
   boot.parallel = FALSE,
-  boot.cores = 2
+  BPPARAM = bpparam()
 )
 }
 \arguments{
@@ -39,13 +37,9 @@ scCompartments(
 
 \item{assay}{What type of single-cell assay is the input data ("atac" or "rna")}
 
-\item{parallel}{Whether to run samples in parallel}
+\item{boot.parallel}{Whether to run the bootstrapping in parallel. See details.}
 
-\item{cores}{How many cores to use when running samples in parallel}
-
-\item{boot.parallel}{Whether to run the bootstrapping in parallel}
-
-\item{boot.cores}{How many cores to use for the bootstrapping}
+\item{BPPARAM}{BiocParallelParam object to use for parallelization. See details.}
 }
 \value{
 A RaggedExperiment of inferred compartments

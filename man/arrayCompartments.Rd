@@ -88,6 +88,8 @@ bootstrapping. The required number of threads is given by
 
 \code{( outer * inner ) + outer}
 
+which is more easily calculated as \code{outer * (inner + 1)}.
+
 We recommend using an explicit list of two BiocParallelParam backends over
 relying on \code{register()} and \code{bpparam()} for parallelizing across bootstraps.
 With nested \code{bplapply} calls, the registered backend is used for both the
@@ -95,6 +97,27 @@ outer and inner parallel loops. On a system with 8 available threads if the
 registered backend asks for 4 workers, it will try to use 20 threads in the
 nested loops. Instead to use all 8 cores, set
 \code{BPPARAM = list(MulticoreParam(2), MulticoreParam(3))}.
+}
+
+\subsection{Load balancing}{
+
+Unless you have only 1 chromosome or are not bootstrapping/not bootstrapping
+in parallel, you can use nested parallelism. If you are working on just 1
+chromosome, put all cores into the inner bootstrapping backend. Conversely
+with multiple chromosmes without bootstrapping, put all available workers in
+the outer loop.
+
+In general, use more 'outer' workers, which loop over chromosmes when \code{group = TRUE} and cells when \code{group = FALSE}, than 'inner' workers that loop over
+bootstraps. Using 8 outer and 7 inner workers is faster than 7 outer and 8
+inner.
+
+When \code{group = FALSE}, use \code{MulticoreParam()} only on the outer workers. We
+find that parallelizing at both column and bootstrap levels with the
+single-cell inference is slower than only parallelizing at the column-level.
+
+With \code{group = TRUE}, minimize the difference between the two worker counts:
+with 64 total cores, doing 8 outer and 7 inner is faster than 16 outer and 3
+inner.
 }
 
 }

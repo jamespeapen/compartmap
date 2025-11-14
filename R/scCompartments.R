@@ -54,6 +54,8 @@
 #'
 #' `( outer * inner ) + outer`
 #'
+#' which is more easily calculated as `outer * (inner + 1)`.
+#'
 #' We recommend using an explicit list of two BiocParallelParam backends over
 #' relying on `register()` and `bpparam()` for parallelizing across bootstraps.
 #' With nested `bplapply` calls, the registered backend is used for both the
@@ -61,6 +63,27 @@
 #' registered backend asks for 4 workers, it will try to use 20 threads in the
 #' nested loops. Instead to use all 8 cores, set
 #' `BPPARAM = list(MulticoreParam(2), MulticoreParam(3))`.
+#'
+#' ### Load balancing
+#'
+#' Unless you have only 1 chromosome or are not bootstrapping/not bootstrapping
+#' in parallel, you can use nested parallelism. If you are working on just 1
+#' chromosome, put all cores into the inner bootstrapping backend. Conversely
+#' with multiple chromosmes without bootstrapping, put all available workers in
+#' the outer loop.
+#'
+#' In general, use more 'outer' workers, which loop over chromosmes when `group
+#' = TRUE` and cells when `group = FALSE`, than 'inner' workers that loop over
+#' bootstraps. Using 8 outer and 7 inner workers is faster than 7 outer and 8
+#' inner.
+#'
+#' When `group = FALSE`, use `MulticoreParam()` only on the outer workers. We
+#' find that parallelizing at both column and bootstrap levels with the
+#' single-cell inference is slower than only parallelizing at the column-level.
+#'
+#' With `group = TRUE`, minimize the difference between the two worker counts:
+#' with 64 total cores, doing 8 outer and 7 inner is faster than 16 outer and 3
+#' inner.
 #'
 #' @return A RaggedExperiment of inferred compartments
 #' @import SummarizedExperiment

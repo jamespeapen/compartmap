@@ -39,8 +39,8 @@ getCompartments <- function(
   boot_msg <- ""
   if (bootstrap & boot.parallel) {
     boot_msg <- sprintf("Bootstrapping in parallel with %d cores", bpnworkers(bpparams[[2]]))
-  } else if (bootstrap & !boot.parallel) {
-    boot_msg <- "Not bootstrapping in parallel will take a long time..."
+  } else if (bootstrap & !boot.parallel & group) {
+    boot_msg <- "Not bootstrapping in parallel could take a long time..."
   }
 
   if (group) {

@@ -115,7 +115,7 @@ scCompartments <- function(
   verifyCoords(obj)
 
   bpparams <- get_nested_params(BPPARAM, boot.parallel)
-  check_worker_count(bpparams)
+  check_worker_count(bpparams, group, length(chr), bootstrap)
 
   # which assay are we working on
   if (!all(assay %in% c("atac", "rna"))) stop("Supported assays are 'atac', and 'rna'.")

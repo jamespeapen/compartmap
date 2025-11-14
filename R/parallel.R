@@ -1,9 +1,29 @@
+#' Check and tell users whether input BPPARAM are optimal given group/sc
+#' inference and bootstrapping
+#' @keywords internal
+check_optim <- function(workers, group, chr_count, bootstrap) {
+  if (group & chr_count < workers[1]) {
+    flog.info(
+      "Grouped inference with more outer workers than chromosmes leaves %d of %d workers unused",
+      workers[1] - chr_count,
+      workers[1]
+    )
+    if (bootstrap) {
+      flog.info("Consider using a single core for the outer worker and more cores for the inner bootstrap worker")
+    }
+  }
+  if (!group & bootstrap & workers[1] < workers[2]) {
+    flog.info("More outer (column-wise) than inner (bootstrap) workers is faster for single-cell inference")
+  }
+}
+
 #' Check that the number of requested workers is valid
 #' @keywords internal
-check_worker_count <- function(bpparam, boot.parallel, avail_workers = parallelly::availableCores()) {
+check_worker_count <- function(bpparam, group, chr_count, bootstrap, avail_workers = parallelly::availableCores()) {
   workers <- get_bpnworkers(bpparam)
   total <- required_workers(workers)
   if (verify_workers(total)) {
+    check_optim(workers, group, chr_count, bootstrap)
     return(TRUE)
   }
 

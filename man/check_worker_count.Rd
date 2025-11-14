@@ -6,7 +6,9 @@
 \usage{
 check_worker_count(
   bpparam,
-  boot.parallel,
+  group,
+  chr_count,
+  bootstrap,
   avail_workers = parallelly::availableCores()
 )
 }

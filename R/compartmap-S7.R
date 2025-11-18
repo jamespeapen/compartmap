@@ -93,6 +93,21 @@ method(seqlevels, CompartmentCall) <- function(x) {
   selectMethod('seqlevels', 'GRanges')(x)
 }
 
+#' Subset the CompartmentCall object by chromosome
+#'
+#' @param x A CompartmentCall object
+#' @param chr A string vector of chromosomes to subset to
+#'
+#' @export
+select_chr <- new_generic("select_chr", "x", function(x, chr) {
+  S7_dispatch()
+})
+method(select_chr, CompartmentCall) <- function(x, chr) {
+  `%in%` <- function(a, b) BiocGenerics::match(a, b, nomatch = 0L) > 0L
+  ind <- as.vector(seqnames(x@gr) %in% chr)
+  x[which(ind)]
+}
+
 #' Get the resolution of the CompartmentCall
 #'
 #' @param x A CompartmentCall object
@@ -427,6 +442,7 @@ method(print, MultiCompartmentCall) <- function(x, ...) {
   x@dt[, n := seq_len(.N), by = name][]
   x
 }
+
 
 #' Compute agreement between compartment calls
 #'

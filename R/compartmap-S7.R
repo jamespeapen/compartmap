@@ -222,6 +222,7 @@ method(flip, CompartmentCall) <- function(x) {
 #' CompartmentCall objects bins must be present in the reference bins.
 #'
 #' @param x A CompartmentCall object
+#' @param ref.gr The `GRanges` object to use as the full reference set of regions
 #'
 #' @export
 fill_missing <- new_generic("flip", "x", function(x, ref.gr) {
@@ -586,6 +587,7 @@ grscale <- function(gr, res) {
 #' RaggedExperiment from `scCompartments()` as its input.
 #'
 #' @param ccalls A RageedExperiment of single-cell compartment calls
+#' @param res The binning resolution used
 #' @param name An identifier for this set of compartment calls
 #' @param unitarized Whether the singular values have been unitarized
 #' @param unitarize Whether to unitarize the singular values for each of the inputs calls

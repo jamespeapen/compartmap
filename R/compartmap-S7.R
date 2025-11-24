@@ -536,7 +536,7 @@ method(corr, MultiCompartmentCall) <- function(x, ...) {
 #' of the bar if `type = "bar"` in the plot
 #' @param ylim Upper and lower bound for the y-axis
 #'
-#' @importFrom ggplot2 ggplot geom_line scale_y_continuous theme element_text
+#' @importFrom ggplot2 ggplot geom_line geom_col scale_y_continuous theme element_text facet_grid vars
 #' @export
 `plot.compartmap::MultiCompartmentCall` <- function(
   x,

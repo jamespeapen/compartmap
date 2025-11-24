@@ -14,3 +14,4 @@
 \description{
 Subset rows of a CompartmentCall object
 }
+\keyword{internal}

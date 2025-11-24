@@ -56,6 +56,7 @@ method(DF, CompartmentCall) <- function(x) {
 #' @param x A CompartmentCall object
 #' @param i Row indices to subset
 #'
+#' @keywords internal
 #' @export
 `[.compartmap::CompartmentCall` <- function(x, i = NULL) {
   i <- i %||% seq_len(nrow(x@mat))
@@ -458,6 +459,7 @@ method(print, MultiCompartmentCall) <- function(x, ...) {
 #' @param i Rows indices to subset
 #' @param j Column indices or names to subset
 #'
+#' @keywords internal
 #' @export
 `[.compartmap::MultiCompartmentCall` <- function(x, i = NULL, j = NULL) {
   i <- i %||% seq_len(nrow(x@mat))

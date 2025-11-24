@@ -33,7 +33,7 @@ CompartmentCall <- new_class(
       dt = dt,
       res = res,
       unitarized = unitarized,
-      seqinfo = selectMethod('seqinfo', "GRanges")(gr)
+      seqinfo = methods::selectMethod('seqinfo', "GRanges")(gr)
     )
   }
 )
@@ -99,7 +99,7 @@ method(seqinfo, CompartmentCall) <- function(x) {
 #'
 #' @export
 method(seqlevels, CompartmentCall) <- function(x) {
-  selectMethod('seqlevels', 'GRanges')(x)
+  methods::selectMethod('seqlevels', 'GRanges')(x)
 }
 
 #' Subset the CompartmentCall object by chromosome
@@ -133,7 +133,7 @@ method(findOverlaps, list(CompartmentCall, CompartmentCall)) <- function(
 ) {
   query <- query@gr
   subject <- subject@gr
-  callGeneric()
+  methods::callGeneric()
 }
 
 #' Get the resolution of the CompartmentCall
@@ -336,7 +336,7 @@ CompartmapCall <- new_class(
       dt = dt,
       res = res,
       unitarized = unitarized,
-      seqinfo = selectMethod("seqinfo", "GRanges")(gr)
+      seqinfo = methods::selectMethod("seqinfo", "GRanges")(gr)
     )
   }
 )
@@ -406,7 +406,7 @@ MultiCompartmentCall <- new_class(
       dt = dt,
       res = unique_res,
       unitarized = unitarized,
-      seqinfo = selectMethod('seqinfo', "GRanges")(unique_gr[[1]]),
+      seqinfo = methods::selectMethod('seqinfo', "GRanges")(unique_gr[[1]]),
       colnames = unlist(lapply(ccalls, get_name)),
       mat = mat
     )
@@ -631,7 +631,7 @@ SingleCellCompartmentCall <- new_class(
       dt = dt,
       res = res,
       unitarized = unitarized,
-      seqinfo = selectMethod('seqinfo', "GRanges")(gr),
+      seqinfo = methods::selectMethod('seqinfo', "GRanges")(gr),
       colnames = colnames(mat),
       mat = mat
     )

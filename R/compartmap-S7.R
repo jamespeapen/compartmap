@@ -427,10 +427,14 @@ S4_register(MultiCompartmentCall)
   ncol(x@mat)
 }
 
+#' Get dimensions of MultiCompartmentCall matrix
+#' @export
 method(dim, MultiCompartmentCall) <- function(x) {
   dim(x@mat)
 }
 
+#' Get column names of MultiCompartmentCall matrix
+#' @export
 method(names, MultiCompartmentCall) <- function(x) {
   colnames(x@mat)
 }

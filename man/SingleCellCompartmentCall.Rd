@@ -15,6 +15,8 @@ SingleCellCompartmentCall(
 \arguments{
 \item{ccalls}{A RageedExperiment of single-cell compartment calls}
 
+\item{res}{The binning resolution used}
+
 \item{name}{An identifier for this set of compartment calls}
 
 \item{unitarized}{Whether the singular values have been unitarized}

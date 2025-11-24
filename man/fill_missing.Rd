@@ -8,6 +8,8 @@ fill_missing(x, ref.gr)
 }
 \arguments{
 \item{x}{A CompartmentCall object}
+
+\item{ref.gr}{The \code{GRanges} object to use as the full reference set of regions}
 }
 \description{
 Compartmap may drop genomic bins with insufficient data and the resulting

@@ -366,7 +366,9 @@ MultiCompartmentCall <- new_class(
   constructor = function(ccalls, name, unitarized = FALSE, unitarize = FALSE) {
     all_same <- function(prop_get, err) {
       unique_property <- unique(unlist(lapply(ccalls, prop_get)))
-      if (length(unique_property) != 1) stop(err)
+      if (length(unique_property) != 1) {
+        stop(err)
+      }
       unique_property
     }
 
@@ -441,7 +443,9 @@ method(names, MultiCompartmentCall) <- function(x) {
 
 .resolution <- function(res) {
   fct <- res / 1e5
-  if ((any(fct < 1) | any(fct >= 100))) stop("Unsupported resolution")
+  if ((any(fct < 1) | any(fct >= 100))) {
+    stop("Unsupported resolution")
+  }
   ifelse(fct < 10, paste(fct, "Kb"), paste(fct / 10, "Mb"))
 }
 

@@ -1,26 +1,68 @@
 #' Compartment Call objects for analysis (experimental)
 #'
-#' These objects are S7 classes that hold compartment call values, and their
-#' genomic region and resolution metadata as well as methods to aid analysis
-#' and visualization. `CompartmentCall` is primarily a parent class from which
-#' `CompartmapCall` and `MultiCompartmapCall` are derived. It is constucted
-#' from a vector of the call values, a `GRanges` object of the bins, and the
-#' resolution of the bins. It is also useful to compare singular
-#' values/eigenvectors from Hi-C compartment analysis, given the bin
-#' coordinates.
+#' These S7 classes hold compartment call values, and their genomic region and
+#' resolution metadata as well as methods to aid analysis and visualization.
+#' `CompartmentCall()` is primarily a parent class from which
+#' `CompartmapCall()` and `MultiCompartmapCall()` are derived.
 #'
-#' `CompartmapCall()` is constructed from the output of `scCompartments(group =
-#' TRUE)`. `MultiCompartmapCall()` holds multiple `CompartmapCall()` objects at
-#' the same resolution. For single-cell level compartment inferences use
-#' `scCompartmapCall()`. This class holds multiple single-cell level
-#' compartment. This takes the RaggedExperiment from `scCompartments()` as its
-#' input.
+#' @details
+#'
+#' ## Objects
+#'
+#' `CompartmentCall` is constucted from a vector of the call values, a
+#' `GenomicRanges::GRanges()` object of the bins, and the resolution of the
+#' bins. Given a `GRanges` of bin coordinates, it can be used to store singular
+#' values/eigenvectors from Hi-C compartment analysis. Along with
+#' `CompartmapCall` objects, they can be combined in a `MultiCompartmapCall` to
+#' compare against each other. All `CompartmentCall` methods work on every
+#' other *compartmap* S7 object.
+#'
+#' `CompartmapCall()` is constructed from the `GRanges` output of
+#' `scCompartments(group = TRUE)`. `MultiCompartmapCall()` holds multiple
+#' `CompartmapCall()` objects at the same resolution, and is constructed with a
+#' list of `CompartmentCall` or `CompartmapCall` objects.
+#'
+#' For single-cell level compartment inferences use `scCompartmapCall()`, which
+#' inherits from `MultiCompartmapCall`. This class holds multiple single-cell
+#' level compartment calls, taking the `RaggedExperiment::RaggedExperiment()`
+#' from `scCompartments()` as its constructor. Since it inherits from
+#' `MultiCompartmapCall`, all `MultiCompartmapCall` methods work on
+#' `scCompartmapCall` objects.
+#'
+#' All objects may be subset to required indices with `object[row indices,
+#' column indices]`. Their dimensions can be accessed with `dim()`, `nrow()`
+#' and `ncol()`.
+#'
+#' ## Properties and accessors
+#'
+#' These properties may be accessed with `@` like S4 slots, or using their
+#' accessor functions. Some functions share methods with other Bioconductor
+#' classes like `GRanges` and `SummarizedExperiment`.
+#'
+#' - `name`, `get_name()`: The name of the object, used to identify it, useful
+#' when making `MultiCompartmapCall` objects
+#' - `gr`, `granges()`: A `GRanges` object of the compartment bins
+#' - `df`, `DF()`: a `data.table` of bin indices in column `n` and compartment
+#' call singular values in column `pc`. For `MultiCompartmapCall` and
+#' `scCompartmapCall` objects, this is in a tidy format, with an additional
+#' `name` column.
+#' - `res`, `resolution()`: The genomic resolution at which the compartments
+#' were called
+#' - `unitarized`, `is_unitarized()`: Whether the singular values have been
+#' unitarized
+#' - `seqinfo`, `seqinfo()`: Seqinfo for the object's `GRanges`
+#' - `mat`, `mat()`: A matrix of genomic bins by singular values - a wide
+#' matrix format of the `df` slot. This is used to calculate correlation and
+#' agreement between cells in a `scCompartmapCall` and groups in a
+#' `MultiCompartmapCall` object.
 #'
 #' @param pc The singular values from a compartment call
 #' @param res The binning resolution used
-#' @param gr The GRanges of the bins
-#' @param name An identifier for this copmartment call. Important to set if you
-#' are making a MultiCompartmapCall
+#' @param gr The GRanges of the bins or the output of `scCompartments` or
+#' `getArrayCompartments` containing the 'pc' column
+#' @param name An identifier for the object. For `CompartmentCall` and
+#' `CompartmapCall`, this is becomes the column name for the object when added
+#' to a `MultiCompartmapCall` object
 #' @param unitarized Whether the singular values have been unitarized
 #'
 #' @import S7
@@ -237,7 +279,7 @@ method(flip, CompartmentCall) <- function(x) {
 #' `MultiCompartmapCall` objcets that expect the same GRanges across all input
 #' `CompartmentCall` objects. `fill_missing()` adds the missing bins according
 #' to a larger reference set of bins, filling missing data with NA. All
-#' `CompartmentCall` objects bins must be present in the reference bins.
+#' bins in `x` must be present in the reference bins.
 #'
 #' @param x A `CompartmentCall` object
 #' @param ref.gr The `GRanges` object to use as the full reference set of
@@ -330,13 +372,6 @@ method(print, CompartmentCall) <- function(x, ...) {
 
 #' @rdname CompartmentCall
 #'
-#' @param gr The GRanges output of `scCompartments` or `getArrayCompartments`
-#' containing the 'pc' column
-#' @param res The binning resolution used
-#' @param name An identifier for this compartment call. Important to set if you
-#' are making a `MultiCompartmapCall.`
-#' @param unitarized Whether the singular values have been unitarized
-#'
 #' @keywords CompartmentCall
 #' @export
 CompartmapCall <- new_class(
@@ -361,7 +396,6 @@ S4_register(CompartmapCall)
 #'
 #' @param ccalls A list of `CompartmapCalls` to combine
 #' @param name An identifier for this set of compartment calls
-#' @param unitarized Whether the singular values have been unitarized
 #' @param unitarize Whether to unitarize the singular values for each of the inputs calls
 #'
 #' @importFrom data.table rbindlist dcast

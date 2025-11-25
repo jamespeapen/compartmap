@@ -527,11 +527,11 @@ method(agreement, MultiCompartmapCall) <- function(x) {
 #'
 #' @importFrom stats cor
 #' @export
-corr <- new_generic("corr", "x", function(x, ...) {
+corr <- new_generic("corr", "x", function(x) {
   S7_dispatch()
 })
-method(corr, MultiCompartmapCall) <- function(x, ...) {
-  cor(x@mat, ...)
+method(corr, MultiCompartmapCall) <- function(x) {
+  cor(x@mat)
 }
 
 #' Plot singular values from a `MultiCompartmapCall` object

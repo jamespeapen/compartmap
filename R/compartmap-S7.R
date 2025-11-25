@@ -455,7 +455,7 @@ method(names, MultiCompartmentCall) <- function(x) {
 #'
 #' @export
 method(print, MultiCompartmentCall) <- function(x, ...) {
-  column_label <- ifelse(inherits(x, "compartmap::SingleCellCompartmentCall"), "cells", "samples")
+  column_label <- ifelse(inherits(x, "compartmap::scCompartmentCall"), "cells", "samples")
   msg <- message(
     .print_CompartmentCall(x),
     sprintf("\n  @mat         : %d bins x %d %s", nrow(x@mat), ncol(x@mat), column_label)
@@ -603,8 +603,8 @@ grscale <- function(gr, res) {
 #' @export
 #' @importFrom data.table melt as.data.table
 #' @export
-SingleCellCompartmentCall <- new_class(
-  "SingleCellCompartmentCall",
+scCompartmentCall <- new_class(
+  "scCompartmentCall",
   parent = MultiCompartmentCall,
   properties = list(
     colnames = class_character,
@@ -645,7 +645,7 @@ SingleCellCompartmentCall <- new_class(
     )
   }
 )
-S4_register(SingleCellCompartmentCall)
+S4_register(scCompartmentCall)
 
 # Store the BiocGenerics %in% to differentiate from base::`%in%`
 `%gin%` <- function(a, b) {

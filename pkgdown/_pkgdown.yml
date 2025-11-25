@@ -20,89 +20,110 @@ sidebar:
   structure: [links, license, community, citation, authors, dev]
 
 reference:
-- title: Compartment mapping
-  contents:
-    - scCompartments
-    - getArrayABsignal
-- title: Compartment helper
-  contents:
-    - filterCompartments
-    - fixCompartments
-    - extractOpenClosed
-    - getABSignal
-    - getATACABsignal
-    - getRNAABsignal
-- title: Correlation matrix
-  contents:
-    - estRMT
-    - getCorMatrix
-    - getDenoisedCorMatrix
-- title: Data transformation
-  contents:
-    - transformTFIDF
-    - hdf5TFIDF
-- title: Bootstrapping
-  contents:
-    - precomputeBootstrapMeans
-    - bootstrapCompartments
-    - summarizeBootstraps
-- title: Data import
-  contents:
-    - importBigWig
-    - filterOpenSea
-    - getOpenSeas
-    - preprocessArrays
-- title: Bioconductor helpers
-  contents:
-    - condenseRE
-    - condenseSE
-    - getAssayNames
-    - getSeqLengths
-    - getChrs
-- title: Stat functions
-  contents:
-    - agrestiCoullCI
-    - fexpit
-    - fisherZ
-    - flogit
-    - getBinMatrix
-    - getDomainInflections
-    - getGlobalMeans
-    - getMatrixBlocks
-    - getSVD
-    - getShrinkageTargets
-    - ifisherZ
-    - imputeKNN
-    - meanSmoother
-    - precomputeBootstrapMeans
-    - preprocessArrays
-    - removeEmptyBoots
-    - scCompartments
-    - shrinkBins
-    - sparseToDenseMatrix
-- title: Plotting
-  contents:
-    - starts_with("plot")
-- title: Helpers
-  contents:
-    - cleanAssayCols
-    - cleanAssayRows
-    - .n_approx
-    - .p_approx
-    - .z
-- title: Datasets
-  contents:
-    - hg19.gr
-    - hg38.gr
-    - mm10.gr
-    - mm9.gr
-    - openSeas.hg19
-    - openSeas.hg38
-    - openSeas.mm10
-    - openSeas.mm9
-    - array.data.chr14
-    - k562_scatac_chr14
-    - k562_scrna_chr14
-    - k562_scrna_se_chr14
-    - ss3_umi_sce
+  - title: Compartment mapping
+    contents:
+      - scCompartments
+      - getArrayABsignal
+  - title: Compartment analysis
+  - subtitle: Objects
+    contents:
+      - has_keyword("CompartmentCall")
+  - subtitle: Property getters
+    contents:
+      - DF
+      - mat
+      - get_name
+      - resolution
+      - is_unitarized
+  - subtitle: Methods
+    contents:
+      - flip
+      - unitarize
+      - subset_chr
+      - corr
+      - agreement
+      - fill_missing
+      - starts_with("plot")
+  - title: Compartment helper
+    contents:
+      - filterCompartments
+      - fixCompartments
+      - extractOpenClosed
+      - getABSignal
+      - getATACABsignal
+      - getRNAABsignal
+  - title: Correlation matrix
+    contents:
+      - estRMT
+      - getCorMatrix
+      - getDenoisedCorMatrix
+  - title: Data transformation
+    contents:
+      - transformTFIDF
+      - hdf5TFIDF
+  - title: Bootstrapping
+    contents:
+      - precomputeBootstrapMeans
+      - bootstrapCompartments
+      - summarizeBootstraps
+  - title: Data import
+    contents:
+      - importBigWig
+      - filterOpenSea
+      - getOpenSeas
+      - preprocessArrays
+  - title: Bioconductor helpers
+    contents:
+      - condenseRE
+      - condenseSE
+      - getAssayNames
+      - getSeqLengths
+      - getChrs
+  - title: Stat functions
+    contents:
+      - get_agreement
+      - agrestiCoullCI
+      - fexpit
+      - fisherZ
+      - flogit
+      - getBinMatrix
+      - getDomainInflections
+      - getGlobalMeans
+      - getMatrixBlocks
+      - getSVD
+      - getShrinkageTargets
+      - ifisherZ
+      - imputeKNN
+      - meanSmoother
+      - precomputeBootstrapMeans
+      - preprocessArrays
+      - removeEmptyBoots
+      - scCompartments
+      - shrinkBins
+      - sparseToDenseMatrix
+  - title: Plotting
+    contents:
+      - starts_with("plot")
+  - title: Helpers
+    contents:
+      - cleanAssayCols
+      - cleanAssayRows
+      - .n_approx
+      - .p_approx
+      - .z
+  - title: Datasets
+    contents:
+      - hg19.gr
+      - hg38.gr
+      - mm10.gr
+      - mm9.gr
+      - openSeas.hg19
+      - openSeas.hg38
+      - openSeas.mm10
+      - openSeas.mm9
+      - array.data.chr14
+      - k562_scatac_chr14
+      - k562_scrna_chr14
+      - k562_scrna_se_chr14
+      - ss3_umi_sce
 

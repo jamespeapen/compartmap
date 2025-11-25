@@ -7,9 +7,9 @@
 agreement(x)
 }
 \arguments{
-\item{x}{A \code{MultiCompartmentCall} object}
+\item{x}{A \code{MultiCompartmapCall} object}
 }
 \description{
 Calculates the proportion of calls with the same sign for every pair of
-calls in a \code{MultiCompartmentCall} object.
+calls in a \code{MultiCompartmapCall} object.
 }

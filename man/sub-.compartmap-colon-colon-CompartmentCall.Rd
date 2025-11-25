@@ -2,16 +2,16 @@
 % Please edit documentation in R/compartmap-S7.R
 \name{[.compartmap::CompartmentCall}
 \alias{[.compartmap::CompartmentCall}
-\title{Subset rows of a CompartmentCall object}
+\title{Subset rows of a \code{CompartmentCall} object}
 \usage{
 \method{[}{`compartmap::CompartmentCall`}(x, i = NULL)
 }
 \arguments{
-\item{x}{A CompartmentCall object}
+\item{x}{A \code{CompartmentCall} object}
 
 \item{i}{Row indices to subset}
 }
 \description{
-Subset rows of a CompartmentCall object
+Subset rows of a \code{CompartmentCall} object
 }
 \keyword{internal}

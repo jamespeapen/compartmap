@@ -2,18 +2,18 @@
 % Please edit documentation in R/compartmap-S7.R
 \name{[.compartmap::MultiCompartmentCall}
 \alias{[.compartmap::MultiCompartmentCall}
-\title{Subset MultiCompartmentCall object}
+\title{Subset \code{MultiCompartmentCall} object}
 \usage{
 \method{[}{`compartmap::MultiCompartmentCall`}(x, i = NULL, j = NULL)
 }
 \arguments{
-\item{x}{A CompartmentCall object}
+\item{x}{A \code{CompartmentCall} object}
 
 \item{i}{Rows indices to subset}
 
 \item{j}{Column indices or names to subset}
 }
 \description{
-Subset MultiCompartmentCall object
+Subset \code{MultiCompartmentCall} object
 }
 \keyword{internal}

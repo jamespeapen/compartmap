@@ -3,14 +3,14 @@
 #' or grouped set of singular values
 #' @importFrom utils combn
 #' @export
-agreement <- function(mat) {
+get_agreement <- function(mat) {
   cmbs <- combn(1:ncol(mat), 2)
   ncols <- ncol(mat)
   agrmat <- matrix(nrow = ncols, ncol = ncols)
   for (cidx in seq(ncol(cmbs))) {
     i <- cmbs[, cidx][1]
     j <- cmbs[, cidx][2]
-    res <- .agreement(mat[, i], mat[, j])
+    res <- .compute_agreement(mat[, i], mat[, j])
     agrmat[i, j] <- res
     agrmat[j, i] <- res
   }
@@ -19,7 +19,7 @@ agreement <- function(mat) {
   agrmat
 }
 
-.agreement <- function(v1, v2) {
+.compute_agreement <- function(v1, v2) {
   b1 <- v1 > 0
   b2 <- v2 > 0
   sum(b1 == b2) / length(v1)

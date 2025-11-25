@@ -499,16 +499,16 @@ method(print, MultiCompartmentCall) <- function(x, ...) {
 #' Compute agreement between compartment calls
 #'
 #' Calculates the proportion of calls with the same sign for every pair of
-#' calls in a MultiCompartmentCall object.
+#' calls in a `MultiCompartmentCall` object.
 #'
-#' @param x A MultiCompartmentCall object
+#' @param x A `MultiCompartmentCall` object
 #'
 #' @export
-agr <- new_generic("agr", "x", function(x) {
+agreement <- new_generic("agreement", "x", function(x) {
   S7_dispatch()
 })
-method(agr, MultiCompartmentCall) <- function(x) {
-  agreement(x@mat)
+method(agreement, MultiCompartmentCall) <- function(x) {
+  get_agreement(x@mat)
 }
 
 #' Compute correlation between compartment calls

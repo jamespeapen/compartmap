@@ -2,13 +2,13 @@
 % Please edit documentation in R/compartmap-S7.R
 \name{is_unitarized}
 \alias{is_unitarized}
-\title{Check if the CompartmentCall was unitarized}
+\title{Check if the \code{CompartmentCall} was unitarized}
 \usage{
 is_unitarized(x)
 }
 \arguments{
-\item{x}{A CompartmentCall object}
+\item{x}{A \code{CompartmentCall} object}
 }
 \description{
-Check if the CompartmentCall was unitarized
+Check if the \code{CompartmentCall} was unitarized
 }

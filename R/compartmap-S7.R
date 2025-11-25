@@ -51,9 +51,9 @@ CompartmentCall <- new_class(
 )
 S4_register(CompartmentCall)
 
-#' Get the @dt slot from a CompartmentCall object
+#' Get the `@dt` slot from a CompartmentCall object
 #'
-#' @param x A CompartmentCall object
+#' @param x A `CompartmentCall` object
 #'
 #' @export
 DF <- new_generic("DF", "x", function(x) {
@@ -63,9 +63,9 @@ method(DF, CompartmentCall) <- function(x) {
   x@dt[]
 }
 
-#' Subset rows of a CompartmentCall object
+#' Subset rows of a `CompartmentCall` object
 #'
-#' @param x A CompartmentCall object
+#' @param x A `CompartmentCall` object
 #' @param i Row indices to subset
 #'
 #' @keywords internal
@@ -86,18 +86,18 @@ method(DF, CompartmentCall) <- function(x) {
   1
 }
 
-#' Get GRanges of the CompartmentCall
+#' Get GRanges of the `CompartmentCall`
 #'
-#' @param x A CompartmentCall object
+#' @param x A `CompartmentCall` object
 #'
 #' @export
 method(granges, CompartmentCall) <- function(x) {
   x@gr
 }
 
-#' Get Seqinfo of the CompartmentCall
+#' Get Seqinfo of the `CompartmentCall`
 #'
-#' @param x A CompartmentCall object
+#' @param x A `CompartmentCall` object
 #'
 #' @export
 method(seqinfo, CompartmentCall) <- function(x) {
@@ -105,18 +105,18 @@ method(seqinfo, CompartmentCall) <- function(x) {
 }
 
 
-#' Get 'seqlevels' of the CompartmentCall
+#' Get 'seqlevels' of the `CompartmentCall`
 #'
-#' @param x A CompartmentCall object
+#' @param x A `CompartmentCall` object
 #'
 #' @export
 method(seqlevels, CompartmentCall) <- function(x) {
   methods::selectMethod('seqlevels', 'GRanges')(x)
 }
 
-#' Subset the CompartmentCall object by chromosome
+#' Subset the `CompartmentCall` object by chromosome
 #'
-#' @param x A CompartmentCall object
+#' @param x A `CompartmentCall` object
 #' @param chr A string vector of chromosomes to subset to
 #'
 #' @export
@@ -128,9 +128,9 @@ method(subset_chr, CompartmentCall) <- function(x, chr) {
   x[which(ind)]
 }
 
-#' Find overlaps between CompartmentCall objects
+#' Find overlaps between `CompartmentCall` objects
 #'
-#' @param subject A CompartmentCall object
+#' @param subject A `CompartmentCall` object
 #' @param query A string vector of chromosomes to subset to
 #'
 #' @export
@@ -148,9 +148,9 @@ method(findOverlaps, list(CompartmentCall, CompartmentCall)) <- function(
   methods::callGeneric()
 }
 
-#' Get the resolution of the CompartmentCall
+#' Get the resolution of the `CompartmentCall`
 #'
-#' @param x A CompartmentCall object
+#' @param x A `CompartmentCall` object
 #'
 #' @export
 resolution <- new_generic("resolution", "x", function(x) {
@@ -160,9 +160,9 @@ method(resolution, CompartmentCall) <- function(x) {
   x@res
 }
 
-#' Check if the CompartmentCall was unitarized
+#' Check if the `CompartmentCall` was unitarized
 #'
-#' @param x A CompartmentCall object
+#' @param x A `CompartmentCall` object
 #'
 #' @export
 is_unitarized <- new_generic("is_unitarized", "x", function(x) {
@@ -172,9 +172,9 @@ method(is_unitarized, CompartmentCall) <- function(x) {
   x@unitarized
 }
 
-#' Get the name of the CompartmentCall object
+#' Get the name of the `CompartmentCall` object
 #'
-#' @param x A CompartmentCall object
+#' @param x A `CompartmentCall` object
 #'
 #' @export
 get_name <- new_generic("get_name", "x", function(x) {
@@ -184,9 +184,9 @@ method(get_name, CompartmentCall) <- function(x) {
   x@name
 }
 
-#' Unitarize the singular values in a CompartmentCall or MultiCompartmentCall
+#' Unitarize the singular values in a `CompartmentCall` or `MultiCompartmentCall`
 #'
-#' @param x A CompartmentCall object
+#' @param x A `CompartmentCall` object
 #' @param medianCenter Whether to center the singular values on their median
 #'
 #' @export
@@ -208,9 +208,9 @@ method(unitarize, CompartmentCall) <- function(x, medianCenter = TRUE) {
   x
 }
 
-#' Flip the singular values signs in a CompartmentCall
+#' Flip the singular values signs in a `CompartmentCall`
 #'
-#' @param x A CompartmentCall object
+#' @param x A `CompartmentCall` object
 #'
 #' @export
 flip <- new_generic("flip", "x", function(x) {
@@ -255,9 +255,9 @@ method(fill_missing, CompartmentCall) <- function(x, ref.gr) {
   x
 }
 
-#' Plot singular values of a CompartmentCall object
+#' Plot singular values of a `CompartmentCall` object
 #'
-#' @param x CompartmentCall or CompartmapCall object
+#' @param x `CompartmentCall` or `CompartmapCall` object
 #' @param ... Placeholder for the `plot` generic - arguments have not effect
 #' @param type Whether to plot the singular values as `"line"` or `"bar"` plots.
 #' @param label_coords Label the x-axis with genomic coordinates. Uses a
@@ -298,7 +298,7 @@ method(fill_missing, CompartmentCall) <- function(x, ref.gr) {
   )
 }
 
-#' Print CompartmentCall
+#' Print `CompartmentCall`
 method(print, CompartmentCall) <- function(x, ...) {
   message(.print_CompartmentCall(x))
 }
@@ -433,13 +433,13 @@ S4_register(MultiCompartmentCall)
   ncol(x@mat)
 }
 
-#' Get dimensions of MultiCompartmentCall matrix
+#' Get dimensions of `MultiCompartmentCall` matrix
 #' @export
 method(dim, MultiCompartmentCall) <- function(x) {
   dim(x@mat)
 }
 
-#' Get column names of MultiCompartmentCall matrix
+#' Get column names of `MultiCompartmentCall` matrix
 #' @export
 method(names, MultiCompartmentCall) <- function(x) {
   colnames(x@mat)
@@ -453,9 +453,9 @@ method(names, MultiCompartmentCall) <- function(x) {
   ifelse(fct < 10, paste(fct, "Kb"), paste(fct / 10, "Mb"))
 }
 
-#' Print a CompartmentCall object
+#' Print a `CompartmentCall` object
 #'
-#' @param x A CompartmentCall object
+#' @param x A `CompartmentCall` object
 #'
 #' @export
 method(print, MultiCompartmentCall) <- function(x, ...) {
@@ -466,9 +466,9 @@ method(print, MultiCompartmentCall) <- function(x, ...) {
   )
 }
 
-#' Subset MultiCompartmentCall object
+#' Subset `MultiCompartmentCall` object
 #'
-#' @param x A CompartmentCall object
+#' @param x A `CompartmentCall` object
 #' @param i Rows indices to subset
 #' @param j Column indices or names to subset
 #'
@@ -520,7 +520,7 @@ method(agreement, MultiCompartmentCall) <- function(x) {
 #' Calculates Pearson correlation for every pair of calls in a
 #' MultiCompartmentCall object.
 #'
-#' @param x A MultiCompartmentCall object
+#' @param x A `MultiCompartmentCall` object
 #' @param ... Additional arguments to pass to `stats::cor()`
 #'
 #' @importFrom stats cor
@@ -532,12 +532,12 @@ method(corr, MultiCompartmentCall) <- function(x, ...) {
   cor(x@mat, ...)
 }
 
-#' Plot singular values from a MultiCompartmentCall object
+#' Plot singular values from a `MultiCompartmentCall` object
 #'
-#' @param x MultiCompartmentCall
+#' @param x `MultiCompartmentCall`
 #' @param ... Placeholder for the `plot` generic - arguments have not effect
 #' @param type Whether to plot the singular values as `"line"` or `"bar"`
-#' plots. Bar plots will be facted by the CompartmapCall object name while the
+#' plots. Bar plots will be facted by the `CompartmapCall` object name while the
 #' line plots are overlayed.
 #' @param label_coords Label the x-axis with genomic coordinates. Uses a
 #' numeric index when set to `FALSE`. Using coordinate labels can severely

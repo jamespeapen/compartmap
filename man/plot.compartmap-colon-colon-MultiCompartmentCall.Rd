@@ -2,7 +2,7 @@
 % Please edit documentation in R/compartmap-S7.R
 \name{plot.compartmap::MultiCompartmentCall}
 \alias{plot.compartmap::MultiCompartmentCall}
-\title{Plot singular values from a MultiCompartmentCall object}
+\title{Plot singular values from a \code{MultiCompartmentCall} object}
 \usage{
 \method{plot}{`compartmap::MultiCompartmentCall`}(
   x,
@@ -15,12 +15,12 @@
 )
 }
 \arguments{
-\item{x}{MultiCompartmentCall}
+\item{x}{\code{MultiCompartmentCall}}
 
 \item{...}{Placeholder for the \code{plot} generic - arguments have not effect}
 
 \item{type}{Whether to plot the singular values as \code{"line"} or \code{"bar"}
-plots. Bar plots will be facted by the CompartmapCall object name while the
+plots. Bar plots will be facted by the \code{CompartmapCall} object name while the
 line plots are overlayed.}
 
 \item{label_coords}{Label the x-axis with genomic coordinates. Uses a
@@ -36,5 +36,5 @@ of the bar if \code{type = "bar"} in the plot}
 \item{ylim}{Upper and lower bound for the y-axis}
 }
 \description{
-Plot singular values from a MultiCompartmentCall object
+Plot singular values from a \code{MultiCompartmentCall} object
 }

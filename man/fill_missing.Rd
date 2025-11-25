@@ -2,23 +2,24 @@
 % Please edit documentation in R/compartmap-S7.R
 \name{fill_missing}
 \alias{fill_missing}
-\title{Fill missing genomic bins in CompartmentCalls using a reference GRanges}
+\title{Fill missing genomic bins in \code{CompartmentCalls} using a reference GRanges}
 \usage{
 fill_missing(x, ref.gr)
 }
 \arguments{
-\item{x}{A CompartmentCall object}
+\item{x}{A \code{CompartmentCall} object}
 
-\item{ref.gr}{The \code{GRanges} object to use as the full reference set of regions}
+\item{ref.gr}{The \code{GRanges} object to use as the full reference set of
+regions}
 }
 \description{
 Compartmap may drop genomic bins with insufficient data and the resulting
 GRanges object may not have all the bins of the region it was run which
 means using the same region and resolution on different inputs does not
-guarantee the same output bins. Having different set of bins between
-calls despite the same input regions and resolution prevents the creation of
-MultiCompartmentCall objcets that expect the same GRanges across all input
-CompartmentCall objects. \code{fill_missing()} adds the missing bins according to
-a larger reference set of bins, filling missing data with NA. All
-CompartmentCall objects bins must be present in the reference bins.
+guarantee the same output bins. Having different set of bins between calls
+despite the same input regions and resolution prevents the creation of
+\code{MultiCompartmentCall} objcets that expect the same GRanges across all input
+\code{CompartmentCall} objects. \code{fill_missing()} adds the missing bins according
+to a larger reference set of bins, filling missing data with NA. All
+\code{CompartmentCall} objects bins must be present in the reference bins.
 }

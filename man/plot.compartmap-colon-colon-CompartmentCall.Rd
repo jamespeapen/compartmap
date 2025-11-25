@@ -2,7 +2,7 @@
 % Please edit documentation in R/compartmap-S7.R
 \name{plot.compartmap::CompartmentCall}
 \alias{plot.compartmap::CompartmentCall}
-\title{Plot singular values of a CompartmentCall object}
+\title{Plot singular values of a \code{CompartmentCall} object}
 \usage{
 \method{plot}{`compartmap::CompartmentCall`}(
   x,
@@ -15,7 +15,7 @@
 )
 }
 \arguments{
-\item{x}{CompartmentCall or CompartmapCall object}
+\item{x}{\code{CompartmentCall} or \code{CompartmapCall} object}
 
 \item{...}{Placeholder for the \code{plot} generic - arguments have not effect}
 
@@ -34,5 +34,5 @@ of the bar if \code{type = "bar"} in the plot}
 \item{ylim}{Upper and lower bound for the y-axis}
 }
 \description{
-Plot singular values of a CompartmentCall object
+Plot singular values of a \code{CompartmentCall} object
 }

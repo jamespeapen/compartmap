@@ -2,13 +2,13 @@
 % Please edit documentation in R/compartmap-S7.R
 \name{resolution}
 \alias{resolution}
-\title{Get the resolution of the CompartmentCall}
+\title{Get the resolution of the \code{CompartmentCall}}
 \usage{
 resolution(x)
 }
 \arguments{
-\item{x}{A CompartmentCall object}
+\item{x}{A \code{CompartmentCall} object}
 }
 \description{
-Get the resolution of the CompartmentCall
+Get the resolution of the \code{CompartmentCall}
 }

@@ -2,13 +2,13 @@
 % Please edit documentation in R/compartmap-S7.R
 \name{get_name}
 \alias{get_name}
-\title{Get the name of the CompartmentCall object}
+\title{Get the name of the \code{CompartmentCall} object}
 \usage{
 get_name(x)
 }
 \arguments{
-\item{x}{A CompartmentCall object}
+\item{x}{A \code{CompartmentCall} object}
 }
 \description{
-Get the name of the CompartmentCall object
+Get the name of the \code{CompartmentCall} object
 }

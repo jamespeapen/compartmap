@@ -7,7 +7,7 @@
 corr(x, ...)
 }
 \arguments{
-\item{x}{A MultiCompartmentCall object}
+\item{x}{A \code{MultiCompartmentCall} object}
 
 \item{...}{Additional arguments to pass to \code{stats::cor()}}
 }

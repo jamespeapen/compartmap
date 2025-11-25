@@ -13,15 +13,15 @@ CompartmapCall(gr, res, name = NULL, unitarized = FALSE)
 
 MultiCompartmapCall(ccalls, name, unitarized = FALSE, unitarize = FALSE)
 
-scCompartmapCall(ccall_re, res, name, unitarized = FALSE, unitarize = FALSE)
+scCompartmapCall(re, res, name, unitarized = FALSE, unitarize = FALSE)
 }
 \arguments{
 \item{pc}{The singular values from a compartment call}
 
 \item{res}{The binning resolution used}
 
-\item{gr}{The GRanges output of \code{scCompartments} or \code{getArrayCompartments}
-containing the 'pc' column}
+\item{gr}{The GRanges of the bins or the output of \code{scCompartments} or
+\code{getArrayCompartments} containing the 'pc' column}
 
 \item{name}{An identifier for this set of compartment calls}
 
@@ -31,23 +31,64 @@ containing the 'pc' column}
 
 \item{unitarize}{Whether to unitarize the singular values for each of the inputs calls}
 
-\item{ccall_re}{A \code{RaggedExperiment} of single-cell compartment calls}
+\item{re}{A \code{RaggedExperiment} of single-cell compartment calls}
 }
 \description{
-These objects are S7 classes that hold compartment call values, and their
-genomic region and resolution metadata as well as methods to aid analysis
-and visualization. \code{CompartmentCall} is primarily a parent class from which
-\code{CompartmapCall} and \code{MultiCompartmapCall} are derived. It is constucted
-from a vector of the call values, a \code{GRanges} object of the bins, and the
-resolution of the bins. It is also useful to compare singular
-values/eigenvectors from Hi-C compartment analysis, given the bin
-coordinates.
+These S7 classes hold compartment call values, and their genomic region and
+resolution metadata as well as methods to aid analysis and visualization.
+\code{CompartmentCall()} is primarily a parent class from which
+\code{CompartmapCall()} and \code{MultiCompartmapCall()} are derived.
 }
 \details{
-\code{CompartmapCall()} is constructed from the output of \code{scCompartments(group = TRUE)}. \code{MultiCompartmapCall()} holds multiple \code{CompartmapCall()} objects at
-the same resolution. For single-cell level compartment inferences use
-\code{scCompartmapCall()}. This class holds multiple single-cell level
-compartment. This takes the RaggedExperiment from \code{scCompartments()} as its
-input.
+\subsection{Objects}{
+
+\code{CompartmentCall} is constucted from a vector of the call values, a
+\code{GenomicRanges::GRanges()} object of the bins, and the resolution of the
+bins. Given a \code{GRanges} of bin coordinates, it can be used to store singular
+values/eigenvectors from Hi-C compartment analysis. Along with
+\code{CompartmapCall} objects, they can be combined in a \code{MultiCompartmapCall} to
+compare against each other. All \code{CompartmentCall} methods work on every
+other \emph{compartmap} S7 object.
+
+\code{CompartmapCall()} is constructed from the \code{GRanges} output of
+\code{scCompartments(group = TRUE)}. \code{MultiCompartmapCall()} holds multiple
+\code{CompartmapCall()} objects at the same resolution, and is constructed with a
+list of \code{CompartmentCall} or \code{CompartmapCall} objects.
+
+For single-cell level compartment inferences use \code{scCompartmapCall()}, which
+inherits from \code{MultiCompartmapCall}. This class holds multiple single-cell
+level compartment calls, taking the \code{RaggedExperiment::RaggedExperiment()}
+from \code{scCompartments()} as its constructor. Since it inherits from
+\code{MultiCompartmapCall}, all \code{MultiCompartmapCall} methods work on
+\code{scCompartmapCall} objects.
+
+All objects may be subset to required indices with \verb{object[row indices, column indices]}. Their dimensions can be accessed with \code{dim()}, \code{nrow()}
+and \code{ncol()}.
+}
+
+\subsection{Properties and accessors}{
+
+These properties may be accessed with \code{@} like S4 slots, or using their
+accessor functions. Some functions share methods with other Bioconductor
+classes like \code{GRanges} and \code{SummarizedExperiment}.
+\itemize{
+\item \code{name}, \code{get_name()}: The name of the object, used to identify it, useful
+when making \code{MultiCompartmapCall} objects
+\item \code{gr}, \code{granges()}: A \code{GRanges} object of the compartment bins
+\item \code{df}, \code{DF()}: a \code{data.table} of bin indices in column \code{n} and compartment
+call singular values in column \code{pc}. For \code{MultiCompartmapCall} and
+\code{scCompartmapCall} objects, this is in a tidy format, with an additional
+\code{name} column.
+\item \code{res}, \code{resolution()}: The genomic resolution at which the compartments
+were called
+\item \code{unitarized}, \code{is_unitarized()}: Whether the singular values have been
+unitarized
+\item \code{seqinfo}, \code{seqinfo()}: Seqinfo for the object's \code{GRanges}
+\item \code{mat}, \code{mat()}: A matrix of genomic bins by singular values - a wide
+matrix format of the \code{df} slot. This is used to calculate correlation and
+agreement between cells in a \code{scCompartmapCall} and groups in a
+\code{MultiCompartmapCall} object.
+}
+}
 }
 \keyword{CompartmentCall}

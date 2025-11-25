@@ -24,6 +24,26 @@ reference:
   contents:
     - scCompartments
     - arrayCompartments
+- title: Compartment analysis
+- subtitle: Objects
+  contents:
+  - has_keyword("CompartmentCall")
+  - subtitle: Property getters
+    contents:
+      - DF
+      - mat
+      - get_name
+      - resolution
+      - is_unitarized
+  - subtitle: Methods
+    contents:
+      - flip
+      - unitarize
+      - subset_chr
+      - corr
+      - agreement
+      - fill_missing
+      - starts_with("plot")
 - title: Compartment helper
   contents:
     - filterCompartments

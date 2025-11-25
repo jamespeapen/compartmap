@@ -10,5 +10,8 @@ DF(x)
 \item{x}{A \code{CompartmentCall} object}
 }
 \description{
-Get the \verb{@dt} slot from a CompartmentCall object
+\code{n}: bin indices corresponding to indices of the \code{GRanges} object in \verb{@gr}
+\code{pc}: compartment call singular values
+\code{name}: The name of the individual \code{CompartmentCall} in a
+\code{MultiCompartmapCall} object
 }

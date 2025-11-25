@@ -2,8 +2,8 @@
   ns <- getNamespace(pkgname)
   S4_register(CompartmentCall, ns)
   S4_register(CompartmapCall, ns)
-  S4_register(MultiCompartmentCall, ns)
-  S4_register(scCompartmentCall, ns)
+  S4_register(MultiCompartmapCall, ns)
+  S4_register(scCompartmapCall, ns)
   S7::methods_register()
 }
 

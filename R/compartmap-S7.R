@@ -3,16 +3,16 @@
 #' These objects are S7 classes that hold compartment call values, and their
 #' genomic region and resolution metadata as well as methods to aid analysis
 #' and visualization. `CompartmentCall` is primarily a parent class from which
-#' `CompartmapCall` and `MultiCompartmentCall` are derived. It is constucted
+#' `CompartmapCall` and `MultiCompartmapCall` are derived. It is constucted
 #' from a vector of the call values, a `GRanges` object of the bins, and the
 #' resolution of the bins. It is also useful to compare singular
 #' values/eigenvectors from Hi-C compartment analysis, given the bin
 #' coordinates.
 #'
 #' `CompartmapCall()` is constructed from the output of `scCompartments(group =
-#' TRUE)`. `MultiCompartmentCall()` holds multiple `CompartmapCall()` objects at
+#' TRUE)`. `MultiCompartmapCall()` holds multiple `CompartmapCall()` objects at
 #' the same resolution. For single-cell level compartment inferences use
-#' `scCompartmentCall()`. This class holds multiple single-cell level
+#' `scCompartmapCall()`. This class holds multiple single-cell level
 #' compartment. This takes the RaggedExperiment from `scCompartments()` as its
 #' input.
 #'
@@ -20,11 +20,12 @@
 #' @param res The binning resolution used
 #' @param gr The GRanges of the bins
 #' @param name An identifier for this copmartment call. Important to set if you
-#' are making a MultiCompartmentCall
+#' are making a MultiCompartmapCall
 #' @param unitarized Whether the singular values have been unitarized
 #'
 #' @import S7
 #' @importFrom data.table data.table .I .N :=
+#' @keywords CompartmentCall
 #' @export
 CompartmentCall <- new_class(
   "CompartmentCall",
@@ -184,7 +185,7 @@ method(get_name, CompartmentCall) <- function(x) {
   x@name
 }
 
-#' Unitarize the singular values in a `CompartmentCall` or `MultiCompartmentCall`
+#' Unitarize the singular values in a `CompartmentCall` or `MultiCompartmapCall`
 #'
 #' @param x A `CompartmentCall` object
 #' @param medianCenter Whether to center the singular values on their median
@@ -197,7 +198,7 @@ method(unitarize, CompartmentCall) <- function(x, medianCenter = TRUE) {
   stopifnot("object is already unitarized" = isFALSE(x@unitarized))
 
   dt <- x@dt
-  if (inherits(x, "compartmap::MultiCompartmentCall")) {
+  if (inherits(x, "compartmap::MultiCompartmapCall")) {
     x@mat <- apply(x@mat, 2, .unitarize)
     x@dt <- x@dt[, .(n, pc = .unitarize(pc)), by = name][, .(n, pc, name)]
   } else {
@@ -228,7 +229,7 @@ method(flip, CompartmentCall) <- function(x) {
 #' means using the same region and resolution on different inputs does not
 #' guarantee the same output bins. Having different set of bins between calls
 #' despite the same input regions and resolution prevents the creation of
-#' `MultiCompartmentCall` objcets that expect the same GRanges across all input
+#' `MultiCompartmapCall` objcets that expect the same GRanges across all input
 #' `CompartmentCall` objects. `fill_missing()` adds the missing bins according
 #' to a larger reference set of bins, filling missing data with NA. All
 #' `CompartmentCall` objects bins must be present in the reference bins.
@@ -328,9 +329,10 @@ method(print, CompartmentCall) <- function(x, ...) {
 #' containing the 'pc' column
 #' @param res The binning resolution used
 #' @param name An identifier for this compartment call. Important to set if you
-#' are making a `MultiCompartmentCall.`
+#' are making a `MultiCompartmapCall.`
 #' @param unitarized Whether the singular values have been unitarized
 #'
+#' @keywords CompartmentCall
 #' @export
 CompartmapCall <- new_class(
   "CompartmapCall",
@@ -357,11 +359,11 @@ S4_register(CompartmapCall)
 #' @param unitarized Whether the singular values have been unitarized
 #' @param unitarize Whether to unitarize the singular values for each of the inputs calls
 #'
-#' @export
 #' @importFrom data.table rbindlist dcast
+#' @keywords CompartmentCall
 #' @export
-MultiCompartmentCall <- new_class(
-  "MultiCompartmentCall",
+MultiCompartmapCall <- new_class(
+  "MultiCompartmapCall",
   parent = CompartmentCall,
   properties = list(
     colnames = class_character,
@@ -423,7 +425,7 @@ MultiCompartmentCall <- new_class(
     }
   }
 )
-S4_register(MultiCompartmentCall)
+S4_register(MultiCompartmapCall)
 
 `nrow.compartmap::CompartmentCall` <- function(x) {
   nrow(x@mat)
@@ -433,15 +435,15 @@ S4_register(MultiCompartmentCall)
   ncol(x@mat)
 }
 
-#' Get dimensions of `MultiCompartmentCall` matrix
+#' Get dimensions of `MultiCompartmapCall` matrix
 #' @export
-method(dim, MultiCompartmentCall) <- function(x) {
+method(dim, MultiCompartmapCall) <- function(x) {
   dim(x@mat)
 }
 
-#' Get column names of `MultiCompartmentCall` matrix
+#' Get column names of `MultiCompartmapCall` matrix
 #' @export
-method(names, MultiCompartmentCall) <- function(x) {
+method(names, MultiCompartmapCall) <- function(x) {
   colnames(x@mat)
 }
 
@@ -458,15 +460,15 @@ method(names, MultiCompartmentCall) <- function(x) {
 #' @param x A `CompartmentCall` object
 #'
 #' @export
-method(print, MultiCompartmentCall) <- function(x, ...) {
-  column_label <- ifelse(inherits(x, "compartmap::scCompartmentCall"), "cells", "samples")
+method(print, MultiCompartmapCall) <- function(x, ...) {
+  column_label <- ifelse(inherits(x, "compartmap::scCompartmapCall"), "cells", "samples")
   msg <- message(
     .print_CompartmentCall(x),
     sprintf("\n  @mat         : %d bins x %d %s", nrow(x@mat), ncol(x@mat), column_label)
   )
 }
 
-#' Subset `MultiCompartmentCall` object
+#' Subset `MultiCompartmapCall` object
 #'
 #' @param x A `CompartmentCall` object
 #' @param i Rows indices to subset
@@ -474,7 +476,7 @@ method(print, MultiCompartmentCall) <- function(x, ...) {
 #'
 #' @keywords internal
 #' @export
-`[.compartmap::MultiCompartmentCall` <- function(x, i = NULL, j = NULL) {
+`[.compartmap::MultiCompartmapCall` <- function(x, i = NULL, j = NULL) {
   i <- i %||% seq_len(nrow(x@mat))
   j <- j %||% seq_len(ncol(x@mat))
 
@@ -503,24 +505,24 @@ method(print, MultiCompartmentCall) <- function(x, ...) {
 #' Compute agreement between compartment calls
 #'
 #' Calculates the proportion of calls with the same sign for every pair of
-#' calls in a `MultiCompartmentCall` object.
+#' calls in a `MultiCompartmapCall` object.
 #'
-#' @param x A `MultiCompartmentCall` object
+#' @param x A `MultiCompartmapCall` object
 #'
 #' @export
 agreement <- new_generic("agreement", "x", function(x) {
   S7_dispatch()
 })
-method(agreement, MultiCompartmentCall) <- function(x) {
+method(agreement, MultiCompartmapCall) <- function(x) {
   get_agreement(x@mat)
 }
 
 #' Compute correlation between compartment calls
 #'
 #' Calculates Pearson correlation for every pair of calls in a
-#' MultiCompartmentCall object.
+#' MultiCompartmapCall object.
 #'
-#' @param x A `MultiCompartmentCall` object
+#' @param x A `MultiCompartmapCall` object
 #' @param ... Additional arguments to pass to `stats::cor()`
 #'
 #' @importFrom stats cor
@@ -528,13 +530,13 @@ method(agreement, MultiCompartmentCall) <- function(x) {
 corr <- new_generic("corr", "x", function(x, ...) {
   S7_dispatch()
 })
-method(corr, MultiCompartmentCall) <- function(x, ...) {
+method(corr, MultiCompartmapCall) <- function(x, ...) {
   cor(x@mat, ...)
 }
 
-#' Plot singular values from a `MultiCompartmentCall` object
+#' Plot singular values from a `MultiCompartmapCall` object
 #'
-#' @param x `MultiCompartmentCall`
+#' @param x `MultiCompartmapCall`
 #' @param ... Placeholder for the `plot` generic - arguments have not effect
 #' @param type Whether to plot the singular values as `"line"` or `"bar"`
 #' plots. Bar plots will be facted by the `CompartmapCall` object name while the
@@ -550,7 +552,7 @@ method(corr, MultiCompartmentCall) <- function(x, ...) {
 #'
 #' @importFrom ggplot2 ggplot geom_line geom_col scale_y_continuous theme element_text facet_grid vars
 #' @export
-`plot.compartmap::MultiCompartmentCall` <- function(
+`plot.compartmap::MultiCompartmapCall` <- function(
   x,
   ...,
   type = "line",
@@ -594,24 +596,24 @@ grscale <- function(gr, res) {
 
 #' @rdname CompartmentCall
 #'
-#' @param ccalls A `RaggedExperiment` of single-cell compartment calls
+#' @param ccall_re A `RaggedExperiment` of single-cell compartment calls
 #' @param res The binning resolution used
 #' @param name An identifier for this set of compartment calls
 #' @param unitarized Whether the singular values have been unitarized
 #' @param unitarize Whether to unitarize the singular values for each of the inputs calls
 #'
-#' @export
 #' @importFrom data.table melt as.data.table
+#' @keywords CompartmentCall
 #' @export
-scCompartmentCall <- new_class(
-  "scCompartmentCall",
-  parent = MultiCompartmentCall,
+scCompartmapCall <- new_class(
+  "scCompartmapCall",
+  parent = MultiCompartmapCall,
   properties = list(
     colnames = class_character,
     mat = new_S3_class(c("matrix", "array"))
   ),
-  constructor = function(ccalls, res, name, unitarized = FALSE, unitarize = FALSE) {
-    grlist <- condenseSE(ccalls)
+  constructor = function(ccall_re, res, name, unitarized = FALSE, unitarize = FALSE) {
+    grlist <- condenseSE(ccall_re)
     pcs <- lapply(grlist, function(i) {
       mcols(i)[, 'pc']
     })
@@ -645,7 +647,7 @@ scCompartmentCall <- new_class(
     )
   }
 )
-S4_register(scCompartmentCall)
+S4_register(scCompartmapCall)
 
 # Store the BiocGenerics %in% to differentiate from base::`%in%`
 `%gin%` <- function(a, b) {

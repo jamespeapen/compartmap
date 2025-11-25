@@ -2,7 +2,7 @@
 % Please edit documentation in R/compartmap-S7.R
 \name{unitarize}
 \alias{unitarize}
-\title{Unitarize the singular values in a \code{CompartmentCall} or \code{MultiCompartmentCall}}
+\title{Unitarize the singular values in a \code{CompartmentCall} or \code{MultiCompartmapCall}}
 \usage{
 unitarize(x, medianCenter = TRUE)
 }
@@ -12,5 +12,5 @@ unitarize(x, medianCenter = TRUE)
 \item{medianCenter}{Whether to center the singular values on their median}
 }
 \description{
-Unitarize the singular values in a \code{CompartmentCall} or \code{MultiCompartmentCall}
+Unitarize the singular values in a \code{CompartmentCall} or \code{MultiCompartmapCall}
 }

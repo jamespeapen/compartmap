@@ -455,6 +455,19 @@ method(names, MultiCompartmapCall) <- function(x) {
   ifelse(fct < 10, paste(fct, "Kb"), paste(fct / 10, "Mb"))
 }
 
+#' Get the data matrix from a `MultiCompartmapCall` or `scCompartmapCall`
+#'
+#' @param x A `MultiCompartmapCall` object
+#'
+#' @export
+mat <- new_generic("mat", "x", function(x) {
+  S7_dispatch()
+})
+method(mat, MultiCompartmapCall) <- function(x) {
+  x@mat
+}
+
+
 #' Print a `CompartmentCall` object
 #'
 #' @param x A `CompartmentCall` object

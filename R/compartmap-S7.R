@@ -1,8 +1,20 @@
-#' CompartmentCall class (experimental)
+#' Compartment Call objects for analysis (experimental)
 #'
-#' An S7 class to hold a compartment call with its metadata and analysis
-#' methods. This is primarily a parent class from which the more used
-#' `CompartmapCall` and `MultiCompartmentCall` are derived.
+#' These objects are S7 classes that hold compartment call values, and their
+#' genomic region and resolution metadata as well as methods to aid analysis
+#' and visualization. `CompartmentCall` is primarily a parent class from which
+#' `CompartmapCall` and `MultiCompartmentCall` are derived. It is constucted
+#' from a vector of the call values, a `GRanges` object of the bins, and the
+#' resolution of the bins. It is also useful to compare singular
+#' values/eigenvectors from Hi-C compartment analysis, given the bin
+#' coordinates.
+#'
+#' `CompartmapCall()` is constructed from the output of `scCompartments(group =
+#' TRUE)`. `MultiCompartmentCall()` holds multiple `CompartmapCall()` objects at
+#' the same resolution. For single-cell level compartment inferences use
+#' `scCompartmentCall()`. This class holds multiple single-cell level
+#' compartment. This takes the RaggedExperiment from `scCompartments()` as its
+#' input.
 #'
 #' @param pc The singular values from a compartment call
 #' @param res The binning resolution used
@@ -209,20 +221,21 @@ method(flip, CompartmentCall) <- function(x) {
   x
 }
 
-#' Fill missing genomic bins in CompartmentCalls using a reference GRanges
+#' Fill missing genomic bins in `CompartmentCalls` using a reference GRanges
 #'
 #' Compartmap may drop genomic bins with insufficient data and the resulting
 #' GRanges object may not have all the bins of the region it was run which
 #' means using the same region and resolution on different inputs does not
-#' guarantee the same output bins. Having different set of bins between
-#' calls despite the same input regions and resolution prevents the creation of
-#' MultiCompartmentCall objcets that expect the same GRanges across all input
-#' CompartmentCall objects. `fill_missing()` adds the missing bins according to
-#' a larger reference set of bins, filling missing data with NA. All
-#' CompartmentCall objects bins must be present in the reference bins.
+#' guarantee the same output bins. Having different set of bins between calls
+#' despite the same input regions and resolution prevents the creation of
+#' `MultiCompartmentCall` objcets that expect the same GRanges across all input
+#' `CompartmentCall` objects. `fill_missing()` adds the missing bins according
+#' to a larger reference set of bins, filling missing data with NA. All
+#' `CompartmentCall` objects bins must be present in the reference bins.
 #'
-#' @param x A CompartmentCall object
-#' @param ref.gr The `GRanges` object to use as the full reference set of regions
+#' @param x A `CompartmentCall` object
+#' @param ref.gr The `GRanges` object to use as the full reference set of
+#' regions
 #'
 #' @export
 fill_missing <- new_generic("flip", "x", function(x, ref.gr) {
@@ -309,18 +322,13 @@ method(print, CompartmentCall) <- function(x, ...) {
   )
 }
 
-#' CompartmapCall class (experimental)
+#' @rdname CompartmentCall
 #'
-#' An S7 class to hold a single-sample or grouped compartment call with its
-#' metadata and analysis methods. This can take the GRanges output of
-#' `scCompartments(group = TRUE)`. For multiple single-cell level compartment
-#' inferences use MultiCompartmentCall.
-#'
-#' @param gr The GRanges output of scCompartments or getArrayCompartments
+#' @param gr The GRanges output of `scCompartments` or `getArrayCompartments`
 #' containing the 'pc' column
 #' @param res The binning resolution used
 #' @param name An identifier for this compartment call. Important to set if you
-#' are making a MultiCompartmentCall.
+#' are making a `MultiCompartmentCall.`
 #' @param unitarized Whether the singular values have been unitarized
 #'
 #' @export
@@ -342,13 +350,9 @@ CompartmapCall <- new_class(
 )
 S4_register(CompartmapCall)
 
-#' MultiCompartmentCall class
+#' @rdname CompartmentCall
 #'
-#' An S7 class to hold multiple compartment calls at the same resolution with
-#' their metadata and analysis methods. This can take a set of single
-#' `CompartmentCall` or `CompartmapCall` objects.
-#'
-#' @param ccalls A list of CompartmapCalls to combine
+#' @param ccalls A list of `CompartmapCalls` to combine
 #' @param name An identifier for this set of compartment calls
 #' @param unitarized Whether the singular values have been unitarized
 #' @param unitarize Whether to unitarize the singular values for each of the inputs calls
@@ -588,13 +592,9 @@ grscale <- function(gr, res) {
   paste0(seqlevels(gr), ":", start_scaled, "-", end_scaled, " ", scale_factor[2])
 }
 
-#' SingleCellCompartmentCall class
+#' @rdname CompartmentCall
 #'
-#' An S7 class to hold multiple single-cell level compartment calls at the same
-#' resolution with their metadata and analysis methods. This takes a
-#' RaggedExperiment from `scCompartments()` as its input.
-#'
-#' @param ccalls A RageedExperiment of single-cell compartment calls
+#' @param ccalls A `RaggedExperiment` of single-cell compartment calls
 #' @param res The binning resolution used
 #' @param name An identifier for this set of compartment calls
 #' @param unitarized Whether the singular values have been unitarized

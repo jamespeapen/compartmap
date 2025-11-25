@@ -2,24 +2,49 @@
 % Please edit documentation in R/compartmap-S7.R
 \name{CompartmentCall}
 \alias{CompartmentCall}
-\title{CompartmentCall class (experimental)}
+\alias{CompartmapCall}
+\alias{MultiCompartmentCall}
+\alias{scCompartmentCall}
+\title{Compartment Call objects for analysis (experimental)}
 \usage{
 CompartmentCall(pc, res, gr, name = NULL, unitarized = FALSE)
+
+CompartmapCall(gr, res, name = NULL, unitarized = FALSE)
+
+MultiCompartmentCall(ccalls, name, unitarized = FALSE, unitarize = FALSE)
+
+scCompartmentCall(ccalls, res, name, unitarized = FALSE, unitarize = FALSE)
 }
 \arguments{
 \item{pc}{The singular values from a compartment call}
 
 \item{res}{The binning resolution used}
 
-\item{gr}{The GRanges of the bins}
+\item{gr}{The GRanges output of \code{scCompartments} or \code{getArrayCompartments}
+containing the 'pc' column}
 
-\item{name}{An identifier for this copmartment call. Important to set if you
-are making a MultiCompartmentCall}
+\item{name}{An identifier for this set of compartment calls}
 
 \item{unitarized}{Whether the singular values have been unitarized}
+
+\item{ccalls}{A \code{RaggedExperiment} of single-cell compartment calls}
+
+\item{unitarize}{Whether to unitarize the singular values for each of the inputs calls}
 }
 \description{
-An S7 class to hold a compartment call with its metadata and analysis
-methods. This is primarily a parent class from which the more used
-\code{CompartmapCall} and \code{MultiCompartmentCall} are derived.
+These objects are S7 classes that hold compartment call values, and their
+genomic region and resolution metadata as well as methods to aid analysis
+and visualization. \code{CompartmentCall} is primarily a parent class from which
+\code{CompartmapCall} and \code{MultiCompartmentCall} are derived. It is constucted
+from a vector of the call values, a \code{GRanges} object of the bins, and the
+resolution of the bins. It is also useful to compare singular
+values/eigenvectors from Hi-C compartment analysis, given the bin
+coordinates.
+}
+\details{
+\code{CompartmapCall()} is constructed from the output of \code{scCompartments(group = TRUE)}. \code{MultiCompartmentCall()} holds multiple \code{CompartmapCall()} objects at
+the same resolution. For single-cell level compartment inferences use
+\code{scCompartmentCall()}. This class holds multiple single-cell level
+compartment. This takes the RaggedExperiment from \code{scCompartments()} as its
+input.
 }

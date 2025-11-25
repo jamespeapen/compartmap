@@ -32,18 +32,18 @@ CompartmentCall <- new_class(
   properties = list(
     name = class_character,
     gr = methods::getClass("GRanges"),
-    dt = methods::getClass("data.table"),
+    df = methods::getClass("data.table"),
     res = class_numeric,
     unitarized = class_logical,
     seqinfo = methods::getClass("Seqinfo")
   ),
   constructor = function(pc, res, gr, name = NULL, unitarized = FALSE) {
-    dt <- data.table(pc = as.vector(pc))[, .(n = .I, pc, name = name)]
+    df <- data.table(pc = as.vector(pc))[, .(n = .I, pc, name = name)]
     new_object(
       S7_object(),
       name = name %||% shQuote(substitute(gr), "cmd2"),
       gr = granges(gr),
-      dt = dt,
+      df = df,
       res = res,
       unitarized = unitarized,
       seqinfo = methods::selectMethod('seqinfo', "GRanges")(gr)
@@ -52,7 +52,12 @@ CompartmentCall <- new_class(
 )
 S4_register(CompartmentCall)
 
-#' Get the `@dt` slot from a CompartmentCall object
+#' Get the `@df` slot from a CompartmentCall object.
+#'
+#' `n`: bin indices corresponding to indices of the `GRanges` object in `@gr`
+#' `pc`: compartment call singular values
+#' `name`: The name of the individual `CompartmentCall` in a
+#' `MultiCompartmapCall` object
 #'
 #' @param x A `CompartmentCall` object
 #'
@@ -61,7 +66,7 @@ DF <- new_generic("DF", "x", function(x) {
   S7_dispatch()
 })
 method(DF, CompartmentCall) <- function(x) {
-  x@dt[]
+  x@df[]
 }
 
 #' Subset rows of a `CompartmentCall` object
@@ -73,8 +78,8 @@ method(DF, CompartmentCall) <- function(x) {
 #' @export
 `[.compartmap::CompartmentCall` <- function(x, i = NULL) {
   i <- i %||% seq_len(nrow(x@mat))
-  x@dt <- x@dt[i]
-  x@dt[, n := .I][]
+  x@df <- x@df[i]
+  x@df[, n := .I][]
   x@gr <- x@gr[i]
   x
 }
@@ -197,12 +202,12 @@ unitarize <- new_generic("unitarize", "x", function(x, medianCenter = TRUE) {
 method(unitarize, CompartmentCall) <- function(x, medianCenter = TRUE) {
   stopifnot("object is already unitarized" = isFALSE(x@unitarized))
 
-  dt <- x@dt
+  df <- x@df
   if (inherits(x, "compartmap::MultiCompartmapCall")) {
     x@mat <- apply(x@mat, 2, .unitarize)
-    x@dt <- x@dt[, .(n, pc = .unitarize(pc)), by = name][, .(n, pc, name)]
+    x@df <- x@df[, .(n, pc = .unitarize(pc)), by = name][, .(n, pc, name)]
   } else {
-    x@dt <- x@dt[, .(n, pc = .unitarize(pc), name)]
+    x@df <- x@df[, .(n, pc = .unitarize(pc), name)]
   }
 
   x@unitarized <- TRUE
@@ -218,7 +223,7 @@ flip <- new_generic("flip", "x", function(x) {
   S7_dispatch()
 })
 method(flip, CompartmentCall) <- function(x) {
-  x@dt <- x@dt[, .(n, pc = -pc, name)]
+  x@df <- x@df[, .(n, pc = -pc, name)]
   x
 }
 
@@ -248,11 +253,11 @@ method(fill_missing, CompartmentCall) <- function(x, ref.gr) {
   stopifnot("All CompartmentCall bins must be present in the reference GRanges" = all(x@gr %gin% ref.gr))
 
   ref_idx <- seq_len(ref_length)
-  dt <- data.table(n = ifelse(ref.gr %gin% x@gr, ref_idx, NA))
-  dt[!is.na(n), `:=`(pc = x@dt$pc, name = x@name)]
-  dt[, n := .I][]
+  df <- data.table(n = ifelse(ref.gr %gin% x@gr, ref_idx, NA))
+  df[!is.na(n), `:=`(pc = x@df$pc, name = x@name)]
+  df[, n := .I][]
   x@gr <- ref.gr
-  x@dt <- dt
+  x@df <- df
   x
 }
 
@@ -284,11 +289,11 @@ method(fill_missing, CompartmentCall) <- function(x, ref.gr) {
   . <- NULL
   pc <- NULL
   if (label_coords) {
-    coord_pd <- x@dt[, .(n, pc, coord = grscale(x@gr, res))]
+    coord_pd <- x@df[, .(n, pc, coord = grscale(x@gr, res))]
     p <- ggplot(coord_pd, aes(x = coord, y = pc, group = 1)) +
       theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
   } else {
-    p <- ggplot(x@dt, aes(x = n, y = pc))
+    p <- ggplot(x@df, aes(x = n, y = pc))
   }
   p <- p + scale_y_continuous(limits = ylim)
 
@@ -313,7 +318,7 @@ method(print, CompartmentCall) <- function(x, ...) {
   @name        : %s
   @res         : %s
   @gr          : GRanges with %d bins
-  @dt          : data.table of compartment calls (n = bin index, pc = singular values)
+  @df          : data.table of compartment calls (n = bin index, pc = singular values)
   @unitarized  : %s",
     class_type,
     x@name,
@@ -338,12 +343,12 @@ CompartmapCall <- new_class(
   "CompartmapCall",
   parent = CompartmentCall,
   constructor = function(gr, res, name = NULL, unitarized = FALSE) {
-    dt <- data.table(pc = gr$pc)[, `:=`(n = .I, name = name)][, .(n, pc, name)]
+    df <- data.table(pc = gr$pc)[, `:=`(n = .I, name = name)][, .(n, pc, name)]
     new_object(
       S7_object(),
       name = name %||% shQuote(substitute(gr), "cmd2"),
       gr = granges(gr),
-      dt = dt,
+      df = df,
       res = res,
       unitarized = unitarized,
       seqinfo = methods::selectMethod("seqinfo", "GRanges")(gr)
@@ -402,16 +407,16 @@ MultiCompartmapCall <- new_class(
 
     all_unitarized <- all_same(is_unitarized, "All calls must be either unitarized or non-unitarized")
     colorder <- sapply(ccalls, get_name)
-    dt <- rbindlist(lapply(ccalls, function(i) {
+    df <- rbindlist(lapply(ccalls, function(i) {
       DF(i)[, name := get_name(i)][, name := factor(name, levels = colorder)][]
     }))
-    mat <- as.matrix(dcast(dt, n ~ name, value.var = "pc")[, -1])
+    mat <- as.matrix(dcast(df, n ~ name, value.var = "pc")[, -1])
 
     new_object(
       S7_object(),
       name = name,
       gr = unique_gr[[1]],
-      dt = dt,
+      df = df,
       res = unique_res,
       unitarized = unitarized,
       seqinfo = methods::selectMethod('seqinfo', "GRanges")(unique_gr[[1]]),
@@ -499,7 +504,7 @@ method(print, MultiCompartmapCall) <- function(x, ...) {
     if (length(j) > ncol(x@mat)) {
       stop("j exceeds the column count of x")
     }
-    subset_names <- x@dt[, unique(name)][j]
+    subset_names <- x@df[, unique(name)][j]
   } else if (is.character(j)) {
     stopifnot("One or more columns not found in the data" = all(j %in% colnames(x@mat)))
     subset_names <- j
@@ -509,8 +514,8 @@ method(print, MultiCompartmapCall) <- function(x, ...) {
 
   x@gr <- x@gr[i]
   x@mat <- x@mat[i, j, drop = FALSE]
-  x@dt <- x@dt[n %in% i & name %in% subset_names]
-  x@dt[, n := seq_len(.N), by = name][]
+  x@df <- x@df[n %in% i & name %in% subset_names]
+  x@df[, n := seq_len(.N), by = name][]
   x
 }
 
@@ -574,10 +579,10 @@ method(corr, MultiCompartmapCall) <- function(x) {
   width = 0.5,
   ylim = c(-1, 1)
 ) {
-  pd <- x@dt
+  pd <- x@df
   x_axis <- "n"
   if (label_coords) {
-    pd <- x@dt[, .(n, pc, name, coord = grscale(x@gr, res))]
+    pd <- x@df[, .(n, pc, name, coord = grscale(x@gr, res))]
     x_axis <- "coord"
   }
 
@@ -638,7 +643,7 @@ scCompartmapCall <- new_class(
       message("Already unitarized")
     }
 
-    dt <- melt(
+    df <- melt(
       as.data.table(mat)[, n := .I],
       id.vars = "n",
       variable.name = "name",
@@ -651,7 +656,7 @@ scCompartmapCall <- new_class(
       S7_object(),
       name = name,
       gr = gr,
-      dt = dt,
+      df = df,
       res = res,
       unitarized = unitarized,
       seqinfo = methods::selectMethod('seqinfo', "GRanges")(gr),

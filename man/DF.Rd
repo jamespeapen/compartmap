@@ -2,7 +2,7 @@
 % Please edit documentation in R/compartmap-S7.R
 \name{DF}
 \alias{DF}
-\title{Get the \verb{@dt} slot from a CompartmentCall object}
+\title{Get the \verb{@df} slot from a CompartmentCall object.}
 \usage{
 DF(x)
 }

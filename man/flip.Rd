@@ -2,13 +2,13 @@
 % Please edit documentation in R/compartmap-S7.R
 \name{flip}
 \alias{flip}
-\title{Flip the singular values signs in a CompartmentCall}
+\title{Flip the singular values signs in a \code{CompartmentCall}}
 \usage{
 flip(x)
 }
 \arguments{
-\item{x}{A CompartmentCall object}
+\item{x}{A \code{CompartmentCall} object}
 }
 \description{
-Flip the singular values signs in a CompartmentCall
+Flip the singular values signs in a \code{CompartmentCall}
 }

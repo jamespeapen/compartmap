@@ -2,15 +2,15 @@
 % Please edit documentation in R/compartmap-S7.R
 \name{subset_chr}
 \alias{subset_chr}
-\title{Subset the CompartmentCall object by chromosome}
+\title{Subset the \code{CompartmentCall} object by chromosome}
 \usage{
 subset_chr(x, chr)
 }
 \arguments{
-\item{x}{A CompartmentCall object}
+\item{x}{A \code{CompartmentCall} object}
 
 \item{chr}{A string vector of chromosomes to subset to}
 }
 \description{
-Subset the CompartmentCall object by chromosome
+Subset the \code{CompartmentCall} object by chromosome
 }

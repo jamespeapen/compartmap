@@ -2,13 +2,13 @@
 % Please edit documentation in R/compartmap-S7.R
 \name{DF}
 \alias{DF}
-\title{Get the @dt slot from a CompartmentCall object}
+\title{Get the \verb{@dt} slot from a CompartmentCall object}
 \usage{
 DF(x)
 }
 \arguments{
-\item{x}{A CompartmentCall object}
+\item{x}{A \code{CompartmentCall} object}
 }
 \description{
-Get the @dt slot from a CompartmentCall object
+Get the \verb{@dt} slot from a CompartmentCall object
 }

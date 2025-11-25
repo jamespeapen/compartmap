@@ -21,5 +21,5 @@ despite the same input regions and resolution prevents the creation of
 \code{MultiCompartmapCall} objcets that expect the same GRanges across all input
 \code{CompartmentCall} objects. \code{fill_missing()} adds the missing bins according
 to a larger reference set of bins, filling missing data with NA. All
-\code{CompartmentCall} objects bins must be present in the reference bins.
+bins in \code{x} must be present in the reference bins.
 }

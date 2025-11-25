@@ -7,11 +7,11 @@
 corr(x, ...)
 }
 \arguments{
-\item{x}{A \code{MultiCompartmentCall} object}
+\item{x}{A \code{MultiCompartmapCall} object}
 
 \item{...}{Additional arguments to pass to \code{stats::cor()}}
 }
 \description{
 Calculates Pearson correlation for every pair of calls in a
-MultiCompartmentCall object.
+MultiCompartmapCall object.
 }

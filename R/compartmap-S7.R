@@ -614,10 +614,7 @@ grscale <- function(gr, res) {
 
 #' @rdname CompartmentCall
 #'
-#' @param ccall_re A `RaggedExperiment` of single-cell compartment calls
-#' @param res The binning resolution used
-#' @param name An identifier for this set of compartment calls
-#' @param unitarized Whether the singular values have been unitarized
+#' @param re A `RaggedExperiment` of single-cell compartment calls
 #' @param unitarize Whether to unitarize the singular values for each of the inputs calls
 #'
 #' @importFrom data.table melt as.data.table
@@ -630,8 +627,8 @@ scCompartmapCall <- new_class(
     colnames = class_character,
     mat = new_S3_class(c("matrix", "array"))
   ),
-  constructor = function(ccall_re, res, name, unitarized = FALSE, unitarize = FALSE) {
-    grlist <- condenseSE(ccall_re)
+  constructor = function(re, res, name, unitarized = FALSE, unitarize = FALSE) {
+    grlist <- condenseSE(re)
     pcs <- lapply(grlist, function(i) {
       mcols(i)[, 'pc']
     })

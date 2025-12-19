@@ -34,6 +34,7 @@ Imports:
    GenomicRanges,
    GenomeInfoDb,
    parallel,
+   parallelly,
    methods,
    grid,
    ggplot2,

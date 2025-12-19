@@ -100,6 +100,7 @@ verify_workers <- function(n_workers) {
 #' The outer param is across the input samples/columns and the second is for
 #' bootstrapping. If `boot.parallel` is FALSE, the inner param is set to
 #' `SerialParam`.
+#' @importFrom BiocParallel SerialParam
 #' @keywords internal
 get_nested_params <- function(BPPARAM, boot.parallel) {
   stopifnot("Only two BiocParallelParam objects can be used" = length(BPPARAM) <= 2)

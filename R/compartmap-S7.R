@@ -416,30 +416,42 @@ MultiCompartmapCall <- new_class(
       }
       unique_property
     }
+    unitarize_all <- function(i) {
+      if (!is_unitarized(i)) {
+        unitarize(i)
+      }
+    }
 
     unique_res <- all_same(resolution, "All resolutions must be the same")
     unique_gr <- all_same(granges, "All GRanges must contain the same ranges")
 
-    all_unitarized <- all(unique(unlist(lapply(ccalls, is_unitarized))))
-    if (unitarized & !all_unitarized) {
-      stop("Not all calls are unitarized - unitarize all inputs or run with `unitarize = TRUE`")
-    }
+    tryCatch(
+      all_unitarized <- all_same(is_unitarized, "All calls must be either unitarized or non-unitarized"),
+      error = function(e) {
+        if (unitarize) {
+          ccalls <- lapply(ccalls, unitarize_all)
+          all_unitarized <- TRUE
+        } else {
+          stop(e)
+        }
+      }
+    )
 
+    if (unitarized & !all_unitarized) {
+      stop(
+        "Calls are not unitarized but `unitarized` was set to TRUE ",
+        "- unitarize all inputs or run with `unitarize = TRUE`"
+      )
+    }
     if (unitarize) {
       if (all_unitarized) {
         message("All singular values already unitarized")
       } else {
-        ccalls <- lapply(seq_along(ccalls), function(i) {
-          if (!is_unitarized(ccalls[[i]])) {
-            return(unitarize(ccalls[[i]]))
-          }
-          ccalls[[i]]
-        })
+        ccalls <- unitarize_all(ccalls)
+        all_unitarized <- TRUE
       }
-      unitarized <- TRUE
     }
 
-    all_unitarized <- all_same(is_unitarized, "All calls must be either unitarized or non-unitarized")
     colorder <- sapply(ccalls, get_name)
     df <- rbindlist(lapply(ccalls, function(i) {
       DF(i)[, name := get_name(i)][, name := factor(name, levels = colorder)][]
@@ -452,7 +464,7 @@ MultiCompartmapCall <- new_class(
       gr = unique_gr[[1]],
       df = df,
       res = unique_res,
-      unitarized = unitarized,
+      unitarized = all_unitarized,
       seqinfo = methods::selectMethod('seqinfo', "GRanges")(unique_gr[[1]]),
       colnames = unlist(lapply(ccalls, get_name)),
       mat = mat

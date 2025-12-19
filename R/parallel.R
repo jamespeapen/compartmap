@@ -4,7 +4,7 @@
 check_optim <- function(workers, group, chr_count, bootstrap) {
   if (group & chr_count < workers[1]) {
     flog.info(
-      "Grouped inference with more outer workers than chromosmes leaves %d of %d workers unused",
+      "Grouped inference with more outer workers than chromosomes leaves %d of %d workers unused",
       workers[1] - chr_count,
       workers[1]
     )

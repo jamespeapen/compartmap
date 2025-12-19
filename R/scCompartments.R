@@ -69,10 +69,10 @@
 #' Unless you have only 1 chromosome or are not bootstrapping/not bootstrapping
 #' in parallel, you can use nested parallelism. If you are working on just 1
 #' chromosome, put all cores into the inner bootstrapping backend. Conversely
-#' with multiple chromosmes without bootstrapping, put all available workers in
+#' with multiple chromosomes without bootstrapping, put all available workers in
 #' the outer loop.
 #'
-#' In general, use more 'outer' workers, which loop over chromosmes when `group
+#' In general, use more 'outer' workers, which loop over chromosomes when `group
 #' = TRUE` and cells when `group = FALSE`, than 'inner' workers that loop over
 #' bootstraps. Using 8 outer and 7 inner workers is faster than 7 outer and 8
 #' inner.

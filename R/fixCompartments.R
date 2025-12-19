@@ -15,14 +15,16 @@
 #' @examples
 fixCompartments <- function(obj, min.conf = 0.8, parallel = FALSE, cores = 1) {
   # this function will invert or "fix" compartments based on bootstrapping results
-  if (is(obj, "RaggedExperiment")) obj <- condenseSE(obj, sample.name = colnames(assay(obj)))
+  if (is(obj, "RaggedExperiment")) {
+    obj <- condenseSE(obj, sample.name = colnames(assay(obj)))
+  }
 
   # if we somehow only have 1 sample
   if (is(obj, "GRanges")) {
     return(flipper(obj, min.conf))
   }
 
-  flog.info("Fixing compartments using a minimum confidence score of ", min.conf * 100, "%")
+  flog.info("Fixing compartments using a minimum confidence score of %d%%", min.conf * 100)
   # go through and invert compartments based on the min.conf
   flip_compartments_lst <- mclapply(obj, flipper, min.conf, mc.cores = ifelse(parallel, cores, 1))
   names(flip_compartments_lst) <- names(obj)

@@ -22,7 +22,7 @@ setGeneric("fixCompartments", function(x, min.conf = 0.8, parallel = FALSE, core
 #' @param x GRanges
 setMethod("fixCompartments", "GRanges", function(x, min.conf = 0.8, parallel = FALSE, cores = 1) {
   flog.debug("Assuming we only have a single sample to process.")
-  flog.debug("Fixing compartments using a minimum confidence score of %f %%", min.conf * 100)
+  flog.debug("Fixing compartments using a minimum confidence score of %d%%", min.conf * 100)
   flipper(x, min.conf)
 })
 
@@ -30,7 +30,7 @@ setMethod("fixCompartments", "GRanges", function(x, min.conf = 0.8, parallel = F
 #' @param x RaggedExperiment
 setMethod("fixCompartments", "RaggedExperiment", function(x, min.conf = 0.8, parallel = FALSE, cores = 1) {
   obj <- condenseSE(x, sample.name = colnames(assay(x)))
-  flog.info("Fixing compartments using a minimum confidence score of ", min.conf * 100, "%")
+  flog.info("Fixing compartments using a minimum confidence score of %d%%", min.conf * 100)
   # go through and invert compartments based on the min.conf
   flip_compartments_lst <- mclapply(obj, flipper, min.conf, mc.cores = ifelse(parallel, cores, 1))
   names(flip_compartments_lst) <- names(obj)

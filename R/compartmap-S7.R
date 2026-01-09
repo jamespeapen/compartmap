@@ -242,7 +242,10 @@ unitarize <- new_generic("unitarize", "x", function(x, medianCenter = TRUE) {
   S7_dispatch()
 })
 method(unitarize, CompartmentCall) <- function(x, medianCenter = TRUE) {
-  stopifnot("object is already unitarized" = isFALSE(x@unitarized))
+  if (is_unitarized(x)) {
+    message(get_name(x), " is already unitarized")
+    return(x)
+  }
 
   df <- x@df
   if (inherits(x, "compartmap::MultiCompartmapCall")) {

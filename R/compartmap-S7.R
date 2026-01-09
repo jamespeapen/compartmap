@@ -411,7 +411,7 @@ MultiCompartmapCall <- new_class(
     colnames = class_character,
     mat = new_S3_class(c("matrix", "array"))
   ),
-  constructor = function(ccalls, name, unitarized = FALSE, unitarize = FALSE) {
+  constructor = function(ccalls, name, unitarize = FALSE) {
     all_same <- function(prop_get, err) {
       unique_property <- unique(unlist(lapply(ccalls, prop_get)))
       if (length(unique_property) != 1) {
@@ -421,38 +421,31 @@ MultiCompartmapCall <- new_class(
     }
     unitarize_all <- function(i) {
       if (!is_unitarized(i)) {
-        unitarize(i)
+        return(unitarize(i))
       }
+      i
     }
 
     unique_res <- all_same(resolution, "All resolutions must be the same")
     unique_gr <- all_same(granges, "All GRanges must contain the same ranges")
 
-    tryCatch(
-      all_unitarized <- all_same(is_unitarized, "All calls must be either unitarized or non-unitarized"),
+    all_unitarized <- tryCatch(
+      all_same(
+        is_unitarized,
+        "All calls must be either unitarized or non-unitarized - set 'unitarize = TRUE' to unitarize them"
+      ),
       error = function(e) {
         if (unitarize) {
-          ccalls <- lapply(ccalls, unitarize_all)
-          all_unitarized <- TRUE
+          FALSE
         } else {
           stop(e)
         }
       }
     )
 
-    if (unitarized & !all_unitarized) {
-      stop(
-        "Calls are not unitarized but `unitarized` was set to TRUE ",
-        "- unitarize all inputs or run with `unitarize = TRUE`"
-      )
-    }
     if (unitarize) {
-      if (all_unitarized) {
-        message("All singular values already unitarized")
-      } else {
-        ccalls <- unitarize_all(ccalls)
-        all_unitarized <- TRUE
-      }
+      ccalls <- lapply(ccalls, unitarize)
+      all_unitarized <- TRUE
     }
 
     colorder <- sapply(ccalls, get_name)

@@ -2,6 +2,7 @@
 #' @param mat A matrix of compartment calls where each column is a single-cell
 #' or grouped set of singular values
 #' @importFrom utils combn
+#' @keywords internal
 #' @export
 get_agreement <- function(mat) {
   cmbs <- combn(1:ncol(mat), 2)

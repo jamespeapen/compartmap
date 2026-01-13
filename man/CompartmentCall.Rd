@@ -11,7 +11,7 @@ CompartmentCall(pc, res, gr, name = NULL, unitarized = FALSE)
 
 CompartmapCall(gr, res, name = NULL, unitarized = FALSE)
 
-MultiCompartmapCall(ccalls, name, unitarized = FALSE, unitarize = FALSE)
+MultiCompartmapCall(ccalls, name, unitarize = FALSE)
 
 scCompartmapCall(re, res, name, unitarized = FALSE, unitarize = FALSE)
 }

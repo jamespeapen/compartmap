@@ -13,3 +13,4 @@ or grouped set of singular values}
 \description{
 Compute sign agreement of a matrix of singular values
 }
+\keyword{internal}

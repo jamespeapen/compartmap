@@ -37,11 +37,13 @@ reference:
       - is_unitarized
   - subtitle: Methods
     contents:
+      - CompartmentCall
       - flip
       - unitarize
+      - is_unitarized
+      - get_name
+      - resolution
       - subset_chr
-      - corr
-      - agreement
       - fill_missing
       - starts_with("plot")
 - title: Compartment helper

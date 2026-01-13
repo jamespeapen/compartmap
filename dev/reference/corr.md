@@ -14,8 +14,3 @@ corr(x)
 - x:
 
   A `MultiCompartmapCall` object
-
-- ...:
-
-  Additional arguments to pass to
-  [`stats::cor()`](https://rdrr.io/r/stats/cor.html)

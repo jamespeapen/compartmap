@@ -583,7 +583,6 @@ method(agreement, MultiCompartmapCall) <- function(x) {
 #' MultiCompartmapCall object.
 #'
 #' @param x A `MultiCompartmapCall` object
-#' @param ... Additional arguments to pass to `stats::cor()`
 #'
 #' @importFrom stats cor
 #' @export

@@ -24,26 +24,20 @@ reference:
     contents:
       - scCompartments
       - getArrayABsignal
-  - title: Compartment analysis
-  - subtitle: Objects
+  - title: CompartmentCall objects and methods
     contents:
-      - has_keyword("CompartmentCall")
-  - subtitle: Property getters
-    contents:
-      - DF
-      - mat
-      - get_name
-      - resolution
-      - is_unitarized
-  - subtitle: Methods
-    contents:
+      - CompartmentCall
       - flip
       - unitarize
+      - is_unitarized
+      - get_name
+      - resolution
       - subset_chr
-      - corr
-      - agreement
       - fill_missing
-      - starts_with("plot")
+      - DF
+      - mat
+      - agreement
+      - corr
   - title: Compartment helper
     contents:
       - filterCompartments
@@ -81,7 +75,6 @@ reference:
       - getChrs
   - title: Stat functions
     contents:
-      - get_agreement
       - agrestiCoullCI
       - fexpit
       - fisherZ
@@ -126,4 +119,3 @@ reference:
       - k562_scrna_chr14
       - k562_scrna_se_chr14
       - ss3_umi_sce
-

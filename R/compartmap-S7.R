@@ -611,8 +611,8 @@ method(differentiate, MultiCompartmapCall) <- function(x) {
 #'
 #' @param x `MultiCompartmapCall`
 #' @param ... Placeholder for the `plot` generic - arguments have not effect
-#' @param type Whether to plot the singular values as `"line"` or `"bar"`
-#' plots. Bar plots will be facted by the `CompartmapCall` object name while the
+#' @param type Whether to plot the singular values as `"line"`plots. Bar plots
+#' will be facted by the individual `CompartmapCall` object names while the
 #' line plots are overlayed.
 #' @param label_coords Label the x-axis with genomic coordinates. Uses a
 #' numeric index when set to `FALSE`. Using coordinate labels can severely
@@ -645,12 +645,14 @@ method(differentiate, MultiCompartmapCall) <- function(x) {
     type,
     line = {
       ggplot(pd, aes(x = .data[[x_axis]], y = pc, color = name, group = name)) +
-        geom_line(linewidth = width)
+        geom_line()
     },
     bar = {
-      ggplot(pd, aes(x = .data[[x_axis]], y = pc, group = name)) +
+      ggplot(pd, aes(x = .data[[x_axis]], y = pc, group = name, fill = pc > 0)) +
         geom_col(width = width) +
-        facet_grid(rows = vars(name))
+        facet_grid(rows = vars(name)) +
+        scale_fill_manual(values = c("deeppink4", "grey50")) +
+        theme(legend.position = "none")
     }
   )
 

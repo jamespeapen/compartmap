@@ -10,7 +10,7 @@
   type = "line",
   label_coords = FALSE,
   res = "mb",
-  width = 0.5,
+  width = 1,
   ylim = c(-1, 1)
 )
 }
@@ -19,8 +19,8 @@
 
 \item{...}{Placeholder for the \code{plot} generic - arguments have not effect}
 
-\item{type}{Whether to plot the singular values as \code{"line"} or \code{"bar"}
-plots. Bar plots will be facted by the \code{CompartmapCall} object name while the
+\item{type}{Whether to plot the singular values as \code{"line"}plots. Bar plots
+will be facted by the individual \code{CompartmapCall} object names while the
 line plots are overlayed.}
 
 \item{label_coords}{Label the x-axis with genomic coordinates. Uses a

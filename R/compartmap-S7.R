@@ -631,7 +631,7 @@ method(differentiate, MultiCompartmapCall) <- function(x) {
   type = "line",
   label_coords = FALSE,
   res = "mb",
-  width = 0.5,
+  width = 1.0,
   ylim = c(-1, 1)
 ) {
   pd <- x@df

@@ -593,6 +593,20 @@ method(corr, MultiCompartmapCall) <- function(x) {
   cor(x@mat)
 }
 
+#' Differentiate singular vectors in the MultiCompartmentCall object
+#'
+#' @param x A `MultiCompartmentCall` object
+#'
+#' @export
+differentiate <- new_generic("differentiate", "x", function(x) {
+  S7_dispatch()
+})
+method(differentiate, MultiCompartmapCall) <- function(x) {
+  x@df <- x@df[, .(pc = c(NA, diff(pc[-1])) / diff(n)), by = "name"][, n := seq_len(.N), by = "name"] |> na.omit()
+  x@mat <- as.matrix(dcast(x@df, n ~ name, value.var = "pc")[, -1])
+  x
+}
+
 #' Plot singular values from a `MultiCompartmapCall` object
 #'
 #' @param x `MultiCompartmapCall`

@@ -77,6 +77,8 @@ CompartmentCall <- new_class(
     df = methods::getClass("data.table"),
     res = class_numeric,
     unitarized = class_logical,
+    filtered = class_logical,
+    filter_threshold = class_numeric,
     seqinfo = methods::getClass("Seqinfo")
   ),
   constructor = function(pc, res, gr, name = NULL, unitarized = FALSE) {
@@ -88,6 +90,8 @@ CompartmentCall <- new_class(
       df = df,
       res = res,
       unitarized = unitarized,
+      filtered = FALSE,
+      filter_threshold = 0,
       seqinfo = methods::selectMethod('seqinfo', "GRanges")(gr)
     )
   }
@@ -306,6 +310,49 @@ method(fill_missing, CompartmentCall) <- function(x, ref.gr) {
   x
 }
 
+#' Filter to bins with call values greater than or equal to a threshold value
+#'
+#' @param x A `CompartmentCall` object
+#' @param threshold The absolute value to use for filtering. Rows where any
+#' value is less than this threshold are dropped
+#'
+#' @export
+filter <- new_generic("filter", "x", function(x, threshold = 0.02) {
+  S7_dispatch()
+})
+method(filter, CompartmentCall) <- function(x, threshold = 0.02) {
+  filter_rows <- x@df[, abs(pc) >= threshold]
+  x <- x[filter_rows]
+  x@filtered <- TRUE
+  x@filter_threshold <- threshold
+  x
+}
+
+#' Check if the `CompartmentCall` was filtered.
+#'
+#' @param x A `CompartmentCall` object
+#'
+#' @export
+is_filtered <- new_generic("is_filtered", "x", function(x) {
+  S7_dispatch()
+})
+method(is_filtered, CompartmentCall) <- function(x) {
+  x@filtered
+}
+
+#' Check the threshold at which an object's calls were filtered, returning 0 if not filtered
+#'
+#' @param x A `CompartmentCall` object
+#'
+#' @export
+get_filter_threshold <- new_generic("filter_threshold", "x", function(x) {
+  S7_dispatch()
+})
+method(get_filter_threshold, CompartmentCall) <- function(x) {
+  x@filter_threshold
+}
+
+
 #' Plot singular values of a `CompartmentCall` object
 #'
 #' @param x `CompartmentCall` or `CompartmapCall` object
@@ -364,12 +411,15 @@ method(print, CompartmentCall) <- function(x, ...) {
   @res         : %s
   @gr          : GRanges with %d bins
   @df          : data.table of compartment calls (n = bin index, pc = singular values)
-  @unitarized  : %s",
+  @unitarized  : %s
+  @filtered    : %s%s",
     class_type,
     x@name,
     .resolution(x@res),
     length(x@gr),
-    x@unitarized
+    x@unitarized,
+    x@filtered,
+    ifelse(x@filtered, paste(", for absolute values >=", x@filter_threshold), "")
   )
 }
 
@@ -389,6 +439,8 @@ CompartmapCall <- new_class(
       df = df,
       res = res,
       unitarized = unitarized,
+      filtered = FALSE,
+      filter_threshold = 0,
       seqinfo = methods::selectMethod("seqinfo", "GRanges")(gr)
     )
   }

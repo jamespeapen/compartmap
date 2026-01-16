@@ -623,7 +623,7 @@ method(differentiate, MultiCompartmapCall) <- function(x) {
 #' of the bar if `type = "bar"` in the plot
 #' @param ylim Upper and lower bound for the y-axis
 #'
-#' @importFrom ggplot2 ggplot geom_line geom_col scale_y_continuous theme element_text facet_grid vars
+#' @importFrom ggplot2 ggplot geom_line geom_col scale_y_continuous theme element_text facet_grid vars scale_fill_manual
 #' @export
 `plot.compartmap::MultiCompartmapCall` <- function(
   x,

@@ -452,6 +452,8 @@ S4_register(CompartmapCall)
 #' @param ccalls A list of `CompartmapCalls` to combine
 #' @param name An identifier for this set of compartment calls
 #' @param unitarize Whether to unitarize the singular values for each of the inputs calls
+#' @param filter Whether to filter the singular values
+#' @param filter_threshold The threshold at which to filter the singular values
 #'
 #' @importFrom data.table rbindlist dcast
 #' @keywords CompartmentCall
@@ -463,7 +465,7 @@ MultiCompartmapCall <- new_class(
     colnames = class_character,
     mat = new_S3_class(c("matrix", "array"))
   ),
-  constructor = function(ccalls, name, unitarize = FALSE) {
+  constructor = function(ccalls, name, unitarize = FALSE, filter = FALSE, filter_threshold = 0.02) {
     all_same <- function(prop_get, err) {
       unique_property <- unique(unlist(lapply(ccalls, prop_get)))
       if (length(unique_property) != 1) {
@@ -480,6 +482,8 @@ MultiCompartmapCall <- new_class(
 
     unique_res <- all_same(resolution, "All resolutions must be the same")
     unique_gr <- all_same(granges, "All GRanges must contain the same ranges")
+    all_filtered <- all_same(is_filtered, "All objects must be filtered")
+    all_ft <- all_same(get_filter_threshold, "All objects must be filtered to the same threshold")
 
     all_unitarized <- tryCatch(
       all_same(
@@ -498,6 +502,7 @@ MultiCompartmapCall <- new_class(
     if (unitarize) {
       ccalls <- lapply(ccalls, unitarize)
       all_unitarized <- TRUE
+      all_ft <- filter_threshold
     }
 
     colorder <- sapply(ccalls, get_name)
@@ -506,17 +511,24 @@ MultiCompartmapCall <- new_class(
     }))
     mat <- as.matrix(dcast(df, n ~ name, value.var = "pc")[, -1])
 
-    new_object(
+    obj <- new_object(
       S7_object(),
       name = name,
       gr = unique_gr[[1]],
       df = df,
       res = unique_res,
       unitarized = all_unitarized,
+      filtered = all_filtered,
+      filter_threshold = all_ft,
       seqinfo = methods::selectMethod('seqinfo', "GRanges")(unique_gr[[1]]),
       colnames = unlist(lapply(ccalls, get_name)),
       mat = mat
     )
+
+    if (filter) {
+      obj <- filter(obj, threshold = filter_threshold)
+    }
+    obj
   },
   validator = function(self) {
     if (length(self@colnames) != length(unique(self@colnames))) {
@@ -618,6 +630,16 @@ method(print, MultiCompartmapCall) <- function(x, ...) {
   x
 }
 
+#' @export
+method(filter, MultiCompartmapCall) <- function(x, threshold = 0.02) {
+  filter_rows <- apply(x@mat, 1, function(i) {
+    all(abs(i) >= threshold)
+  })
+  x <- x[filter_rows]
+  x@filtered <- TRUE
+  x@filter_threshold <- threshold
+  x
+}
 
 #' Compute agreement between compartment calls
 #'

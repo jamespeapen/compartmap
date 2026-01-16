@@ -592,6 +592,11 @@ method(print, MultiCompartmapCall) <- function(x, ...) {
   i <- i %||% seq_len(nrow(x@mat))
   j <- j %||% seq_len(ncol(x@mat))
 
+  if (is.logical(i)) {
+    i <- which(i)
+  } else if (!is.numeric(i)) {
+    stop("Unsupported type for subsetting columns")
+  }
   stopifnot("i exceeds the row count of x" = i <= nrow(x@mat))
 
   if (is.numeric(j)) {

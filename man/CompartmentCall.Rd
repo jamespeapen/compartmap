@@ -11,7 +11,13 @@ CompartmentCall(pc, res, gr, name = NULL, unitarized = FALSE)
 
 CompartmapCall(gr, res, name = NULL, unitarized = FALSE)
 
-MultiCompartmapCall(ccalls, name, unitarize = FALSE)
+MultiCompartmapCall(
+  ccalls,
+  name,
+  unitarize = FALSE,
+  filter = FALSE,
+  filter_threshold = 0.02
+)
 
 scCompartmapCall(re, res, name, unitarized = FALSE, unitarize = FALSE)
 }
@@ -30,6 +36,10 @@ scCompartmapCall(re, res, name, unitarized = FALSE, unitarize = FALSE)
 \item{ccalls}{A list of \code{CompartmapCalls} to combine}
 
 \item{unitarize}{Whether to unitarize the singular values for each of the inputs calls}
+
+\item{filter}{Whether to filter the singular values}
+
+\item{filter_threshold}{The threshold at which to filter the singular values}
 
 \item{re}{A \code{RaggedExperiment} of single-cell compartment calls}
 }

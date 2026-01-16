@@ -249,10 +249,10 @@ method(unitarize, CompartmentCall) <- function(x, medianCenter = TRUE) {
 
   df <- x@df
   if (inherits(x, "compartmap::MultiCompartmapCall")) {
-    x@mat <- apply(x@mat, 2, .unitarize)
-    x@df <- x@df[, .(n, pc = .unitarize(pc)), by = name][, .(n, pc, name)]
+    x@mat <- apply(x@mat, 2, .unitarize, medianCenter = medianCenter)
+    x@df <- x@df[, .(n, pc = .unitarize(pc, medianCenter = medianCenter)), by = name][, .(n, pc, name)]
   } else {
-    x@df <- x@df[, .(n, pc = .unitarize(pc), name)]
+    x@df <- x@df[, .(n, pc = .unitarize(pc, medianCenter = medianCenter), name)]
   }
 
   x@unitarized <- TRUE

@@ -23,7 +23,7 @@ reference:
   - title: Compartment mapping
     contents:
       - scCompartments
-      - getArrayABsignal
+      - arrayCompartments
   - title: CompartmentCall objects and methods
     contents:
       - CompartmentCall

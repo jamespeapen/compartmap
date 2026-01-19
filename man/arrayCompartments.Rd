@@ -8,18 +8,16 @@ arrayCompartments(
   obj,
   res = 1000000,
   chr = NULL,
+  group = FALSE,
   targets = NULL,
-  preprocess = TRUE,
-  parallel = TRUE,
-  cores = 2,
   bootstrap = TRUE,
   num.bootstraps = 1000,
-  boot.parallel = TRUE,
-  boot.cores = 2,
+  preprocess = TRUE,
+  array.type = c("hm450", "EPIC"),
   genome = c("hg19", "hg38", "mm9", "mm10"),
-  group = FALSE,
   other = NULL,
-  array.type = c("hm450", "EPIC")
+  boot.parallel = TRUE,
+  BPPARAM = bpparam()
 )
 }
 \arguments{
@@ -29,35 +27,100 @@ arrayCompartments(
 
 \item{chr}{What chromosome to work on (leave as NULL to run on all chromosomes)}
 
+\item{group}{Whether to treat this as a group set of samples}
+
 \item{targets}{Samples/cells to shrink towards}
-
-\item{preprocess}{Whether to preprocess the arrays prior to compartment inference}
-
-\item{parallel}{Whether to run samples in parallel}
-
-\item{cores}{How many cores to use when running samples in parallel}
 
 \item{bootstrap}{Whether we should perform bootstrapping of inferred compartments}
 
 \item{num.bootstraps}{How many bootstraps to run}
 
-\item{boot.parallel}{Whether to run the bootstrapping in parallel}
+\item{preprocess}{Whether to preprocess the arrays prior to compartment inference}
 
-\item{boot.cores}{How many cores to use for the bootstrapping}
+\item{array.type}{What type of array is this ("hm450", "EPIC")}
 
 \item{genome}{What genome to work on ("hg19", "hg38", "mm9", "mm10")}
 
-\item{group}{Whether to treat this as a group set of samples}
-
 \item{other}{Another arbitrary genome to compute compartments on}
 
-\item{array.type}{What type of array is this ("hm450", "EPIC")}
+\item{boot.parallel}{Whether to run the bootstrapping in parallel. See details.}
+
+\item{BPPARAM}{BiocParallelParam object to use for parallelization. See details.}
 }
 \value{
 A RaggedExperiment of inferred compartments
 }
 \description{
 \code{arrayCompartments} returns estimated A/B compartments from methylation array data.
+}
+\details{
+compartmap uses \code{BiocParallel} to parallelize operations in four
+configurations. The default setting is to parallelize across columns but not
+bootstraps using the thread count as reported by \code{BiocParallel::bpparam()},
+which is usually two cores fewer than the number of available cores.
+Parallel bootstrapping is disabled by default to avoid nested parallelism
+issues but can be done independent of column-wise parallelization.
+\subsection{Available configurations}{
+\subsection{Serial bootstrapping}{
+\itemize{
+\item Serially with just one core:
+\code{BPPARAM = BiocParallel::SerialParam()}
+\item Parallel across columns and serially across bootstraps:
+\code{BPPARAM = BiocParallel::MulticoreParam(n)} where \code{n} is the number of
+threads to use
+}
+
+See \code{?BiocParallel::BiocParallelParam} for other parallel backends. Parallel
+backends may also be passed to \code{BiocParallel::register()} to make them
+available to \code{bpparam()}.
+}
+
+\subsection{Parallel bootstrapping}{
+
+Set \code{boot.parallel = TRUE} for one the these configurations:
+\itemize{
+\item Serially across columns and parallel across bootstraps: Set `BPPARAM =
+list(SerialParam(), MulticoreParam(n))'
+\item Parallel across both columns and bootstraps: Set \code{BPPARAM = list(MulticoreParam(outer), MulticoreParam(inner))} where \code{outer} is the
+thread count for column-wise operations and \code{inner} the thread count for
+bootstrapping. The required number of threads is given by
+}
+
+\code{( outer * inner ) + outer}
+
+which is more easily calculated as \code{outer * (inner + 1)}.
+
+We recommend using an explicit list of two BiocParallelParam backends over
+relying on \code{register()} and \code{bpparam()} for parallelizing across bootstraps.
+With nested \code{bplapply} calls, the registered backend is used for both the
+outer and inner parallel loops. On a system with 8 available threads if the
+registered backend asks for 4 workers, it will try to use 20 threads in the
+nested loops. Instead to use all 8 cores, set
+\code{BPPARAM = list(MulticoreParam(2), MulticoreParam(3))}.
+}
+
+\subsection{Load balancing}{
+
+Unless you have only 1 chromosome or are not bootstrapping/not bootstrapping
+in parallel, you can use nested parallelism. If you are working on just 1
+chromosome, put all cores into the inner bootstrapping backend. Conversely
+with multiple chromosomes without bootstrapping, put all available workers in
+the outer loop.
+
+In general, use more 'outer' workers, which loop over chromosomes when \code{group = TRUE} and cells when \code{group = FALSE}, than 'inner' workers that loop over
+bootstraps. Using 8 outer and 7 inner workers is faster than 7 outer and 8
+inner.
+
+When \code{group = FALSE}, use \code{MulticoreParam()} only on the outer workers. We
+find that parallelizing at both column and bootstrap levels with the
+single-cell inference is slower than only parallelizing at the column-level.
+
+With \code{group = TRUE}, minimize the difference between the two worker counts:
+with 64 total cores, doing 8 outer and 7 inner is faster than 16 outer and 3
+inner.
+}
+
+}
 }
 \examples{
 

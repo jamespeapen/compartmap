@@ -1,20 +1,21 @@
+#' Run compartment inference
+#' @importFrom BiocParallel bplapply
+#' @importFrom futile.logger flog.info flog.debug
 getCompartments <- function(
   obj,
-  assay,
   res,
-  parallel,
   chr,
+  group,
   targets,
-  cores,
   bootstrap,
   num.bootstraps,
-  boot.parallel,
-  boot.cores,
   genome,
-  group
+  assay,
+  boot.parallel,
+  bpparams
 ) {
   if (is.null(chr)) {
-    message("Assuming we want to process all chromosomes.")
+    flog.info("Assuming we want to process all chromosomes.")
     chr <- getChrs(obj)
   }
 
@@ -25,65 +26,80 @@ getCompartments <- function(
   prior.means <- getGlobalMeans(obj = obj, targets = targets, assay = assay)
 
   if (bootstrap) {
-    message("Pre-computing the bootstrap global means.")
+    flog.info("Pre-computing the bootstrap global means.")
     bmeans <- precomputeBootstrapMeans(
       obj = obj,
+      BPPARAM = bpparams[[1]],
       targets = targets,
       num.bootstraps = num.bootstraps,
-      assay = assay,
-      parallel = parallel,
-      num.cores = cores
+      assay = assay
     )
   }
 
+  boot_msg <- ""
+  if (bootstrap & boot.parallel) {
+    boot_msg <- sprintf("Bootstrapping in parallel with %d cores", bpnworkers(bpparams[[2]]))
+  } else if (bootstrap & !boot.parallel & group) {
+    boot_msg <- "Not bootstrapping in parallel could take a long time..."
+  }
+
   if (group) {
-    compartments.list <- mclapply(chr, function(c) {
-      .getCompartments(
-        obj,
-        obj,
-        assay = assay,
-        res = res,
-        chr = c,
-        targets = targets,
-        genome = genome,
-        bootstrap = bootstrap,
-        num.bootstraps = num.bootstraps,
-        prior.means = prior.means,
-        parallel = boot.parallel,
-        cores = boot.cores,
-        group = group,
-        bootstrap.means = bmeans
-      )
-    }, mc.cores = ifelse(parallel, cores, 1))
+    flog.info("Computing group level compartments")
+    flog.info(boot_msg)
+    compartments.list <- bplapply(
+      chr,
+      function(c) {
+        .getCompartments(
+          obj,
+          obj,
+          assay = assay,
+          BPPARAM = bpparams[[2]],
+          res = res,
+          chr = c,
+          group = group,
+          targets = targets,
+          genome = genome,
+          prior.means = prior.means,
+          bootstrap = bootstrap,
+          num.bootstraps = num.bootstraps,
+          bootstrap.means = bmeans
+        )
+      },
+      BPPARAM = bpparams[[1]]
+    )
 
     compartments <- sort(unlist(as(compartments.list, "GRangesList")))
     return(compartments)
   }
 
-  compartments <- mclapply(columns, function(s) {
-    obj.sub <- obj[, s]
+  flog.info("Computing single-cell level compartments")
+  flog.info(boot_msg)
+  compartments <- bplapply(
+    columns,
+    function(s) {
+      obj.sub <- obj[, s]
 
-    message("Working on ", s)
-    compartments.list <- lapply(chr, function(c) {
+      compartments.list <- lapply(chr, function(c) {
       .getCompartments(
         obj.sub,
         obj,
         assay = assay,
+        BPPARAM = bpparams[[2]],
         res = res,
         chr = c,
+        group = group,
         targets = targets,
         genome = genome,
-        bootstrap = bootstrap,
         prior.means = prior.means,
+        bootstrap = bootstrap,
         num.bootstraps = num.bootstraps,
-        parallel = boot.parallel,
-        cores = boot.cores,
-        group = group,
         bootstrap.means = bmeans
       )
     })
-    sort(unlist(as(compartments.list, "GRangesList")))
-  }, mc.cores = ifelse(parallel, cores, 1), mc.preschedule = F)
+      sort(unlist(as(compartments.list, "GRangesList")))
+    },
+    BPPARAM = bpparams[[1]]
+  )
 
   compartments <- as(compartments, "CompressedGRangesList")
   RaggedExperiment(compartments, colData = colData(obj))
@@ -94,24 +110,21 @@ getCompartments <- function(
   obj,
   original.obj,
   assay,
+  BPPARAM,
   res = 1e6,
   chr = NULL,
+  group = FALSE,
   targets = NULL,
   genome = c("hg19", "hg38", "mm9", "mm10"),
   prior.means = NULL,
   bootstrap = TRUE,
   num.bootstraps = 1000,
-  parallel = FALSE,
-  cores = 2,
-  group = FALSE,
   bootstrap.means = NULL
 ) {
   genome <- match.arg(genome)
 
-  if (parallel) options(mc.cores = cores)
-
   # update
-  message("Computing compartments for ", chr)
+  flog.debug("Computing compartments for %s", chr)
   obj <- keepSeqlevels(obj, chr, pruning.mode = "coarse")
   original.obj <- keepSeqlevels(original.obj, chr, pruning.mode = "coarse")
 
@@ -164,17 +177,16 @@ getCompartments <- function(
   bootstrapCompartments(
     obj,
     original.obj,
+    BPPARAM = BPPARAM,
     bootstrap.samples = num.bootstraps,
     chr = chr,
+    group = group,
     assay = assay,
-    parallel = parallel,
-    cores = cores,
     targets = targets,
     res = res,
     genome = genome,
     q = 0.95,
     svd = obj.svd,
-    group = group,
     bootstrap.means = bmeans
   )
 }

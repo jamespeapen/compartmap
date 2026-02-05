@@ -127,6 +127,7 @@ method(DF, CompartmentCall) <- function(x) {
   x@df <- x@df[i]
   x@df[, n := .I][]
   x@gr <- x@gr[i]
+  seqlevels(x@gr) <- seqlevelsInUse(x@gr)
   x
 }
 
@@ -624,6 +625,7 @@ method(print, MultiCompartmapCall) <- function(x, ...) {
   }
 
   x@gr <- x@gr[i]
+  seqlevels(x@gr) <- seqlevelsInUse(x@gr)
   x@mat <- x@mat[i, j, drop = FALSE]
   x@df <- x@df[n %in% i & name %in% subset_names]
   x@df[, n := seq_len(.N), by = name][]

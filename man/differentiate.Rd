@@ -2,7 +2,7 @@
 % Please edit documentation in R/compartmap-S7.R
 \name{differentiate}
 \alias{differentiate}
-\title{Differentiate singular vectors in the MultiCompartmentCall object}
+\title{Compute the direction of change of singular vectors in the MultiCompartmentCall object}
 \usage{
 differentiate(x)
 }
@@ -10,5 +10,5 @@ differentiate(x)
 \item{x}{A \code{MultiCompartmentCall} object}
 }
 \description{
-Differentiate singular vectors in the MultiCompartmentCall object
+The direction of change is computed by chromosome
 }

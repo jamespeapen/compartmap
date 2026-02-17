@@ -30,7 +30,6 @@ reference:
     - fixCompartments
     - extractOpenClosed
     - getABSignal
-    - getRNAABsignal
 - title: Correlation matrix
   contents:
     - estRMT

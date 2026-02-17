@@ -43,6 +43,10 @@
       ];
 
       rDevDeps = with pkgs.rPackages; [
+        TxDb_Hsapiens_UCSC_hg19_knownGene
+        TxDb_Hsapiens_UCSC_hg38_knownGene
+        TxDb_Mmusculus_UCSC_mm9_knownGene
+        TxDb_Mmusculus_UCSC_mm10_knownGene
         biocthis
         covr
         devtools

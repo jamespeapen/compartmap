@@ -26,7 +26,8 @@ library(Mus.musculus)
 mm10.gr <- as(seqinfo(Mus.musculus), "GRanges")
 
 #save
-save(hg19.gr, file = "~/git_repos/compartmap/data/hg19_gr.rda")
-save(hg38.gr, file = "~/git_repos/compartmap/data/hg38_gr.rda")
-save(mm9.gr, file = "~/git_repos/compartmap/data/mm9_gr.rda")
-save(mm10.gr, file = "~/git_repos/compartmap/data/mm10_gr.rda")
+save(hg19.gr, file = "../../data/hg19_gr.rda")
+save(hg38.gr, file = "../../data/hg38_gr.rda")
+save(mm9.gr, file = "../../data/mm9_gr.rda")
+save(mm10.gr, file = "../../data/mm10_gr.rda")
+

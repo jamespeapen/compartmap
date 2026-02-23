@@ -34,7 +34,6 @@
 #'   array_compartments <- arrayCompartments(
 #'     array.data.chr14,
 #'     chr="chr14",
-#'     parallel=FALSE,
 #'     bootstrap=FALSE,
 #'     genome="hg19",
 #'     array.type="hm450"

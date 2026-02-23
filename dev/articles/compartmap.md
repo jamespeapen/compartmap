@@ -39,7 +39,8 @@ k562_compartments <- scCompartments(
   group = TRUE,
   bootstrap = FALSE,
   genome = "hg19",
-  assay = "rna"
+  assay = "rna",
+  BPPARAM = BiocParallel::MulticoreParam(2)
 )
 ```
 
@@ -62,7 +63,8 @@ k562_compartments.boot <- scCompartments(
   bootstrap = TRUE,
   num.bootstraps = 10,
   genome = "hg19",
-  assay = "rna"
+  assay = "rna",
+  BPPARAM = BiocParallel::MulticoreParam(2)
 )
 
 # Flip the domain sign if the sign coherence is discordant in 80% of the bootstraps
@@ -72,73 +74,74 @@ k562_compartments.boot.fix <- fixCompartments(
 )
 
 # Look at the first cell in the GRangesList object
-k562_compartments.boot.fix[[1]]
+k562_compartments.grlist <- condenseSE(k562_compartments.boot.fix)
+k562_compartments.grlist[[1]]
 ## GRanges object with 89 ranges and 13 metadata columns:
-##                             seqnames              ranges strand |         pc
-##                                <Rle>           <IRanges>  <Rle> |  <numeric>
-##     chr14:19000000-19999999    chr14   19000000-19999999      * |  -1.857418
-##     chr14:20000000-20999999    chr14   20000000-20999999      * |  -1.191918
-##     chr14:21000000-21999999    chr14   21000000-21999999      * |  -0.909080
-##     chr14:22000000-22999999    chr14   22000000-22999999      * |  -0.609605
-##     chr14:23000000-23999999    chr14   23000000-23999999      * |  -0.509780
-##                         ...      ...                 ...    ... .        ...
-##   chr14:103000000-103999999    chr14 103000000-103999999      * | -0.0605680
-##   chr14:104000000-104999999    chr14 104000000-104999999      * |  0.0891695
-##   chr14:105000000-105999999    chr14 105000000-105999999      * |  0.2389070
-##   chr14:106000000-106999999    chr14 106000000-106999999      * |  0.3886444
-##   chr14:107000000-107349539    chr14 107000000-107349539      * |  0.5383819
-##                             compartments      score boot.open boot.closed
-##                              <character>  <numeric> <numeric>   <numeric>
-##     chr14:19000000-19999999       closed  -1.857418         1           9
-##     chr14:20000000-20999999       closed  -1.191918         0          10
-##     chr14:21000000-21999999       closed  -0.909080         0          10
-##     chr14:22000000-22999999       closed  -0.609605         0          10
-##     chr14:23000000-23999999       closed  -0.509780         0          10
-##                         ...          ...        ...       ...         ...
-##   chr14:103000000-103999999       closed -0.0605680         4           6
-##   chr14:104000000-104999999         open  0.0891695         9           1
-##   chr14:105000000-105999999         open  0.2389070        10           0
-##   chr14:106000000-106999999         open  0.3886444        10           0
-##   chr14:107000000-107349539         open  0.5383819        10           0
+##                             seqnames              ranges strand |        pc
+##                                <Rle>           <IRanges>  <Rle> | <numeric>
+##     chr14:19000000-19999999    chr14   19000000-19999999      * | -1.034296
+##     chr14:20000000-20999999    chr14   20000000-20999999      * | -0.645186
+##     chr14:21000000-21999999    chr14   21000000-21999999      * | -0.617392
+##     chr14:22000000-22999999    chr14   22000000-22999999      * | -0.492321
+##     chr14:23000000-23999999    chr14   23000000-23999999      * | -0.534011
+##                         ...      ...                 ...    ... .       ...
+##   chr14:103000000-103999999    chr14 103000000-103999999      * |  0.591628
+##   chr14:104000000-104999999    chr14 104000000-104999999      * |  0.591628
+##   chr14:105000000-105999999    chr14 105000000-105999999      * |  0.466557
+##   chr14:106000000-106999999    chr14 106000000-106999999      * |  0.591628
+##   chr14:107000000-107349539    chr14 107000000-107349539      * |  0.966842
+##                             compartments     score boot.open boot.closed
+##                              <character> <numeric> <numeric>   <numeric>
+##     chr14:19000000-19999999       closed -1.034296         4           6
+##     chr14:20000000-20999999       closed -0.645186         4           6
+##     chr14:21000000-21999999       closed -0.617392         4           6
+##     chr14:22000000-22999999       closed -0.492321         3           7
+##     chr14:23000000-23999999       closed -0.534011         3           7
+##                         ...          ...       ...       ...         ...
+##   chr14:103000000-103999999         open  0.591628         7           3
+##   chr14:104000000-104999999         open  0.591628         7           3
+##   chr14:105000000-105999999         open  0.466557         7           3
+##   chr14:106000000-106999999         open  0.591628         7           3
+##   chr14:107000000-107349539         open  0.966842         6           4
 ##                              conf.est conf.est.lowerCI conf.est.upperCI
 ##                             <numeric>        <numeric>        <numeric>
-##     chr14:19000000-19999999  0.788987         0.574032                1
-##     chr14:20000000-20999999  0.861234         0.679113                1
-##     chr14:21000000-21999999  0.861234         0.679113                1
-##     chr14:22000000-22999999  0.861234         0.679113                1
-##     chr14:23000000-23999999  0.861234         0.679113                1
+##     chr14:19000000-19999999  0.572247         0.311604         0.832889
+##     chr14:20000000-20999999  0.572247         0.311604         0.832889
+##     chr14:21000000-21999999  0.572247         0.311604         0.832889
+##     chr14:22000000-22999999  0.644493         0.392325         0.896662
+##     chr14:23000000-23999999  0.644493         0.392325         0.896662
 ##                         ...       ...              ...              ...
-##   chr14:103000000-103999999  0.572247         0.311604         0.832889
-##   chr14:104000000-104999999  0.788987         0.574032         1.000000
-##   chr14:105000000-105999999  0.861234         0.679113         1.000000
-##   chr14:106000000-106999999  0.861234         0.679113         1.000000
-##   chr14:107000000-107349539  0.861234         0.679113         1.000000
+##   chr14:103000000-103999999  0.644493         0.392325         0.896662
+##   chr14:104000000-104999999  0.644493         0.392325         0.896662
+##   chr14:105000000-105999999  0.644493         0.392325         0.896662
+##   chr14:106000000-106999999  0.644493         0.392325         0.896662
+##   chr14:107000000-107349539  0.572247         0.311604         0.832889
 ##                             flip.compartment flip.score flip.conf.est
 ##                                    <logical>  <numeric>     <numeric>
-##     chr14:19000000-19999999            FALSE  -1.857418      0.788987
-##     chr14:20000000-20999999            FALSE  -1.191918      0.861234
-##     chr14:21000000-21999999            FALSE  -0.909080      0.861234
-##     chr14:22000000-22999999            FALSE  -0.609605      0.861234
-##     chr14:23000000-23999999            FALSE  -0.509780      0.861234
+##     chr14:19000000-19999999            FALSE  -1.034296      0.572247
+##     chr14:20000000-20999999            FALSE  -0.645186      0.572247
+##     chr14:21000000-21999999            FALSE  -0.617392      0.572247
+##     chr14:22000000-22999999            FALSE  -0.492321      0.644493
+##     chr14:23000000-23999999            FALSE  -0.534011      0.644493
 ##                         ...              ...        ...           ...
-##   chr14:103000000-103999999            FALSE -0.0605680      0.572247
-##   chr14:104000000-104999999            FALSE  0.0891695      0.788987
-##   chr14:105000000-105999999            FALSE  0.2389070      0.861234
-##   chr14:106000000-106999999            FALSE  0.3886444      0.861234
-##   chr14:107000000-107349539            FALSE  0.5383819      0.861234
+##   chr14:103000000-103999999            FALSE   0.591628      0.644493
+##   chr14:104000000-104999999            FALSE   0.591628      0.644493
+##   chr14:105000000-105999999            FALSE   0.466557      0.644493
+##   chr14:106000000-106999999            FALSE   0.591628      0.644493
+##   chr14:107000000-107349539            FALSE   0.966842      0.572247
 ##                             flip.conf.est.upperCI flip.conf.est.lowerCI
 ##                                         <numeric>             <numeric>
-##     chr14:19000000-19999999                     1              0.574032
-##     chr14:20000000-20999999                     1              0.679113
-##     chr14:21000000-21999999                     1              0.679113
-##     chr14:22000000-22999999                     1              0.679113
-##     chr14:23000000-23999999                     1              0.679113
+##     chr14:19000000-19999999              0.832889              0.311604
+##     chr14:20000000-20999999              0.832889              0.311604
+##     chr14:21000000-21999999              0.832889              0.311604
+##     chr14:22000000-22999999              0.896662              0.392325
+##     chr14:23000000-23999999              0.896662              0.392325
 ##                         ...                   ...                   ...
-##   chr14:103000000-103999999              0.832889              0.311604
-##   chr14:104000000-104999999              1.000000              0.574032
-##   chr14:105000000-105999999              1.000000              0.679113
-##   chr14:106000000-106999999              1.000000              0.679113
-##   chr14:107000000-107349539              1.000000              0.679113
+##   chr14:103000000-103999999              0.896662              0.392325
+##   chr14:104000000-104999999              0.896662              0.392325
+##   chr14:105000000-105999999              0.896662              0.392325
+##   chr14:106000000-106999999              0.896662              0.392325
+##   chr14:107000000-107349539              0.832889              0.311604
 ##   -------
 ##   seqinfo: 1 sequence from an unspecified genome; no seqlengths
 ```
@@ -161,7 +164,7 @@ confidence intervals and median confidence estimate:
 
 ``` r
 plotAB(
-  k562_compartments.boot.fix[[1]],
+  k562_compartments.grlist[[1]],
   chr = "chr14",
   with.ci = TRUE,
   median.conf = TRUE
@@ -198,7 +201,7 @@ we extract single-cell domain inflections:
 
 ``` r
 k562_cell_1_inflections <- getDomainInflections(
-  k562_compartments.boot.fix[[1]],
+  k562_compartments.grlist[[1]],
   what = "flip.score",
   res = 1e6,
   chrs = "chr14",
@@ -207,20 +210,20 @@ k562_cell_1_inflections <- getDomainInflections(
 
 # Show the inflection points
 k562_cell_1_inflections
-## GRanges object with 18 ranges and 0 metadata columns:
+## GRanges object with 14 ranges and 0 metadata columns:
 ##        seqnames    ranges strand
 ##           <Rle> <IRanges>  <Rle>
-##    [1]    chr14  29000000      *
-##    [2]    chr14  30999999      *
-##    [3]    chr14  35000000      *
-##    [4]    chr14  38999999      *
-##    [5]    chr14  40000000      *
+##    [1]    chr14  33000000      *
+##    [2]    chr14  37999999      *
+##    [3]    chr14  46000000      *
+##    [4]    chr14  52999999      *
+##    [5]    chr14  63000000      *
 ##    ...      ...       ...    ...
-##   [14]    chr14  84999999      *
-##   [15]    chr14  89000000      *
-##   [16]    chr14  94999999      *
-##   [17]    chr14 104000000      *
-##   [18]    chr14 107349539      *
+##   [10]    chr14  89999999      *
+##   [11]    chr14  93000000      *
+##   [12]    chr14  96999999      *
+##   [13]    chr14 100000000      *
+##   [14]    chr14 107349539      *
 ##   -------
 ##   seqinfo: 1 sequence from an unspecified genome; no seqlengths
 ```
@@ -374,7 +377,7 @@ data("k562_scrna_raw", package = "compartmap")
 k562_scrna_chr14_tfidf <- transformTFIDF(assay(k562_scrna_se_chr14))
 
 # Add back the TF-IDF counts to the object in the counts slot
-assay(k562_scrna_se_chr14, "counts") <- t(k562_scrna_chr14_tfidf)
+assay(k562_scrna_se_chr14, "counts") <- k562_scrna_chr14_tfidf
 
 # Compute chromatin domains at the group level
 k562_scrna_chr14_raw_domains <- scCompartments(k562_scrna_se_chr14,
@@ -384,7 +387,8 @@ k562_scrna_chr14_raw_domains <- scCompartments(k562_scrna_se_chr14,
   bootstrap = TRUE,
   num.bootstraps = 10,
   genome = "hg19",
-  assay = "rna"
+  assay = "rna",
+  BPPARAM = BiocParallel::MulticoreParam(2)
 )
 ```
 
@@ -439,9 +443,6 @@ k562_scrna_chr14_rmt <- getDenoisedCorMatrix(
   iter = 2
 )
 ## Shrinking bins with the JSE.
-## 108 bins created...
-## Calculating correlations...
-## Done...
 ## Denoising the correlation matrix using RMT.
 ## Iterative denoising. Iteration: 2
 

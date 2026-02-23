@@ -27,14 +27,14 @@ flogit(p, sqz = 0.000001)
 ``` r
 p <- runif(n = 1000)
 summary(p)
-#>     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
-#> 0.001446 0.250360 0.512218 0.508712 0.759035 0.997649 
+#>      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+#> 0.0002544 0.2452321 0.5274872 0.5070668 0.7782408 0.9997144 
 
 sqz <- 1 / (10**6)
 x <- flogit(p, sqz = sqz)
 summary(x)
-#>     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
-#> -6.53706 -1.09670  0.04888  0.05349  1.14739  6.05032 
+#>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#> -8.2755 -1.1242  0.1101  0.0348  1.2554  8.1596 
 
 all(abs(p - fexpit(x, sqz = sqz)) < sqz)
 #> [1] TRUE

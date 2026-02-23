@@ -3,70 +3,10 @@
 ## Compartment mapping
 
 - [`scCompartments()`](https://huishenlab.github.io/compartmap/dev/reference/scCompartments.md)
-  : Estimate A/B compartments from single-cell sequencing data
-- [`getArrayABsignal()`](https://huishenlab.github.io/compartmap/dev/reference/getArrayABsignal.md)
+  : Estimate A/B compartments from single-cell RNA or ATAC sequencing
+  data
+- [`arrayCompartments()`](https://huishenlab.github.io/compartmap/dev/reference/arrayCompartments.md)
   : Estimate A/B compartments from methylation array data
-
-## CompartmentCall objects and methods
-
-- [`CompartmentCall()`](https://huishenlab.github.io/compartmap/dev/reference/CompartmentCall.md)
-  [`CompartmapCall()`](https://huishenlab.github.io/compartmap/dev/reference/CompartmentCall.md)
-  [`MultiCompartmapCall()`](https://huishenlab.github.io/compartmap/dev/reference/CompartmentCall.md)
-  [`scCompartmapCall()`](https://huishenlab.github.io/compartmap/dev/reference/CompartmentCall.md)
-  : Compartment Call objects for analysis (experimental)
-
-- [`flip()`](https://huishenlab.github.io/compartmap/dev/reference/flip.md)
-  :
-
-  Flip the singular values signs in a `CompartmentCall`
-
-- [`unitarize()`](https://huishenlab.github.io/compartmap/dev/reference/unitarize.md)
-  :
-
-  Unitarize the singular values in a `CompartmentCall` or
-  `MultiCompartmapCall`
-
-- [`is_unitarized()`](https://huishenlab.github.io/compartmap/dev/reference/is_unitarized.md)
-  :
-
-  Check if the `CompartmentCall` was unitarized
-
-- [`get_name()`](https://huishenlab.github.io/compartmap/dev/reference/get_name.md)
-  :
-
-  Get the name of the `CompartmentCall` object
-
-- [`resolution()`](https://huishenlab.github.io/compartmap/dev/reference/resolution.md)
-  :
-
-  Get the resolution of the `CompartmentCall`
-
-- [`subset_chr()`](https://huishenlab.github.io/compartmap/dev/reference/subset_chr.md)
-  :
-
-  Subset the `CompartmentCall` object by chromosome
-
-- [`fill_missing()`](https://huishenlab.github.io/compartmap/dev/reference/fill_missing.md)
-  :
-
-  Fill missing genomic bins in `CompartmentCalls` using a reference
-  GRanges
-
-- [`DF()`](https://huishenlab.github.io/compartmap/dev/reference/DF.md)
-  :
-
-  Get the `@df` slot from a CompartmentCall object.
-
-- [`mat()`](https://huishenlab.github.io/compartmap/dev/reference/mat.md)
-  :
-
-  Get the data matrix from a `MultiCompartmapCall` or `scCompartmapCall`
-
-- [`agreement()`](https://huishenlab.github.io/compartmap/dev/reference/agreement.md)
-  : Compute agreement between compartment calls
-
-- [`corr()`](https://huishenlab.github.io/compartmap/dev/reference/corr.md)
-  : Compute correlation between compartment calls
 
 ## Compartment helper
 
@@ -81,9 +21,6 @@
   values
 - [`getABSignal()`](https://huishenlab.github.io/compartmap/dev/reference/getABSignal.md)
   : Calculate Pearson correlations of smoothed eigenvectors
-- [`getATACABsignal()`](https://huishenlab.github.io/compartmap/dev/reference/getATACABsignal.md)
-  [`getRNAABsignal()`](https://huishenlab.github.io/compartmap/dev/reference/getATACABsignal.md)
-  : Estimate A/B compartments from ATAC-seq data
 
 ## Correlation matrix
 
@@ -176,7 +113,8 @@
 - [`removeEmptyBoots()`](https://huishenlab.github.io/compartmap/dev/reference/removeEmptyBoots.md)
   : Remove bootstrap estimates that failed
 - [`scCompartments()`](https://huishenlab.github.io/compartmap/dev/reference/scCompartments.md)
-  : Estimate A/B compartments from single-cell sequencing data
+  : Estimate A/B compartments from single-cell RNA or ATAC sequencing
+  data
 - [`shrinkBins()`](https://huishenlab.github.io/compartmap/dev/reference/shrinkBins.md)
   : Employ an eBayes shrinkage approach for bin-level estimates for A/B
   inference
@@ -185,19 +123,8 @@
 
 ## Plotting
 
-- [`plot(`*`<compartmap::CompartmentCall>`*`)`](https://huishenlab.github.io/compartmap/dev/reference/plot.compartmap-colon-colon-CompartmentCall.md)
-  :
-
-  Plot singular values of a `CompartmentCall` object
-
-- [`plot(`*`<compartmap::MultiCompartmapCall>`*`)`](https://huishenlab.github.io/compartmap/dev/reference/plot.compartmap-colon-colon-MultiCompartmapCall.md)
-  :
-
-  Plot singular values from a `MultiCompartmapCall` object
-
 - [`plotAB()`](https://huishenlab.github.io/compartmap/dev/reference/plotAB.md)
   : Plots A/B compartment estimates on a per chromosome basis
-
 - [`plotCorMatrix()`](https://huishenlab.github.io/compartmap/dev/reference/plotCorMatrix.md)
   : Plot a denoised correlation matrix
 
@@ -226,14 +153,30 @@
 
 ## Datasets
 
+- [`array_data_chr14`](https://huishenlab.github.io/compartmap/dev/reference/array.data.chr14.md)
+  : Example Illumina 450k methylation array data for compartmap
 - [`hg19.gr`](https://huishenlab.github.io/compartmap/dev/reference/hg19.gr.md)
   : hg19 seqlengths as a GRanges object
+- [`hg19.tx.gr`](https://huishenlab.github.io/compartmap/dev/reference/hg19.tx.gr.md)
+  : hg19 genes as a GRanges object
 - [`hg38.gr`](https://huishenlab.github.io/compartmap/dev/reference/hg38.gr.md)
   : hg38 seqlengths as a GRanges object
+- [`hg38.tx.gr`](https://huishenlab.github.io/compartmap/dev/reference/hg38.tx.gr.md)
+  : hg38 genes as a GRanges object
+- [`k562_scatac_chr14`](https://huishenlab.github.io/compartmap/dev/reference/k562_scatac_chr14.md)
+  : Example scATAC-seq data for compartmap
+- [`k562_scrna_chr14`](https://huishenlab.github.io/compartmap/dev/reference/k562_scrna_chr14.md)
+  : Example scRNA-seq data for compartmap
+- [`k562_scrna_raw`](https://huishenlab.github.io/compartmap/dev/reference/k562_scrna_se_chr14.md)
+  : Example scRNA-seq data for compartmap
 - [`mm10.gr`](https://huishenlab.github.io/compartmap/dev/reference/mm10.gr.md)
   : mm10 seqlengths as a GRanges object
+- [`mm10.tx.gr`](https://huishenlab.github.io/compartmap/dev/reference/mm10.tx.gr.md)
+  : mm10 genes as a GRanges object
 - [`mm9.gr`](https://huishenlab.github.io/compartmap/dev/reference/mm9.gr.md)
   : mm9 seqlengths as a GRanges object
+- [`mm9.tx.gr`](https://huishenlab.github.io/compartmap/dev/reference/mm9.tx.gr.md)
+  : mm9 genes as a GRanges object
 - [`openSeas.hg19`](https://huishenlab.github.io/compartmap/dev/reference/openSeas.hg19.md)
   : hg19 open sea CpG as a GRanges object
 - [`openSeas.hg38`](https://huishenlab.github.io/compartmap/dev/reference/openSeas.hg38.md)
@@ -242,13 +185,5 @@
   : mm10 open sea CpG as a GRanges object
 - [`openSeas.mm9`](https://huishenlab.github.io/compartmap/dev/reference/openSeas.mm9.md)
   : mm9 open sea CpG as a GRanges object
-- [`array_data_chr14`](https://huishenlab.github.io/compartmap/dev/reference/array.data.chr14.md)
-  : Example Illumina 450k methylation array data for compartmap
-- [`k562_scatac_chr14`](https://huishenlab.github.io/compartmap/dev/reference/k562_scatac_chr14.md)
-  : Example scATAC-seq data for compartmap
-- [`k562_scrna_chr14`](https://huishenlab.github.io/compartmap/dev/reference/k562_scrna_chr14.md)
-  : Example scRNA-seq data for compartmap
-- [`k562_scrna_raw`](https://huishenlab.github.io/compartmap/dev/reference/k562_scrna_se_chr14.md)
-  : Example scRNA-seq data for compartmap
 - [`ss3_umi_sce`](https://huishenlab.github.io/compartmap/dev/reference/ss3_umi_sce.md)
   : Example SMART-seq3 scRNA-seq data for compartmap

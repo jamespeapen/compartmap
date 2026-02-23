@@ -57,7 +57,7 @@ arrayCompartments <- function(
   verifySE(obj)
   verifyCoords(obj)
   verifyAssayNames(obj, assay = "array")
-  bpparams <- get_nested_params(BPPARAM)
+  bpparams <- get_nested_params(BPPARAM, boot.parallel)
   check_worker_count(bpparams, group, length(chr), bootstrap)
 
   # preprocess the arrays

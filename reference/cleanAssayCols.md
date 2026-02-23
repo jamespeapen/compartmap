@@ -34,8 +34,6 @@ if (requireNamespace("minfi", quietly = TRUE)) {
   data("array_data_chr14", package = "compartmap")
   compartmap:::cleanAssayCols(array.data.chr14, assay = "array")
 }
-#> Setting options('download.file.method.GEOquery'='auto')
-#> Setting options('GEOquery.inmemory.gpl'=FALSE)
 #> class: GenomicRatioSet 
 #> dim: 15078 11 
 #> metadata(1): SNPs

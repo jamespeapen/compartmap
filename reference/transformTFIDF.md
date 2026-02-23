@@ -5,7 +5,7 @@ Transform/normalize counts using TF-IDF
 ## Usage
 
 ``` r
-transformTFIDF(mat, scale.factor = 100000, count.min = 0, count.max = 1)
+transformTFIDF(mat, scale.factor = 100000, binarize = FALSE)
 ```
 
 ## Arguments
@@ -18,16 +18,9 @@ transformTFIDF(mat, scale.factor = 100000, count.min = 0, count.max = 1)
 
   Scaling factor for the term-frequency (TF)
 
-- count.min:
+- binarize:
 
-  The minimum expression count used for TF-IDF. Binarizes when
-  `count.min` = 0 and `count.max` = 1.
-
-- count.max:
-
-  The maximum expression count used for TF-IDF. Binarizes when
-  `count.min` = 0 and `count.max` = 1. binarizes the matrix. A `cap`
-  value greater than 1 will cap counts at that value.
+  Whether to binarize the input matrix: any value \> 0 is set to 1
 
 ## Value
 

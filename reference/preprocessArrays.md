@@ -54,7 +54,6 @@ if (requireNamespace("minfiData", quietly = TRUE)) {
 #> 
 #>     strsplit
 #> Loading required package: bumphunter
-#> Loading required package: GenomeInfoDb
 #> Loading required package: foreach
 #> Loading required package: iterators
 #> Loading required package: parallel
@@ -62,7 +61,6 @@ if (requireNamespace("minfiData", quietly = TRUE)) {
 #> locfit 1.5-9.12   2025-03-05
 #> Loading required package: IlluminaHumanMethylation450kanno.ilmn12.hg19
 #> Filtering to open sea CpG loci...
-#> Converting to squeezed M-values.
 #> class: GenomicRatioSet 
 #> dim: 47 6 
 #> metadata(0):

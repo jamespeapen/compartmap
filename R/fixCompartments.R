@@ -18,12 +18,16 @@ setGeneric("fixCompartments", function(x, min.conf = 0.8, parallel = FALSE, core
   standardGeneric("fixCompartments")
 })
 
+#' @rdname fixCompartments
+#' @param x GRanges
 setMethod("fixCompartments", "GRanges", function(x, min.conf = 0.8, parallel = FALSE, cores = 1) {
   message("Assuming we only have a single sample to process")
   message("Fixing compartments using a minimum confidence score of ", min.conf * 100, "%")
   flipper(x, min.conf)
 })
 
+#' @rdname fixCompartments
+#' @param x RaggedExperiment
 setMethod("fixCompartments", "RaggedExperiment", function(x, min.conf = 0.8, parallel = FALSE, cores = 1) {
   obj <- condenseSE(x, sample.name = colnames(assay(x)))
   message("Fixing compartments using a minimum confidence score of ", min.conf * 100, "%")

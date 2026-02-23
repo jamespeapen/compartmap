@@ -2,12 +2,18 @@
 % Please edit documentation in R/fixCompartments.R
 \name{fixCompartments}
 \alias{fixCompartments}
+\alias{fixCompartments,GRanges-method}
+\alias{fixCompartments,RaggedExperiment-method}
 \title{Invert, or "fix", compartments that have a minimum confidence score (1-min.conf)}
 \usage{
 fixCompartments(x, min.conf = 0.8, parallel = FALSE, cores = 1)
+
+\S4method{fixCompartments}{GRanges}(x, min.conf = 0.8, parallel = FALSE, cores = 1)
+
+\S4method{fixCompartments}{RaggedExperiment}(x, min.conf = 0.8, parallel = FALSE, cores = 1)
 }
 \arguments{
-\item{x}{Input RaggedExperiment or output of condenseSE}
+\item{x}{RaggedExperiment}
 
 \item{min.conf}{Minimum confidence score to use}
 

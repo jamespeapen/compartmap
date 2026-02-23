@@ -34,9 +34,11 @@
 #'   array_compartments <- arrayCompartments(
 #'     array.data.chr14,
 #'     chr="chr14",
+#'     group=TRUE,
 #'     bootstrap=FALSE,
 #'     genome="hg19",
-#'     array.type="hm450"
+#'     array.type="hm450",
+#'     BPPARAM = BiocParallel::SerialParam()
 #'   )
 #' }
 arrayCompartments <- function(

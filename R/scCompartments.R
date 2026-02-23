@@ -95,8 +95,10 @@
 #' sc_compartments <- scCompartments(
 #'   k562_scrna_chr14,
 #'   chr = "chr14",
+#'   group = TRUE,
 #'   bootstrap = FALSE,
-#'   genome = "hg19"
+#'   genome = "hg19",
+#'   BPPARAM = BiocParallel::SerialParam()
 #' )
 scCompartments <- function(
   obj,

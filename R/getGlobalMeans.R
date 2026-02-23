@@ -63,6 +63,7 @@ getGlobalMeans <- function(obj, targets = NULL, assay = c("atac", "rna", "array"
 #' data("k562_scrna_chr14", package = "compartmap")
 #' scrna.bootstrap.global.means <- precomputeBootstrapMeans(
 #'   k562_scrna_chr14,
+#'   BPPARAM = BiocParallel::SerialParam(),
 #'   assay = "rna",
 #'   num.bootstraps = 2
 #' )

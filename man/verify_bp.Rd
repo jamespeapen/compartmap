@@ -7,7 +7,7 @@
 verify_bp(bp)
 }
 \arguments{
-\item{A}{BiocParallelParam or list of 2 BiocParallelParam objects}
+\item{bp}{A BiocParallelParam or list of 2 BiocParallelParam objects}
 }
 \value{
 TRUE if the total \code{bpnworkers} in the input does not exceed

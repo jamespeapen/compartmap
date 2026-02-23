@@ -58,7 +58,7 @@ get_bpnworkers <- function(bp) {
 }
 
 #' Return the number of workers in a list of BiocParallelParam objects
-#' @param List of BiocParallelParam objects
+#' @param bplist List of BiocParallelParam objects
 #' @importFrom BiocParallel bpnworkers
 #' @return A vector of the `bpnworkers` count in each list element
 #' @keywords internal
@@ -77,7 +77,7 @@ required_workers <- function(workers) {
 }
 
 #' Verify that the input BiocParallelParam is valid
-#' @param A BiocParallelParam or list of 2 BiocParallelParam objects
+#' @param bp A BiocParallelParam or list of 2 BiocParallelParam objects
 #' @importFrom BiocParallel bpnworkers
 #' @return TRUE if the total `bpnworkers` in the input does not exceed
 #' available resources as defined by `parallelly::availableCores()`
@@ -87,7 +87,7 @@ verify_bp <- function(bp) {
 }
 
 #' Verify that requested thread count is not higher than available
-#' @param thread_count The number of workers to check availability
+#' @param n_workers The number of workers to check availability
 #' @return TRUE if the requested `thread_count` does not exceed available
 #' resources as defined by `parallelly::availableCores()`
 #' @keywords internal

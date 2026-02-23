@@ -7,7 +7,7 @@
 verify_workers(n_workers)
 }
 \arguments{
-\item{thread_count}{The number of workers to check availability}
+\item{n_workers}{The number of workers to check availability}
 }
 \value{
 TRUE if the requested \code{thread_count} does not exceed available

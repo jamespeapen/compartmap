@@ -7,7 +7,7 @@
 bpnworkers.list(bplist)
 }
 \arguments{
-\item{List}{of BiocParallelParam objects}
+\item{bplist}{List of BiocParallelParam objects}
 }
 \value{
 A vector of the \code{bpnworkers} count in each list element

@@ -21,3 +21,4 @@ getCompartments(
 \description{
 Run compartment inference
 }
+\keyword{internal}

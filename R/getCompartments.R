@@ -1,6 +1,7 @@
 #' Run compartment inference
 #' @importFrom BiocParallel bplapply
 #' @importFrom futile.logger flog.info flog.debug
+#' @keywords internal
 getCompartments <- function(
   obj,
   res,

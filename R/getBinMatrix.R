@@ -56,7 +56,7 @@ getBinMatrix <- function(
   genome = c("hg19", "hg38", "mm9", "mm10")
 ) {
 
-  if (any(is.na(mat))){
+  if (anyNA(mat)){
     stop("Matrix must not contain NAs")
   }
   if (nrow(mat) != length(genloc)){

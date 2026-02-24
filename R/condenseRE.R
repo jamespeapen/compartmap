@@ -19,7 +19,7 @@ condenseRE <- function(obj) {
   # it will build a list of SummarizedExperiments with relevant information
   # from computing compartments
   if (!is(obj, "RaggedExperiment")) stop("Input needs to be a RaggedExperiment")
-  se_list <- lapply(1:length(assayNames(obj)), function(a) {
+  se_list <- lapply(seq_along(assayNames(obj)), function(a) {
     compactSummarizedExperiment(obj, i = a)
   })
 
@@ -64,11 +64,11 @@ condenseSE <- function(obj, sample.name = NULL) {
 
   # check and see how many samples we are extracting
   if (length(sample.name) == 1) {
-    obj.dense <- lapply(1:length(obj), .condenseGR, obj = obj, sample = sample.name)
+    obj.dense <- lapply(seq_along(obj), .condenseGR, obj = obj, sample = sample.name)
     return(Reduce("merge", obj.dense))
   } else {
     obj.dense.lst <- lapply(sample.name, function(s) {
-      obj.dense <- lapply(1:length(obj), .condenseGR, obj = obj, sample = s)
+      obj.dense <- lapply(seq_along(obj), .condenseGR, obj = obj, sample = s)
       return(Reduce("merge", obj.dense))
     })
     names(obj.dense.lst) <- sample.name

@@ -63,7 +63,7 @@ bootstrapCompartments <- function(
   # bootstrap and recompute compartments
   BiocParallel::bpprogressbar(BPPARAM) <- FALSE
   resamp.compartments <- bplapply(
-    1:ncol(bmeans),
+    seq_len(ncol(bmeans)),
     function(b) {
       # get the shrunken bins with new global mean
       boot.mean <- as.matrix(bmeans[, b])
@@ -80,7 +80,7 @@ bootstrapCompartments <- function(
       cor.bins <- getCorMatrix(s.bins, squeeze = !group)
 
       # Stupid check for perfect correlation with global mean
-      if (any(is.na(cor.bins$binmat.cor))) {
+      if (anyNA(cor.bins$binmat.cor)) {
         absig <- matrix(rep(NA, nrow(cor.bins$binmat.cor)))
       } else {
         absig <- getABSignal(cor.bins, assay = assay)

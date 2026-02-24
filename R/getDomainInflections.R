@@ -51,7 +51,7 @@ getDomainInflections <- function(
   end(tiles) <- suppressWarnings(end(tiles) - 1)
 
   # add a column for continuous runs!
-  mcols(tiles)$run <- seq(1:length(tiles))
+  mcols(tiles)$run <- seq(seq_along(tiles))
   mcols(tiles)$score <- NA
 
   # overlap
@@ -83,7 +83,7 @@ getDomainInflections <- function(
   }
 
   # loop through the non-contiguous space
-  grl <- lapply(1:length(non_contig), function(i) {
+  grl <- lapply(seq_along(non_contig), function(i) {
     message("Block processing non-contiguous space for block ", i)
     # get block of contiguous sequence
     if (non_contig[i] == non_contig[1]) {
@@ -132,7 +132,7 @@ getDomainInflections <- function(
 
   # subset the original granges
   # gr.inflect <- gr[gr.signs.diff,]
-  if (length(gr.signs) == 2 & any(gr.signs.bool)) {
+  if (length(gr.signs) == 2 && any(gr.signs.bool)) {
     gr.inflect <- gr[2, ] # special case
     gr.inflect.new <- GRanges(
       seqnames = seqnames(gr.inflect),

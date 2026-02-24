@@ -38,9 +38,9 @@ getCompartments <- function(
   }
 
   boot_msg <- ""
-  if (bootstrap & boot.parallel) {
+  if (bootstrap && boot.parallel) {
     boot_msg <- sprintf("Bootstrapping in parallel with %d cores", bpnworkers(bpparams[[2]]))
-  } else if (bootstrap & !boot.parallel & group) {
+  } else if (bootstrap && !boot.parallel && group) {
     boot_msg <- "Not bootstrapping in parallel could take a long time..."
   }
 
@@ -153,7 +153,7 @@ getCompartments <- function(
 
   obj.cor <- getCorMatrix(obj.bins, squeeze = !group)
 
-  if (any(is.na(obj.cor$binmat.cor))) {
+  if (anyNA(obj.cor$binmat.cor)) {
     obj.cor$gr$pc <- matrix(rep(NA, nrow(obj.cor$binmat.cor)))
     obj.svd <- obj.cor$gr
   } else {

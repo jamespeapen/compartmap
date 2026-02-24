@@ -23,7 +23,7 @@ getShrinkageTargets <- function(obj, group) {
       msg <- paste(
         "Error while subsetting targets: provided column", column.type, "not found:"
       )
-      if (no_colnames & group.is_colnames) {
+      if (no_colnames && group.is_colnames) {
         message("The provided object does not have any column names - use column indices instead.")
       }
       message(msg)

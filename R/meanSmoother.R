@@ -32,7 +32,7 @@ meanSmoother <- function(mat, k = 1, iters = 2, delta = 0, weights = NULL) {
   eps <- delta + 1
   weights <- weights %||% rep(1, length(mat))
 
-  while (pos < iters & eps > delta) {
+  while (pos < iters && eps > delta) {
     mat0 <- mat
     pos <- pos + 1
     mat <- .meanSmoother.internal(mat0, weights = weights, k = k)

@@ -62,7 +62,7 @@ flogit <- function(p, sqz = 0.000001) {
 #'
 #' @export
 fexpit <- function(x, sqz = 0.000001) {
-  midpt <- .5
+  midpt <- 0.5
   squoze <- exp(x) / (1 + exp(x))
   inflate <- 1 / (1 - (sqz * midpt))
   ((squoze - midpt) * inflate) + midpt
@@ -285,7 +285,7 @@ importBigWig <- function(
   }
 
   # it is now a GRanges object
-  if (any(is.na(seqlengths(bw.raw)))) stop("Imported bigwig does not have seqlengths")
+  if (anyNA(seqlengths(bw.raw))) stop("Imported bigwig does not have seqlengths")
 
   species <- switch(
     genome,

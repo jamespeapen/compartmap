@@ -2,7 +2,7 @@
 #' inference and bootstrapping
 #' @keywords internal
 check_optim <- function(workers, group, chr_count, bootstrap) {
-  if (group & chr_count < workers[1]) {
+  if (group && chr_count < workers[1]) {
     flog.info(
       "Grouped inference with more outer workers than chromosomes leaves %d of %d workers unused",
       workers[1] - chr_count,
@@ -12,7 +12,7 @@ check_optim <- function(workers, group, chr_count, bootstrap) {
       flog.info("Consider using a single core for the outer worker and more cores for the inner bootstrap worker")
     }
   }
-  if (!group & bootstrap & workers[1] < workers[2]) {
+  if (!group && bootstrap && workers[1] < workers[2]) {
     flog.info("More outer (column-wise) than inner (bootstrap) workers is faster for single-cell inference")
   }
 }
@@ -29,7 +29,7 @@ check_worker_count <- function(bpparam, group, chr_count, bootstrap, avail_worke
 
   avail_msg <- sprintf("but your system has only %d cores", avail_workers)
   info_msg <- "See parallelly::availableCores(which = 'all') for more information on available resources"
-  if (workers[1] == 1 | workers[2] == 1) {
+  if (workers[1] == 1 || workers[2] == 1) {
     msg <- sprintf(
       "Requested %d %s workers %s\n%s",
       max(workers),
@@ -105,7 +105,7 @@ verify_workers <- function(n_workers) {
 get_nested_params <- function(BPPARAM, boot.parallel) {
   stopifnot("Only two BiocParallelParam objects can be used" = length(BPPARAM) <= 2)
   single_param <- length(BPPARAM) == 1
-  BPPARAM <- if (single_param & is.list(BPPARAM)) BPPARAM[[1]] else BPPARAM
+  BPPARAM <- if (single_param && is.list(BPPARAM)) BPPARAM[[1]] else BPPARAM
 
   if (boot.parallel) {
     if (single_param) {

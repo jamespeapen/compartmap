@@ -45,7 +45,7 @@ preprocessArrays <- function(
   }
 
   # impute missing values if possible
-  if (any(is.na(minfi::getBeta(obj.opensea)))) {
+  if (anyNA(minfi::getBeta(obj.opensea))) {
     flog.debug("Imputing missing values.")
     obj.opensea <- imputeKNN(obj.opensea, assay = "array")
   }

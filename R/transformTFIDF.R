@@ -23,7 +23,7 @@
 #'
 #' @export
 transformTFIDF <- function(mat, scale.factor = 1e5, binarize = FALSE) {
-  if (!is(mat, "matrix") & !is(mat, "Matrix")) {
+  if (!is(mat, "matrix") && !is(mat, "Matrix")) {
     stop("Input needs to be a matrix.")
   }
 

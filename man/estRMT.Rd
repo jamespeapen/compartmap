@@ -5,17 +5,17 @@
 \title{Denoising of Covariance matrix using Random Matrix Theory}
 \usage{
 estRMT(
-  R,
-  Q = NA,
+  mat,
+  dim_ratio = NA,
   cutoff = c("max", "each"),
   eigenTreat = c("average", "delete"),
   numEig = 1
 )
 }
 \arguments{
-\item{R}{input matrix}
+\item{mat}{input matrix}
 
-\item{Q}{ratio of rows/size. Can be supplied externally or fit using data}
+\item{dim_ratio}{ratio of rows/size. Can be supplied externally or fit using data}
 
 \item{cutoff}{takes two values max/each. If cutoff is max, Q is fitted and
 cutoff for eigenvalues is calculated. If cutoff is each, Q is set to
@@ -49,7 +49,7 @@ which has since been deprecated on CRAN.
 \examples{
 rand_cor_mat <- cor(matrix(rnorm(100), nrow = 10))
 denoised_rand_cor_mat <- estRMT(rand_cor_mat)$cov
-       
+
 }
 \author{
 Rohit Arora

@@ -12,8 +12,8 @@
 #' was taken and modified from the covmat package (https://github.com/cran/covmat)
 #' which has since been deprecated on CRAN.
 #'
-#' @param  R input matrix
-#' @param  Q ratio of rows/size. Can be supplied externally or fit using data
+#' @param  mat input matrix
+#' @param  dim_ratio ratio of rows/size. Can be supplied externally or fit using data
 #' @param  cutoff takes two values max/each. If cutoff is max, Q is fitted and
 #'          cutoff for eigenvalues is calculated. If cutoff is each, Q is set to
 #'          row/size. Individual cutoff for each eigenvalue is calculated and used
@@ -36,33 +36,23 @@
 #' @author Rohit Arora
 #'
 #' @export
-estRMT <- function(R, Q = NA, cutoff = c("max", "each"), eigenTreat = c("average", "delete"), numEig = 1) {
-  .data <- as.matrix(R)
-  T <- nrow(.data)
-  M <- ncol(.data)
-  if (T < M) {
-    stop("Does not work when nrow < ncol")
-  }
+estRMT <- function(mat, dim_ratio = NA, cutoff = c("max", "each"), eigenTreat = c("average", "delete"), numEig = 1) {
+  .data <- as.matrix(mat)
+  n_row <- nrow(.data)
+  n_col <- ncol(.data)
+  cutoff <- match.arg(cutoff)
+  eigenTreat <- match.arg(eigenTreat)
 
-  if (!is.na(Q)) {
-    if (Q < 1) stop("Does not work for Q<1")
-  }
-  cutoff <- cutoff[1]
-  if (!cutoff %in% c("max", "each")) {
-    stop("Invalid cutoff")
-  }
   if (cutoff == "each") {
-    Q <- T / M
+    dim_ratio <- n_row / n_col
   }
 
-  eigenTreat <- eigenTreat[1]
-  if (!eigenTreat %in% c("average", "delete")) {
-    stop("Invalid eigenTreat option")
+  stopifnot("Does not work when nrow < ncol" = n_row >= n_col)
+  if (!is.na(dim_ratio)) {
+    stopifnot("Does not work for dim_ration < 1" = dim_ratio >= 1)
   }
 
-  if (numEig < 0) {
-    stop("Number of eigenvalues must be non-negative")
-  }
+  stopifnot("Number of eigenvalues must be non-negative" = numEig > 0)
 
   #eigenvalues can be negative. To avoid this e need a positive-definite matrix
   S <- cov(.data)
@@ -71,23 +61,23 @@ estRMT <- function(R, Q = NA, cutoff = c("max", "each"), eigenTreat = c("average
   C <- Matrix::cov2cor(S)
 
   # Marchenko Pastur density is defined for eigenvalues of correlation matrix
-  eigen.C <- eigen(C, symmetric = T)
+  eigen.C <- eigen(C, symmetric = n_row)
   lambdas <- eigen.C$values
   sigma.sq <- mean(lambdas)
 
-  sigma.sq <- 1 - sum(head(lambdas, numEig)) / M
+  sigma.sq <- 1 - sum(head(lambdas, numEig)) / n_col
 
   #minimize log-likelihood.
   loglik.marpas <- function(theta, sigma.sq) {
-    Q <- theta
-    val <- sapply(lambdas, function(x) RMTstat::dmp(x, svr = Q, var = sigma.sq))
+    dim_ratio <- theta
+    val <- sapply(lambdas, function(x) RMTstat::dmp(x, svr = dim_ratio, var = sigma.sq))
     val <- val[val > 0]
     ifelse(is.infinite(-sum(log(val))), .Machine$double.xmax, -sum(log(val)))
   }
 
-  if (is.na(Q) && cutoff != "each") {
+  if (is.na(dim_ratio) && cutoff != "each") {
     lb <- 1
-    ub <- max(T / M, 5)
+    ub <- max(n_row / n_col, 5)
     starts <- seq(lb, ub, length.out = 50)
     # this would be a logical place to use BiocParallel::bpapply
     fit.marpas <- do.call(
@@ -101,18 +91,18 @@ estRMT <- function(R, Q = NA, cutoff = c("max", "each"), eigenTreat = c("average
     )
     idx <- grep("CONVERGENCE", unlist(fit.marpas[, "message"]))
     vals <- fit.marpas[idx, c("par", "value")] # wtf is going on here
-    Q <- unlist(vals[which.min(vals[, "value"]), "par"])
+    dim_ratio <- unlist(vals[which.min(vals[, "value"]), "par"])
   }
 
-  lambda.max <- RMTstat::qmp(1, svr = Q, var = sigma.sq)
+  lambda.max <- RMTstat::qmp(1, svr = dim_ratio, var = sigma.sq)
   # now that we have a fit. lets denoise eigenvalues below the cutoff
 
   if (cutoff == "max") {
     idx <- which(lambdas > lambda.max)
   } else if (cutoff == "each") {
     cutoff.each <- sapply(2:length(lambdas), function(i) {
-      eigr <- lambdas[i:M]
-      mean(eigr) * (1 + (M - i + 1) / T + 2 * sqrt((M - i + 1) / T))
+      eigr <- lambdas[i:n_col]
+      mean(eigr) * (1 + (n_col - i + 1) / n_row + 2 * sqrt((n_col - i + 1) / n_row))
     })
     idx <- c(1, 1 + which(lambdas[-1] > cutoff.each))
   }
@@ -124,19 +114,18 @@ estRMT <- function(R, Q = NA, cutoff = c("max", "each"), eigenTreat = c("average
   val <- eigen.C$values[idx]
   vec <- eigen.C$vectors[, idx, drop = FALSE]
   sum <- 0
-  for (i in 1:ncol(vec)) {
+  for (i in seq_len(ncol(vec))) {
     sum <- sum + val[i] * vec[, i] %*% t(vec[, i])
   }
 
-  # trace of correlation matrix is 1. Use this to determine all the remaining
-  # eigenvalues
+  # trace of correlation matrix is 1. Use this to determine all the remaining eigenvalues
 
   lambdas.cleaned <- c()
   clean.C <- if (eigenTreat == "average") {
-    lambdas.cleaned <- c(val, rep(1, M))
-    sum + sum(eigen.C$values[-idx]) / M * diag(rep(1, M))
+    lambdas.cleaned <- c(val, rep(1, n_col))
+    sum + sum(eigen.C$values[-idx]) / n_col * diag(rep(1, n_col))
   } else if (eigenTreat == "delete") {
-    lambdas.cleaned <- c(val, rep(0, M))
+    lambdas.cleaned <- c(val, rep(0, n_col))
     diag(sum) <- 1
     sum
   }
@@ -145,7 +134,7 @@ estRMT <- function(R, Q = NA, cutoff = c("max", "each"), eigenTreat = c("average
   clean.S <- D^0.5 %*% clean.C %*% D^0.5
   fit <- list(
     cov = clean.S,
-    Q = Q,
+    dim_ratio = dim_ratio,
     var = sigma.sq,
     eigVals = lambdas,
     eigVals.cleaned = lambdas.cleaned,

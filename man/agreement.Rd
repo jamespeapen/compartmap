@@ -4,10 +4,12 @@
 \alias{agreement}
 \title{Compute agreement between compartment calls}
 \usage{
-agreement(x)
+agreement(x, na.omit = TRUE)
 }
 \arguments{
 \item{x}{A \code{MultiCompartmapCall} object}
+
+\item{na.omit}{Whether to omit NAs}
 }
 \description{
 Calculates the proportion of calls with the same sign for every pair of

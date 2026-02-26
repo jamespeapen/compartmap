@@ -354,6 +354,20 @@ method(get_filter_threshold, CompartmentCall) <- function(x) {
 }
 
 
+#' Get the difference between two CompartmentCall objects call values
+#' @param x, y CompartmentCall objects to compare
+#' @export
+`-.compartmap::CompartmentCall` <- function(x, y) {
+  stopifnot("Both objects must have the same GRanges" = length(x@gr) == length(y@gr))
+  stopifnot("Both objects must have the same @df" = nrow(x@df) == nrow(y@df))
+  df <- x@df
+  pc1 <- DF(x)[, pc]
+  pc2 <- DF(y)[, pc]
+  x@df <- x@df[, .(n, pc = pc1 - pc2, name = paste(x@name, "-", y@name))]
+  x
+}
+
+
 #' Plot singular values of a `CompartmentCall` object
 #'
 #' @param x `CompartmentCall` or `CompartmapCall` object

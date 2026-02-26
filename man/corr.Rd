@@ -4,10 +4,12 @@
 \alias{corr}
 \title{Compute correlation between compartment calls}
 \usage{
-corr(x)
+corr(x, na.omit = TRUE)
 }
 \arguments{
 \item{x}{A \code{MultiCompartmapCall} object}
+
+\item{na.omit}{Whether to omit NAs}
 }
 \description{
 Calculates Pearson correlation for every pair of calls in a

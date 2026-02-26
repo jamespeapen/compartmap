@@ -649,13 +649,18 @@ method(filter, MultiCompartmapCall) <- function(x, threshold = 0.02) {
 #' calls in a `MultiCompartmapCall` object.
 #'
 #' @param x A `MultiCompartmapCall` object
+#' @param na.omit Whether to omit NAs
 #'
 #' @export
-agreement <- new_generic("agreement", "x", function(x) {
+agreement <- new_generic("agreement", "x", function(x, na.omit = TRUE) {
   S7_dispatch()
 })
-method(agreement, MultiCompartmapCall) <- function(x) {
-  get_agreement(x@mat)
+method(agreement, MultiCompartmapCall) <- function(x, na.omit = TRUE) {
+  if (na.omit) {
+    get_agreement(na.omit(x@mat))
+  } else {
+    get_agreement(x@mat)
+  }
 }
 
 #' Compute correlation between compartment calls
@@ -664,14 +669,19 @@ method(agreement, MultiCompartmapCall) <- function(x) {
 #' MultiCompartmapCall object.
 #'
 #' @param x A `MultiCompartmapCall` object
+#' @param na.omit Whether to omit NAs
 #'
 #' @importFrom stats cor
 #' @export
-corr <- new_generic("corr", "x", function(x) {
+corr <- new_generic("corr", "x", function(x, na.omit = TRUE) {
   S7_dispatch()
 })
-method(corr, MultiCompartmapCall) <- function(x) {
-  cor(x@mat)
+method(corr, MultiCompartmapCall) <- function(x, na.omit = TRUE) {
+  if (na.omit) {
+    cor(na.omit(x@mat))
+  } else {
+    cor(x@mat)
+  }
 }
 
 #' Compute the direction of change of singular vectors in the MultiCompartmentCall object

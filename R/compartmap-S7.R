@@ -356,6 +356,7 @@ method(get_filter_threshold, CompartmentCall) <- function(x) {
 
 #' Get the difference between two CompartmentCall objects call values
 #' @param x, y CompartmentCall objects to compare
+#' @rdname CompartmentCall_difference
 #' @export
 `-.compartmap::CompartmentCall` <- function(x, y) {
   stopifnot("Both objects must have the same GRanges" = length(x@gr) == length(y@gr))

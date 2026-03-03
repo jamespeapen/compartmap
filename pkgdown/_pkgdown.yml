@@ -30,29 +30,11 @@ reference:
     - has_keyword("CompartmentCall")
 - subtitle: Property getters
   contents:
-    - DF
-    - mat
-    - get_name
-    - resolution
-    - is_unitarized
+    - has_concept("s7getters")
 - subtitle: Methods
   contents:
-    - CompartmentCall
-    - flip
-    - unitarize
-    - is_unitarized
-    - get_name
-    - resolution
-    - subset_chr
-    - fill_missing
-    - starts_with("plot")
-    - "-.compartmap::CompartmentCall"
-    - agreement
-    - corr
-    - differentiate
-    - filter
-    - get_filter_threshold
-    - is_filtered
+    - has_concept("s7ranges")
+    - has_concept("s7analysis")
 - title: Compartment helper
   contents:
     - filterCompartments

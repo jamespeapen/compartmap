@@ -77,6 +77,9 @@
 
   Subset the `CompartmentCall` object by chromosome
 
+- [`` `-`( ``*`<compartmap::CompartmentCall>`*`)`](https://huishenlab.github.io/compartmap/dev/reference/CompartmentCall_difference.md)
+  : Get the difference between two CompartmentCall objects call values
+
 - [`agreement()`](https://huishenlab.github.io/compartmap/dev/reference/agreement.md)
   : Compute agreement between compartment calls
 
@@ -90,6 +93,9 @@
 - [`filter()`](https://huishenlab.github.io/compartmap/dev/reference/filter.md)
   : Filter to bins with call values greater than or equal to a threshold
   value
+
+- [`fix_sign()`](https://huishenlab.github.io/compartmap/dev/reference/fix_sign.md)
+  : Correct the sign of the compartment call vector
 
 - [`flip()`](https://huishenlab.github.io/compartmap/dev/reference/flip.md)
   :

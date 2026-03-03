@@ -27,25 +27,32 @@ reference:
 - title: Compartment analysis
 - subtitle: Objects
   contents:
-  - has_keyword("CompartmentCall")
-  - subtitle: Property getters
-    contents:
-      - DF
-      - mat
-      - get_name
-      - resolution
-      - is_unitarized
-  - subtitle: Methods
-    contents:
-      - CompartmentCall
-      - flip
-      - unitarize
-      - is_unitarized
-      - get_name
-      - resolution
-      - subset_chr
-      - fill_missing
-      - starts_with("plot")
+    - has_keyword("CompartmentCall")
+- subtitle: Property getters
+  contents:
+    - DF
+    - mat
+    - get_name
+    - resolution
+    - is_unitarized
+- subtitle: Methods
+  contents:
+    - CompartmentCall
+    - flip
+    - unitarize
+    - is_unitarized
+    - get_name
+    - resolution
+    - subset_chr
+    - fill_missing
+    - starts_with("plot")
+    - "-.compartmap::CompartmentCall"
+    - agreement
+    - corr
+    - differentiate
+    - filter
+    - get_filter_threshold
+    - is_filtered
 - title: Compartment helper
   contents:
     - filterCompartments

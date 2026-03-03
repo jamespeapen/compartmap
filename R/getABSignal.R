@@ -56,6 +56,7 @@ getABSignal <- function(
   genome = c("hg19", "hg38", "mm9", "mm10")
 ) {
   assay <- match.arg(assay)
+  genome <- match.arg(genome)
   gr <- x$gr
 
   flog.debug("Calculating eigenvectors.")
@@ -68,6 +69,7 @@ getABSignal <- function(
 
   if (flipSign(gr, genome)) gr$pc <- -gr$pc
   gr$compartments <- extractOpenClosed(gr, assay = assay)
+  genome(gr) <- genome
   return(gr)
 }
 

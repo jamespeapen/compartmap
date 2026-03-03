@@ -295,6 +295,25 @@ method(flip, CompartmentCall) <- function(x) {
   x
 }
 
+#' Correct the sign of the compartment call vector
+#'
+#' @param x A `CompartmentCall` object
+#'
+#' @concept s7analysis
+#' @export
+fix_sign <- new_generic("fix_sign", "x", function(x) {
+  S7_dispatch()
+})
+method(fix_sign, CompartmentCall) <- function(x) {
+  gr <- x@gr
+  gr$pc <- x@df[, pc]
+  if (flipSign(gr, genome(gr))) {
+    x <- flip(x)
+  }
+  x
+}
+
+
 #' Fill missing genomic bins in `CompartmentCalls` using a reference GRanges
 #'
 #' Compartmap may drop genomic bins with insufficient data and the resulting

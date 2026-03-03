@@ -12,3 +12,4 @@ resolution(x)
 \description{
 Get the resolution of the \code{CompartmentCall}
 }
+\concept{s7getters}

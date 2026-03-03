@@ -107,6 +107,7 @@ S4_register(CompartmentCall)
 #'
 #' @param x A `CompartmentCall` object
 #'
+#' @concept s7getters
 #' @export
 DF <- new_generic("DF", "x", function(x) {
   S7_dispatch()
@@ -120,7 +121,7 @@ method(DF, CompartmentCall) <- function(x) {
 #' @param x A `CompartmentCall` object
 #' @param i Row indices to subset
 #'
-#' @keywords internal
+#' @concept s7ranges
 #' @export
 `[.compartmap::CompartmentCall` <- function(x, i = NULL) {
   i <- i %||% seq_len(nrow(x@mat))
@@ -131,14 +132,17 @@ method(DF, CompartmentCall) <- function(x) {
   x
 }
 
+#' @concept s7getters
 `nrow.compartmap::CompartmentCall` <- function(x) {
   length(x@gr)
 }
 
+#' @concept s7getters
 `ncol.compartmap::CompartmentCall` <- function(x) {
   1
 }
 
+#' @concept s7getters
 #' Get GRanges of the `CompartmentCall`
 #'
 #' @param x A `CompartmentCall` object
@@ -152,6 +156,7 @@ method(granges, CompartmentCall) <- function(x) {
 #'
 #' @param x A `CompartmentCall` object
 #'
+#' @concept s7getters
 #' @export
 method(seqinfo, CompartmentCall) <- function(x) {
   x@seqinfo
@@ -162,6 +167,7 @@ method(seqinfo, CompartmentCall) <- function(x) {
 #'
 #' @param x A `CompartmentCall` object
 #'
+#' @concept s7getters
 #' @export
 method(seqlevels, CompartmentCall) <- function(x) {
   methods::selectMethod('seqlevels', 'GRanges')(x)
@@ -172,6 +178,7 @@ method(seqlevels, CompartmentCall) <- function(x) {
 #' @param x A `CompartmentCall` object
 #' @param chr A string vector of chromosomes to subset to
 #'
+#' @concept s7ranges
 #' @export
 subset_chr <- new_generic("subset_chr", "x", function(x, chr) {
   S7_dispatch()
@@ -186,6 +193,7 @@ method(subset_chr, CompartmentCall) <- function(x, chr) {
 #' @param subject A `CompartmentCall` object
 #' @param query A string vector of chromosomes to subset to
 #'
+#' @concept s7ranges
 #' @export
 method(findOverlaps, list(CompartmentCall, CompartmentCall)) <- function(
   query,
@@ -205,6 +213,7 @@ method(findOverlaps, list(CompartmentCall, CompartmentCall)) <- function(
 #'
 #' @param x A `CompartmentCall` object
 #'
+#' @concept s7getters
 #' @export
 resolution <- new_generic("resolution", "x", function(x) {
   S7_dispatch()
@@ -217,6 +226,7 @@ method(resolution, CompartmentCall) <- function(x) {
 #'
 #' @param x A `CompartmentCall` object
 #'
+#' @concept s7getters
 #' @export
 is_unitarized <- new_generic("is_unitarized", "x", function(x) {
   S7_dispatch()
@@ -229,6 +239,7 @@ method(is_unitarized, CompartmentCall) <- function(x) {
 #'
 #' @param x A `CompartmentCall` object
 #'
+#' @concept s7getters
 #' @export
 get_name <- new_generic("get_name", "x", function(x) {
   S7_dispatch()
@@ -242,6 +253,7 @@ method(get_name, CompartmentCall) <- function(x) {
 #' @param x A `CompartmentCall` object
 #' @param medianCenter Whether to center the singular values on their median
 #'
+#' @concept s7analysis
 #' @export
 unitarize <- new_generic("unitarize", "x", function(x, medianCenter = TRUE) {
   S7_dispatch()
@@ -268,6 +280,7 @@ method(unitarize, CompartmentCall) <- function(x, medianCenter = TRUE) {
 #'
 #' @param x A `CompartmentCall` object
 #'
+#' @concept s7analysis
 #' @export
 flip <- new_generic("flip", "x", function(x) {
   S7_dispatch()
@@ -293,6 +306,7 @@ method(flip, CompartmentCall) <- function(x) {
 #' @param ref.gr The `GRanges` object to use as the full reference set of
 #' regions
 #'
+#' @concept s7ranges
 #' @export
 fill_missing <- new_generic("flip", "x", function(x, ref.gr) {
   S7_dispatch()
@@ -317,6 +331,7 @@ method(fill_missing, CompartmentCall) <- function(x, ref.gr) {
 #' @param threshold The absolute value to use for filtering. Rows where any
 #' value is less than this threshold are dropped
 #'
+#' @concept s7analysis
 #' @export
 filter <- new_generic("filter", "x", function(x, threshold = 0.02) {
   S7_dispatch()
@@ -333,6 +348,7 @@ method(filter, CompartmentCall) <- function(x, threshold = 0.02) {
 #'
 #' @param x A `CompartmentCall` object
 #'
+#' @concept s7getters
 #' @export
 is_filtered <- new_generic("is_filtered", "x", function(x) {
   S7_dispatch()
@@ -345,6 +361,7 @@ method(is_filtered, CompartmentCall) <- function(x) {
 #'
 #' @param x A `CompartmentCall` object
 #'
+#' @concept s7getters
 #' @export
 get_filter_threshold <- new_generic("filter_threshold", "x", function(x) {
   S7_dispatch()
@@ -356,6 +373,7 @@ method(get_filter_threshold, CompartmentCall) <- function(x) {
 
 #' Get the difference between two CompartmentCall objects call values
 #' @param x, y CompartmentCall objects to compare
+#' @concept s7analysis
 #' @rdname CompartmentCall_difference
 #' @export
 `-.compartmap::CompartmentCall` <- function(x, y) {
@@ -384,6 +402,7 @@ method(get_filter_threshold, CompartmentCall) <- function(x) {
 #' @param ylim Upper and lower bound for the y-axis
 #'
 #' @importFrom ggplot2 ggplot geom_line geom_bar scale_y_continuous theme element_text
+#' @concept plotting
 #' @export
 `plot.compartmap::CompartmentCall` <- function(
   x,
@@ -563,12 +582,14 @@ S4_register(MultiCompartmapCall)
 }
 
 #' Get dimensions of `MultiCompartmapCall` matrix
+#' @concept s7getters
 #' @export
 method(dim, MultiCompartmapCall) <- function(x) {
   dim(x@mat)
 }
 
 #' Get column names of `MultiCompartmapCall` matrix
+#' @concept s7getters
 #' @export
 method(names, MultiCompartmapCall) <- function(x) {
   colnames(x@mat)
@@ -586,6 +607,7 @@ method(names, MultiCompartmapCall) <- function(x) {
 #'
 #' @param x A `MultiCompartmapCall` object
 #'
+#' @concept s7getters
 #' @export
 mat <- new_generic("mat", "x", function(x) {
   S7_dispatch()
@@ -614,7 +636,7 @@ method(print, MultiCompartmapCall) <- function(x, ...) {
 #' @param i Rows indices to subset
 #' @param j Column indices or names to subset
 #'
-#' @keywords internal
+#' @concept s7ranges
 #' @export
 `[.compartmap::MultiCompartmapCall` <- function(x, i = NULL, j = NULL) {
   i <- i %||% seq_len(nrow(x@mat))
@@ -647,6 +669,7 @@ method(print, MultiCompartmapCall) <- function(x, ...) {
   x
 }
 
+#' @concept s7analysis
 #' @export
 method(filter, MultiCompartmapCall) <- function(x, threshold = 0.02) {
   filter_rows <- apply(x@mat, 1, function(i) {
@@ -666,6 +689,7 @@ method(filter, MultiCompartmapCall) <- function(x, threshold = 0.02) {
 #' @param x A `MultiCompartmapCall` object
 #' @param na.omit Whether to omit NAs
 #'
+#' @concept s7analysis
 #' @export
 agreement <- new_generic("agreement", "x", function(x, na.omit = TRUE) {
   S7_dispatch()
@@ -687,6 +711,7 @@ method(agreement, MultiCompartmapCall) <- function(x, na.omit = TRUE) {
 #' @param na.omit Whether to omit NAs
 #'
 #' @importFrom stats cor
+#' @concept s7analysis
 #' @export
 corr <- new_generic("corr", "x", function(x, na.omit = TRUE) {
   S7_dispatch()
@@ -707,6 +732,7 @@ method(corr, MultiCompartmapCall) <- function(x, na.omit = TRUE) {
 #' @value A `MultiCompartmentCall` object with the gradients in the `@df` slot,
 #' replacing the singular vectors
 #'
+#' @concept s7analysis
 #' @export
 differentiate <- new_generic("differentiate", "x", function(x) {
   S7_dispatch()
@@ -737,6 +763,7 @@ method(differentiate, MultiCompartmapCall) <- function(x) {
 #' @param ylim Upper and lower bound for the y-axis
 #'
 #' @importFrom ggplot2 ggplot geom_line geom_col scale_y_continuous theme element_text facet_grid vars scale_fill_manual
+#' @concept plotting
 #' @export
 `plot.compartmap::MultiCompartmapCall` <- function(
   x,

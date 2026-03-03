@@ -12,3 +12,4 @@ differentiate(x)
 \description{
 The direction of change is computed by chromosome
 }
+\concept{s7analysis}

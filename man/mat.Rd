@@ -12,3 +12,4 @@ mat(x)
 \description{
 Get the data matrix from a \code{MultiCompartmapCall} or \code{scCompartmapCall}
 }
+\concept{s7getters}

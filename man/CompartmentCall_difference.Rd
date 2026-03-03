@@ -12,3 +12,4 @@
 \description{
 Get the difference between two CompartmentCall objects call values
 }
+\concept{s7analysis}

@@ -762,7 +762,7 @@ differentiate <- new_generic("differentiate", "x", function(x) {
   S7_dispatch()
 })
 method(differentiate, MultiCompartmapCall) <- function(x) {
-  df <- x@df[, .(n, pc, name, chr = seqlevels(x))] |>
+  x@df <- x@df[, .(n, pc, name, chr = seqlevels(x))] |>
     _[, .(pc = c(NA, diff(pc[-1])) / diff(n)), by = .(name, chr)] |>
     _[, n := seq_len(.N), by = "name"] |>
     na.omit()

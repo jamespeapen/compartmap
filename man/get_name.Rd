@@ -12,3 +12,4 @@ get_name(x)
 \description{
 Get the name of the \code{CompartmentCall} object
 }
+\concept{s7getters}

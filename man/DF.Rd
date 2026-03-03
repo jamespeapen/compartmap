@@ -15,3 +15,4 @@ DF(x)
 \code{name}: The name of the individual \code{CompartmentCall} in a
 \code{MultiCompartmapCall} object
 }
+\concept{s7getters}

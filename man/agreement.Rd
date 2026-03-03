@@ -15,3 +15,4 @@ agreement(x, na.omit = TRUE)
 Calculates the proportion of calls with the same sign for every pair of
 calls in a \code{MultiCompartmapCall} object.
 }
+\concept{s7analysis}

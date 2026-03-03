@@ -14,3 +14,4 @@ subset_chr(x, chr)
 \description{
 Subset the \code{CompartmentCall} object by chromosome
 }
+\concept{s7ranges}

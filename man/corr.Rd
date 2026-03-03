@@ -15,3 +15,4 @@ corr(x, na.omit = TRUE)
 Calculates Pearson correlation for every pair of calls in a
 MultiCompartmapCall object.
 }
+\concept{s7analysis}

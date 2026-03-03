@@ -23,3 +23,4 @@ despite the same input regions and resolution prevents the creation of
 to a larger reference set of bins, filling missing data with NA. All
 bins in \code{x} must be present in the reference bins.
 }
+\concept{s7ranges}

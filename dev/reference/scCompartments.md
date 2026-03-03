@@ -156,6 +156,6 @@ sc_compartments <- scCompartments(
   genome = "hg19",
   BPPARAM = BiocParallel::SerialParam()
 )
-#> INFO [2026-02-25 20:06:33] Computing group level compartments
-#> INFO [2026-02-25 20:06:33] 
+#> INFO [2026-03-03 03:03:00] Computing group level compartments
+#> INFO [2026-03-03 03:03:00] 
 ```

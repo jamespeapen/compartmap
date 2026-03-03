@@ -65,7 +65,13 @@ resolution metadata as well as methods to aid analysis and visualization.
 <span></span>
 <span><span class="fu">CompartmapCall</span><span class="op">(</span><span class="va">gr</span>, <span class="va">res</span>, name <span class="op">=</span> <span class="cn">NULL</span>, unitarized <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">MultiCompartmapCall</span><span class="op">(</span><span class="va">ccalls</span>, <span class="va">name</span>, unitarize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="fu">MultiCompartmapCall</span><span class="op">(</span></span>
+<span>  <span class="va">ccalls</span>,</span>
+<span>  <span class="va">name</span>,</span>
+<span>  unitarize <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  filter <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  filter_threshold <span class="op">=</span> <span class="fl">0.02</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">scCompartmapCall</span><span class="op">(</span><span class="va">re</span>, <span class="va">res</span>, <span class="va">name</span>, unitarized <span class="op">=</span> <span class="cn">FALSE</span>, unitarize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -101,6 +107,14 @@ resolution metadata as well as methods to aid analysis and visualization.
 
 <dt id="arg-unitarize">unitarize<a class="anchor" aria-label="anchor" href="#arg-unitarize"></a></dt>
 <dd><p>Whether to unitarize the singular values for each of the inputs calls</p></dd>
+
+
+<dt id="arg-filter">filter<a class="anchor" aria-label="anchor" href="#arg-filter"></a></dt>
+<dd><p>Whether to filter the singular values</p></dd>
+
+
+<dt id="arg-filter-threshold">filter_threshold<a class="anchor" aria-label="anchor" href="#arg-filter-threshold"></a></dt>
+<dd><p>The threshold at which to filter the singular values</p></dd>
 
 
 <dt id="arg-re">re<a class="anchor" aria-label="anchor" href="#arg-re"></a></dt>

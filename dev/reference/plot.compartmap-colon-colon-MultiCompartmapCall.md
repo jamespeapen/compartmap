@@ -12,7 +12,7 @@ plot(
   type = "line",
   label_coords = FALSE,
   res = "mb",
-  width = 0.5,
+  width = 1,
   ylim = c(-1, 1)
 )
 ```
@@ -29,8 +29,8 @@ plot(
 
 - type:
 
-  Whether to plot the singular values as `"line"` or `"bar"` plots. Bar
-  plots will be facted by the `CompartmapCall` object name while the
+  Whether to plot the singular values as `"line"`plots. Bar plots will
+  be facted by the individual `CompartmapCall` object names while the
   line plots are overlayed.
 
 - label_coords:

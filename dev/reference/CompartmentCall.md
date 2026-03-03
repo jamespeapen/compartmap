@@ -12,7 +12,13 @@ CompartmentCall(pc, res, gr, name = NULL, unitarized = FALSE)
 
 CompartmapCall(gr, res, name = NULL, unitarized = FALSE)
 
-MultiCompartmapCall(ccalls, name, unitarize = FALSE)
+MultiCompartmapCall(
+  ccalls,
+  name,
+  unitarize = FALSE,
+  filter = FALSE,
+  filter_threshold = 0.02
+)
 
 scCompartmapCall(re, res, name, unitarized = FALSE, unitarize = FALSE)
 ```
@@ -47,6 +53,14 @@ scCompartmapCall(re, res, name, unitarized = FALSE, unitarize = FALSE)
 - unitarize:
 
   Whether to unitarize the singular values for each of the inputs calls
+
+- filter:
+
+  Whether to filter the singular values
+
+- filter_threshold:
+
+  The threshold at which to filter the singular values
 
 - re:
 

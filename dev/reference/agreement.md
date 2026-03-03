@@ -6,7 +6,7 @@ calls in a `MultiCompartmapCall` object.
 ## Usage
 
 ``` r
-agreement(x)
+agreement(x, na.omit = TRUE)
 ```
 
 ## Arguments
@@ -14,3 +14,7 @@ agreement(x)
 - x:
 
   A `MultiCompartmapCall` object
+
+- na.omit:
+
+  Whether to omit NAs

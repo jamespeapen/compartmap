@@ -6,7 +6,7 @@ MultiCompartmapCall object.
 ## Usage
 
 ``` r
-corr(x)
+corr(x, na.omit = TRUE)
 ```
 
 ## Arguments
@@ -14,3 +14,7 @@ corr(x)
 - x:
 
   A `MultiCompartmapCall` object
+
+- na.omit:
+
+  Whether to omit NAs

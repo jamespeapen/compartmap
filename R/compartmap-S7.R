@@ -94,6 +94,11 @@ CompartmentCall <- new_class(
       filter_threshold = 0,
       seqinfo = methods::selectMethod('seqinfo', "GRanges")(gr)
     )
+  },
+  validator = function(self) {
+    if (is.na(genome(self@gr))) {
+      "`gr`'s `genome` must be specified. Set with `genome(gr)` <- [genome]"
+    }
   }
 )
 S4_register(CompartmentCall)

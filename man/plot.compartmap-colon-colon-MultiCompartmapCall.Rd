@@ -38,3 +38,4 @@ of the bar if \code{type = "bar"} in the plot}
 \description{
 Plot singular values from a \code{MultiCompartmapCall} object
 }
+\concept{plotting}

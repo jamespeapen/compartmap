@@ -14,3 +14,4 @@ unitarize(x, medianCenter = TRUE)
 \description{
 Unitarize the singular values in a \code{CompartmentCall} or \code{MultiCompartmapCall}
 }
+\concept{s7analysis}

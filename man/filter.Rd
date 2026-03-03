@@ -15,3 +15,4 @@ value is less than this threshold are dropped}
 \description{
 Filter to bins with call values greater than or equal to a threshold value
 }
+\concept{s7analysis}

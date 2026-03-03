@@ -36,3 +36,4 @@ of the bar if \code{type = "bar"} in the plot}
 \description{
 Plot singular values of a \code{CompartmentCall} object
 }
+\concept{plotting}

@@ -14,4 +14,4 @@
 \description{
 Subset rows of a \code{CompartmentCall} object
 }
-\keyword{internal}
+\concept{s7ranges}

@@ -12,3 +12,4 @@ get_filter_threshold(x)
 \description{
 Check the threshold at which an object's calls were filtered, returning 0 if not filtered
 }
+\concept{s7getters}

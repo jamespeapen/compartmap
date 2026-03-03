@@ -16,4 +16,4 @@
 \description{
 Subset \code{MultiCompartmapCall} object
 }
-\keyword{internal}
+\concept{s7ranges}

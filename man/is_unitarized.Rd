@@ -12,3 +12,4 @@ is_unitarized(x)
 \description{
 Check if the \code{CompartmentCall} was unitarized
 }
+\concept{s7getters}

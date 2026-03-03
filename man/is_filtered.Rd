@@ -12,3 +12,4 @@ is_filtered(x)
 \description{
 Check if the \code{CompartmentCall} was filtered.
 }
+\concept{s7getters}

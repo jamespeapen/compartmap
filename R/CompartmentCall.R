@@ -116,20 +116,14 @@ S4_register(CompartmentCall)
 #'
 #' @concept s7getters
 #' @export
-DF <- new_generic("DF", "x", function(x) {
-  S7_dispatch()
-})
-method(DF, CompartmentCall) <- function(x) {
-  x@df[]
-}
-
+DF <- new_generic("DF", "x", function(x) S7_dispatch())
+method(DF, CompartmentCall) <- function(x) x@df[]
 
 #' Get dimensions of `MultiCompartmapCall` matrix
 #' @concept s7getters
 #' @export
-method(dim, CompartmentCall) <- function(x) {
-  c(length(x@gr), 1)
-}
+method(dim, CompartmentCall) <- function(x) c(length(x@gr), 1)
+
 
 #' @concept s7getters
 #' Get GRanges of the `CompartmentCall`
@@ -137,9 +131,7 @@ method(dim, CompartmentCall) <- function(x) {
 #' @param x A `CompartmentCall` object
 #'
 #' @export
-method(granges, CompartmentCall) <- function(x) {
-  x@gr
-}
+method(granges, CompartmentCall) <- function(x) x@gr
 
 #' Get Seqinfo of the `CompartmentCall`
 #'
@@ -147,10 +139,7 @@ method(granges, CompartmentCall) <- function(x) {
 #'
 #' @concept s7getters
 #' @export
-method(seqinfo, CompartmentCall) <- function(x) {
-  x@seqinfo
-}
-
+method(seqinfo, CompartmentCall) <- function(x) x@seqinfo
 
 #' Get 'seqlevels' of the `CompartmentCall`
 #'
@@ -168,12 +157,8 @@ method(seqlevels, CompartmentCall) <- function(x) {
 #'
 #' @concept s7getters
 #' @export
-resolution <- new_generic("resolution", "x", function(x) {
-  S7_dispatch()
-})
-method(resolution, CompartmentCall) <- function(x) {
-  x@res
-}
+resolution <- new_generic("resolution", "x", function(x) S7_dispatch())
+method(resolution, CompartmentCall) <- function(x) x@res
 
 #' Check if the `CompartmentCall` was unitarized
 #'
@@ -181,12 +166,8 @@ method(resolution, CompartmentCall) <- function(x) {
 #'
 #' @concept s7getters
 #' @export
-is_unitarized <- new_generic("is_unitarized", "x", function(x) {
-  S7_dispatch()
-})
-method(is_unitarized, CompartmentCall) <- function(x) {
-  x@unitarized
-}
+is_unitarized <- new_generic("is_unitarized", "x", function(x) S7_dispatch())
+method(is_unitarized, CompartmentCall) <- function(x) x@unitarized
 
 #' Get the name of the `CompartmentCall` object
 #'
@@ -194,12 +175,8 @@ method(is_unitarized, CompartmentCall) <- function(x) {
 #'
 #' @concept s7getters
 #' @export
-get_name <- new_generic("get_name", "x", function(x) {
-  S7_dispatch()
-})
-method(get_name, CompartmentCall) <- function(x) {
-  x@name
-}
+get_name <- new_generic("get_name", "x", function(x) S7_dispatch())
+method(get_name, CompartmentCall) <- function(x) x@name
 
 #' Check if the `CompartmentCall` was filtered.
 #'
@@ -207,12 +184,8 @@ method(get_name, CompartmentCall) <- function(x) {
 #'
 #' @concept s7getters
 #' @export
-is_filtered <- new_generic("is_filtered", "x", function(x) {
-  S7_dispatch()
-})
-method(is_filtered, CompartmentCall) <- function(x) {
-  x@filtered
-}
+is_filtered <- new_generic("is_filtered", "x", function(x) S7_dispatch())
+method(is_filtered, CompartmentCall) <- function(x) x@filtered
 
 #' Check the threshold at which an object's calls were filtered, returning 0 if not filtered
 #'
@@ -220,12 +193,8 @@ method(is_filtered, CompartmentCall) <- function(x) {
 #'
 #' @concept s7getters
 #' @export
-get_filter_threshold <- new_generic("filter_threshold", "x", function(x) {
-  S7_dispatch()
-})
-method(get_filter_threshold, CompartmentCall) <- function(x) {
-  x@filter_threshold
-}
+get_filter_threshold <- new_generic("filter_threshold", "x", function(x) S7_dispatch())
+method(get_filter_threshold, CompartmentCall) <- function(x) x@filter_threshold
 
 # }}}
 
@@ -254,9 +223,7 @@ method(get_filter_threshold, CompartmentCall) <- function(x) {
 #'
 #' @concept s7ranges
 #' @export
-subset_chr <- new_generic("subset_chr", "x", function(x, chr) {
-  S7_dispatch()
-})
+subset_chr <- new_generic("subset_chr", "x", function(x, chr) S7_dispatch())
 method(subset_chr, CompartmentCall) <- function(x, chr) {
   ind <- as.vector(seqnames(x@gr) %gin% chr)
   x[which(ind)]
@@ -270,9 +237,7 @@ method(subset_chr, CompartmentCall) <- function(x, chr) {
 #'
 #' @concept s7analysis
 #' @export
-filter <- new_generic("filter", "x", function(x, threshold = 0.02) {
-  S7_dispatch()
-})
+filter <- new_generic("filter", "x", function(x, threshold = 0.02) S7_dispatch())
 method(filter, CompartmentCall) <- function(x, threshold = 0.02) {
   filter_rows <- x@df[, abs(pc) >= threshold]
   x <- x[filter_rows]
@@ -311,9 +276,7 @@ method(findOverlaps, list(CompartmentCall, CompartmentCall)) <- function(
 #'
 #' @concept s7analysis
 #' @export
-unitarize <- new_generic("unitarize", "x", function(x, medianCenter = TRUE) {
-  S7_dispatch()
-})
+unitarize <- new_generic("unitarize", "x", function(x, medianCenter = TRUE) S7_dispatch())
 method(unitarize, CompartmentCall) <- function(x, medianCenter = TRUE) {
   if (is_unitarized(x)) {
     message(get_name(x), " is already unitarized")
@@ -340,9 +303,7 @@ method(unitarize, CompartmentCall) <- function(x, medianCenter = TRUE) {
 #'
 #' @concept s7analysis
 #' @export
-flip <- new_generic("flip", "x", function(x) {
-  S7_dispatch()
-})
+flip <- new_generic("flip", "x", function(x) S7_dispatch())
 method(flip, CompartmentCall) <- function(x) {
   x@df <- x@df[, .(n, pc = -pc, name)]
   x
@@ -354,9 +315,7 @@ method(flip, CompartmentCall) <- function(x) {
 #'
 #' @concept s7analysis
 #' @export
-fix_sign <- new_generic("fix_sign", "x", function(x) {
-  S7_dispatch()
-})
+fix_sign <- new_generic("fix_sign", "x", function(x) S7_dispatch())
 method(fix_sign, CompartmentCall) <- function(x) {
   gr <- x@gr
   gr$pc <- x@df[, pc]
@@ -386,9 +345,7 @@ method(fix_sign, CompartmentCall) <- function(x) {
 #'
 #' @concept s7ranges
 #' @export
-fill_missing <- new_generic("flip", "x", function(x, ref.gr) {
-  S7_dispatch()
-})
+fill_missing <- new_generic("flip", "x", function(x, ref.gr) S7_dispatch())
 method(fill_missing, CompartmentCall) <- function(x, ref.gr) {
   ref_length <- length(ref.gr)
   stopifnot("Reference GRanges is not bigger than CompartmentCall object" = ref_length > length(x@gr))

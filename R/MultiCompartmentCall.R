@@ -168,6 +168,7 @@ method(print, MultiCompartmapCall) <- function(x, ...) {
   )
 }
 
+#' @rdname filter
 #' @concept s7analysis
 #' @export
 method(filter, MultiCompartmapCall) <- function(x, threshold = 0.02) {

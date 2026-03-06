@@ -96,7 +96,7 @@ CompartmentCall <- new_class(
     )
   },
   validator = function(self) {
-    if (is.na(genome(self@gr))) {
+    if (any(is.na(genome(self@gr)))) {
       "`gr`'s `genome` must be specified. Set with `genome(gr)` <- [genome]"
     }
   }
@@ -355,7 +355,9 @@ method(fill_missing, CompartmentCall) <- function(x, ref.gr) {
   df <- data.table(n = ifelse(ref.gr %gin% x@gr, ref_idx, NA))
   df[!is.na(n), `:=`(pc = x@df$pc, name = x@name)]
   df[, n := .I][]
+  tmp_genome <- genome(x@gr)
   x@gr <- ref.gr
+  genome(x@gr) <- tmp_genome
   x@df <- df
   x
 }

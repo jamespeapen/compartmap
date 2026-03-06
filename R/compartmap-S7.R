@@ -850,6 +850,7 @@ scCompartmapCall <- new_class(
   ),
   constructor = function(re, res, name, unitarized = FALSE, unitarize = FALSE) {
     grlist <- condenseSE(re)
+    gen <- genome(re)
     pcs <- lapply(grlist, function(i) {
       mcols(i)[, 'pc']
     })
@@ -869,6 +870,7 @@ scCompartmapCall <- new_class(
     )
 
     gr <- GRanges(rownames(mat))
+    genome(gr) <- gen
 
     new_object(
       S7_object(),

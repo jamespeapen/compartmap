@@ -125,7 +125,9 @@ scCompartments <- function(
   check_worker_count(bpparams, group, length(chr), bootstrap)
 
   # which assay are we working on
-  if (!all(assay %in% c("atac", "rna"))) stop("Supported assays are 'atac', and 'rna'.")
+  if (!all(assay %in% c("atac", "rna"))) {
+    stop("Supported assays are 'atac', and 'rna'.")
+  }
   assay <- tolower(match.arg(assay))
   verifyAssayNames(obj, assay = assay)
   getCompartments(

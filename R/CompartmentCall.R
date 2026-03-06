@@ -264,6 +264,25 @@ method(subset_chr, CompartmentCall) <- function(x, chr) {
   x[which(ind)]
 }
 
+#' Filter to bins with call values greater than or equal to a threshold value
+#'
+#' @param x A `CompartmentCall` object
+#' @param threshold The absolute value to use for filtering. Rows where any
+#' value is less than this threshold are dropped
+#'
+#' @concept s7analysis
+#' @export
+filter <- new_generic("filter", "x", function(x, threshold = 0.02) {
+  S7_dispatch()
+})
+method(filter, CompartmentCall) <- function(x, threshold = 0.02) {
+  filter_rows <- x@df[, abs(pc) >= threshold]
+  x <- x[filter_rows]
+  x@filtered <- TRUE
+  x@filter_threshold <- threshold
+  x
+}
+
 # }}}
 
 #' Find overlaps between `CompartmentCall` objects
@@ -315,6 +334,8 @@ method(unitarize, CompartmentCall) <- function(x, medianCenter = TRUE) {
   x
 }
 
+# SIGN CORRECTION ==========================================================={{{
+
 #' Flip the singular values signs in a `CompartmentCall`
 #'
 #' @param x A `CompartmentCall` object
@@ -346,6 +367,8 @@ method(fix_sign, CompartmentCall) <- function(x) {
   }
   x
 }
+
+# }}}
 
 #' Fill missing genomic bins in `CompartmentCalls` using a reference GRanges
 #'
@@ -382,24 +405,6 @@ method(fill_missing, CompartmentCall) <- function(x, ref.gr) {
   x
 }
 
-#' Filter to bins with call values greater than or equal to a threshold value
-#'
-#' @param x A `CompartmentCall` object
-#' @param threshold The absolute value to use for filtering. Rows where any
-#' value is less than this threshold are dropped
-#'
-#' @concept s7analysis
-#' @export
-filter <- new_generic("filter", "x", function(x, threshold = 0.02) {
-  S7_dispatch()
-})
-method(filter, CompartmentCall) <- function(x, threshold = 0.02) {
-  filter_rows <- x@df[, abs(pc) >= threshold]
-  x <- x[filter_rows]
-  x@filtered <- TRUE
-  x@filter_threshold <- threshold
-  x
-}
 
 #' Get the difference between two CompartmentCall objects call values
 #' @param x, y CompartmentCall objects to compare

@@ -46,7 +46,9 @@ bootstrapCompartments <- function(
   assay <- match.arg(assay)
 
   # if we are using targeted means
-  if (!is.null(targets)) original.obj <- original.obj[, targets]
+  if (!is.null(targets)) {
+    original.obj <- original.obj[, targets]
+  }
 
   # get the global means we are going to use
   # this could theoretically break if you ask for more bootstraps here than were pre-computed...

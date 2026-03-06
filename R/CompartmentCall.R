@@ -348,7 +348,7 @@ method(fix_sign, CompartmentCall) <- function(x) {
 fill_missing <- new_generic("flip", "x", function(x, ref.gr) S7_dispatch())
 method(fill_missing, CompartmentCall) <- function(x, ref.gr) {
   ref_length <- length(ref.gr)
-  stopifnot("Reference GRanges is not bigger than CompartmentCall object" = ref_length > length(x@gr))
+  stopifnot("Reference GRanges is not bigger than CompartmentCall object" = ref_length >= length(x@gr))
   stopifnot("All CompartmentCall bins must be present in the reference GRanges" = all(x@gr %gin% ref.gr))
 
   ref_idx <- seq_len(ref_length)

@@ -15,12 +15,9 @@ getCompartments <- function(
   boot.parallel,
   bpparams
 ) {
-  if (is.null(chr)) {
-    flog.info("Assuming we want to process all chromosomes.")
-    chr <- getChrs(obj)
+  if (is.null(colnames(obj))) {
+    stop("colnames needs to be sample names.")
   }
-
-  if (is.null(colnames(obj))) stop("colnames needs to be sample names.")
   columns <- colnames(obj)
   names(columns) <- columns
 

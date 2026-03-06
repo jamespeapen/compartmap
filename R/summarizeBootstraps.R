@@ -57,8 +57,10 @@ summarizeBootstraps <- function(boot.list, est.ab, q = 0.95, assay = c("rna", "a
 
   # overlap by common intervals
   ol <- findOverlaps(gr.boot, est.ab.dummy)
-  mcols(est.ab.dummy)$boot.open[subjectHits(ol)] <- mcols(est.ab.dummy)$boot.open[subjectHits(ol)] + mcols(gr.boot)$open[queryHits(ol)]
-  mcols(est.ab.dummy)$boot.closed[subjectHits(ol)] <- mcols(est.ab.dummy)$boot.closed[subjectHits(ol)] + mcols(gr.boot)$closed[queryHits(ol)]
+  boot.open <- mcols(est.ab.dummy)$boot.open[subjectHits(ol)] + mcols(gr.boot)$open[queryHits(ol)]
+  boot.closed <- mcols(est.ab.dummy)$boot.closed[subjectHits(ol)] + mcols(gr.boot)$closed[queryHits(ol)]
+  mcols(est.ab.dummy)$boot.open[subjectHits(ol)] <- boot.open
+  mcols(est.ab.dummy)$boot.closed[subjectHits(ol)] <- boot.closed
 
   # return the dummy mcols for bootstrapped open and closed calls
   return(as.matrix(cbind(

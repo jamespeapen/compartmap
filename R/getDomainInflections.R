@@ -74,7 +74,6 @@ getDomainInflections <- function(
   # to bookend our vectors to calculate
   non_contig <- which(d != 1)
 
-
   # if we have fully continuous data, short circuit
   if (!length(non_contig)) {
     message("Contiguous runs. Finding inflections.")

@@ -80,7 +80,9 @@ precomputeBootstrapMeans <- function(
   is.array <- assay == "array"
 
   if (!is.null(targets)) {
-    if (length(targets) < 5) stop("Need 5 or more samples for targeted bootstrapping to work.")
+    if (length(targets) < 5) {
+      stop("Need 5 or more samples for targeted bootstrapping to work.")
+    }
     obj <- getShrinkageTargets(obj, targets)
   }
   assay.data <- .getAssay(obj, is.array)

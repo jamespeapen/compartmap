@@ -855,9 +855,9 @@ scCompartmapCall <- new_class(
     })
     mat <- do.call(cbind, pcs)
 
-    if (unitarize & !unitarized) {
+    if (unitarize && !unitarized) {
       mat <- apply(mat, 2, .unitarize)
-    } else if (unitarize & unitarized) {
+    } else if (unitarize && unitarized) {
       message("Already unitarized")
     }
 

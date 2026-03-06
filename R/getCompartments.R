@@ -155,7 +155,7 @@ getCompartments <- function(
     obj.svd <- obj.cor$gr
   } else {
     # compute SVD of correlation matrix
-    obj.svd <- getABSignal(obj.cor, assay = assay)
+    obj.svd <- getABSignal(obj.cor, assay = assay, genome = genome)
   }
 
   if (!bootstrap) {

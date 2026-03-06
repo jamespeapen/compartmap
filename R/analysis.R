@@ -5,10 +5,10 @@
 #' @keywords internal
 #' @export
 get_agreement <- function(mat) {
-  cmbs <- combn(1:ncol(mat), 2)
+  cmbs <- combn(seq_len(ncol(mat)), 2)
   ncols <- ncol(mat)
   agrmat <- matrix(nrow = ncols, ncol = ncols)
-  for (cidx in seq(ncol(cmbs))) {
+  for (cidx in seq_len(ncol(cmbs))) {
     i <- cmbs[, cidx][1]
     j <- cmbs[, cidx][2]
     res <- .compute_agreement(mat[, i], mat[, j])

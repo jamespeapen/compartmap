@@ -67,17 +67,21 @@ getABSignal <- function(
   gr$pc <- meanSmoother(pc)
   flog.debug("Done smoothing.")
 
-  if (flipSign(gr, genome)) gr$pc <- -gr$pc
+  if (flipSign(gr, genome, assay)) gr$pc <- -gr$pc
   gr$compartments <- extractOpenClosed(gr, assay = assay)
   genome(gr) <- genome
   return(gr)
 }
 
-flipSign <- function(gr, genome) {
+flipSign <- function(gr, genome, assay) {
   tx.gr <- getGenome(genome, "tx")
   gene_count <- countOverlaps(gr, tx.gr)
   open <- gr$pc > 0
-  sum(gene_count[open]) < sum(gene_count[!open])
+  flip <- sum(gene_count[open]) < sum(gene_count[!open])
+  if (assay == "array") {
+    flip <- !flip
+  }
+  flip
 }
 
 #' Get the open and closed compartment calls based on sign of singular values

@@ -117,6 +117,11 @@ scCompartments <- function(
   verifyCoords(obj)
 
   bpparams <- get_nested_params(BPPARAM, boot.parallel)
+  if (is.null(chr)) {
+    flog.info("Assuming we want to process all chromosomes.")
+    chr <- getChrs(obj)
+  }
+
   check_worker_count(bpparams, group, length(chr), bootstrap)
 
   # which assay are we working on

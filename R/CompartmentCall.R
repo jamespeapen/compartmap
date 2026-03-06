@@ -123,14 +123,12 @@ method(DF, CompartmentCall) <- function(x) {
   x@df[]
 }
 
-#' @concept s7getters
-`nrow.compartmap::CompartmentCall` <- function(x) {
-  length(x@gr)
-}
 
+#' Get dimensions of `MultiCompartmapCall` matrix
 #' @concept s7getters
-`ncol.compartmap::CompartmentCall` <- function(x) {
-  1
+#' @export
+method(dim, CompartmentCall) <- function(x) {
+  c(length(x@gr), 1)
 }
 
 #' @concept s7getters

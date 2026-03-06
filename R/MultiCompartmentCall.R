@@ -90,14 +90,6 @@ MultiCompartmapCall <- new_class(
 S4_register(MultiCompartmapCall)
 
 # GETTERS ==================================================================={{{
-`nrow.compartmap::CompartmentCall` <- function(x) {
-  nrow(x@mat)
-}
-
-`ncol.compartmap::CompartmentCall` <- function(x) {
-  ncol(x@mat)
-}
-
 #' Get dimensions of `MultiCompartmapCall` matrix
 #' @concept s7getters
 #' @export

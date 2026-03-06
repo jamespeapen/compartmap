@@ -881,7 +881,9 @@ scCompartmapCall <- new_class(
       unitarized = unitarized,
       seqinfo = methods::selectMethod('seqinfo', "GRanges")(gr),
       colnames = colnames(mat),
-      mat = mat
+      mat = mat,
+      filtered = FALSE,
+      filter_threshold = 0
     )
   }
 )

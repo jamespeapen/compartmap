@@ -36,7 +36,9 @@ getAssayNames <- function(se) {
 flogit <- function(p, sqz = 0.000001) {
   midpt <- 0.5
   deflate <- 1 - (sqz * midpt)
-  if (any(p > 1 | p < 0, na.rm = TRUE)) stop("Values of p outside (0,1) detected.")
+  if (any(p > 1 | p < 0, na.rm = TRUE)) {
+    stop("Values of p outside (0,1) detected.")
+  }
   squoze <- ((p - midpt) * deflate) + midpt
   return(log(squoze / (1 - squoze)))
 }
@@ -115,12 +117,14 @@ getGenome <- function(
   genome = c("hg19", "hg38", "mm9", "mm10"),
   type = "genome"
 ) {
-  genome.name <- match.arg(genome) |> tryCatch(error = function(e) {
-    e <- gsub("'arg'", "'genome'", e)
-    msg <- paste0(e, "Only human and mouse genomes are supported for the time being.")
-    stop(msg)
-  })
-  gr <- switch(type,
+  genome.name <- match.arg(genome) |>
+    tryCatch(error = function(e) {
+      e <- gsub("'arg'", "'genome'", e)
+      msg <- paste0(e, "Only human and mouse genomes are supported for the time being.")
+      stop(msg)
+    })
+  gr <- switch(
+    type,
     genome = paste0(genome.name, ".gr"),
     tx = paste0(genome.name, ".tx.gr"),
     openseas = paste0("openSeas.", genome.name)
@@ -150,7 +154,9 @@ getSeqLengths <- function(genome.gr, chr = "chr14") {
   if (is.na(sl)) {
     genome.build <- unique(genome(genome.gr))
     msg <- paste(
-      chr, "not found in seqlevels of", genome.build,
+      chr,
+      "not found in seqlevels of",
+      genome.build,
       "- check that the 'genome' and 'chr' arguments are correct"
     )
     stop(msg)
@@ -285,7 +291,9 @@ importBigWig <- function(
   }
 
   # it is now a GRanges object
-  if (anyNA(seqlengths(bw.raw))) stop("Imported bigwig does not have seqlengths")
+  if (anyNA(seqlengths(bw.raw))) {
+    stop("Imported bigwig does not have seqlengths")
+  }
 
   species <- switch(
     genome,
@@ -305,7 +313,9 @@ importBigWig <- function(
     bw.sub <- sort(bw.sub)
     # this assumes seqlengths exist...
     # this also assumes some bins exist
-    if (is.null(bins)) stop("Specify bins as GRanges with tileGenome")
+    if (is.null(bins)) {
+      stop("Specify bins as GRanges with tileGenome")
+    }
     bw.score <- GenomicRanges::coverage(bw.sub, weight = "score")
     bw.bin <- GenomicRanges::binnedAverage(bins, bw.score, "ave_score")
     # cast to a SummarizedExperiment to bin them
@@ -350,10 +360,7 @@ cleanAssay <- function(by = c("row", "col")) {
 
   function(se, na.max = 0.8, assay = c("array", "bisulfite")) {
     assay <- match.arg(assay)
-    assay.data <- switch(assay,
-      array = assays(se)$Beta,
-      bisulfite = assays(se)$counts
-    )
+    assay.data <- switch(assay, array = assays(se)$Beta, bisulfite = assays(se)$counts)
     toKeep <- mean.fun(is.na(assay.data)) < na.max
     subset.fun(se, toKeep)
   }
@@ -417,7 +424,9 @@ filterOpenSea <- function(
   genome = c("hg19", "hg38", "mm10", "mm9"),
   other = NULL
 ) {
-  stopifnot("'obj' needs to be a GRanges or SummarizedExperiment" = is(obj, "GRanges") | is(obj, "SummarizedExperiment"))
+  stopifnot(
+    "'obj' needs to be a GRanges or SummarizedExperiment" = is(obj, "GRanges") | is(obj, "SummarizedExperiment")
+  )
 
   # get the desired open sea loci given the genome GRanges
   openseas.genome <- other %||% getGenome(genome, type = "openseas")

@@ -65,13 +65,13 @@ imputeKNN <- function(
 
   impute.input <-
     if (is.beta && is.array) {
-      flogit(assays(obj.clean)$Beta)      # assumes beta values and use squeezed M-values
+      flogit(assays(obj.clean)$Beta) # assumes beta values and use squeezed M-values
     } else if (is.beta && !is.array) {
-      flogit(assays(obj.clean)$counts)    # assumes that bisulfite-seq was given as betas
+      flogit(assays(obj.clean)$counts) # assumes that bisulfite-seq was given as betas
     } else if (!is.beta && is.array) {
-      assays(obj.clean)$Beta              # assumes these are M-values
+      assays(obj.clean)$Beta # assumes these are M-values
     } else if (!is.beta && !is.array) {
-      assays(obj.clean)$counts            # assumes the assay is bisulfite-seq, calculated as M-values
+      assays(obj.clean)$counts # assumes the assay is bisulfite-seq, calculated as M-values
     }
 
   message("Imputing missing data with kNN.")
@@ -87,7 +87,8 @@ imputeKNN <- function(
   if (!in.place) {
     assays(obj.clean)$imputed.data <- imputed.data
   } else {
-    switch(assay,
+    switch(
+      assay,
       # send M-values back to beta
       array = assays(obj.clean)$Beta <- fexpit(imputed.data),
       bisulfite = assays(obj.clean)$counts <- fexpit(imputed.data)

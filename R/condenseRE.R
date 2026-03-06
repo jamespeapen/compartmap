@@ -18,7 +18,9 @@ condenseRE <- function(obj) {
   # this is a function to extract relevant information from a RaggedExperiment
   # it will build a list of SummarizedExperiments with relevant information
   # from computing compartments
-  if (!is(obj, "RaggedExperiment")) stop("Input needs to be a RaggedExperiment")
+  if (!is(obj, "RaggedExperiment")) {
+    stop("Input needs to be a RaggedExperiment")
+  }
   se_list <- lapply(seq_along(assayNames(obj)), function(a) {
     compactSummarizedExperiment(obj, i = a)
   })
@@ -51,10 +53,14 @@ condenseSE <- function(obj, sample.name = NULL) {
   sample.name <- sample.name %||% colnames(obj)
 
   # make sure there are some assays to work with
-  if (length(obj) < 1) stop("No assays found to condense.")
+  if (length(obj) < 1) {
+    stop("No assays found to condense.")
+  }
 
   # condense the input to something that can be plotted with plotAB
-  if (is(obj, "RaggedExperiment")) obj <- condenseRE(obj)
+  if (is(obj, "RaggedExperiment")) {
+    obj <- condenseRE(obj)
+  }
 
   # check and make sure that the names needed are found in the column names
   colnames.assay <- colnames(assay(obj[[1]]))

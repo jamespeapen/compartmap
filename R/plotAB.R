@@ -87,11 +87,19 @@ plotAB <- function(
     stop("conf.est isn't found in the mcols() of the input - run the compartmentCI() first.")
   }
 
-  if (!is.null(chr)) grAB <- keepSeqlevels(grAB, chr, pruning.mode = "coarse")
+  if (!is.null(chr)) {
+    grAB <- keepSeqlevels(grAB, chr, pruning.mode = "coarse")
+  }
   mat.AB <- as(mcols(grAB)[, "pc"], "matrix")
-  if (unitarize) mat.AB <- .unitarize(mat.AB)
-  if (filter) mat.AB <- mat.AB[abs(mat.AB) > filter.min.eigen]
-  if (reverse) mat.AB <- -mat.AB
+  if (unitarize) {
+    mat.AB <- .unitarize(mat.AB)
+  }
+  if (filter) {
+    mat.AB <- mat.AB[abs(mat.AB) > filter.min.eigen]
+  }
+  if (reverse) {
+    mat.AB <- -mat.AB
+  }
   mat.AB <- as.numeric(mat.AB)
 
   n <- length(mat.AB)
@@ -109,11 +117,15 @@ plotAB <- function(
 
 # helper fn
 .unitarize <- function(x, medianCenter = TRUE) {
-  if (medianCenter) x <- x - median(x, na.rm = TRUE)
+  if (medianCenter) {
+    x <- x - median(x, na.rm = TRUE)
+  }
   NAs <- is.na(x)
   x[!NAs] <- x[!NAs] / sqrt(sum(x[!NAs]^2))
   na.count <- sum(NAs)
-  if (na.count > 0) flog.debug("[.unitarize] %i missing values were ignored.\n", na.count)
+  if (na.count > 0) {
+    flog.debug("[.unitarize] %i missing values were ignored.\n", na.count)
+  }
   x
 }
 

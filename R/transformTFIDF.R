@@ -83,9 +83,7 @@ transformTFIDF <- function(mat, scale.factor = 1e5, binarize = FALSE) {
 #' tfidf <- hdf5TFIDF(mat)
 #'
 #' @export
-hdf5TFIDF <- function(h5, scale.factor = 1e5,
-                      return.dense = FALSE,
-                      return.se = FALSE) {
+hdf5TFIDF <- function(h5, scale.factor = 1e5, return.dense = FALSE, return.se = FALSE) {
   # binarze
   if (is(h5, "SummarizedExperiment")) {
     if (!is(assay(h5), "DelayedMatrix")) {
@@ -97,7 +95,9 @@ hdf5TFIDF <- function(h5, scale.factor = 1e5,
 
   if (is(h5, "DelayedMatrix")) {
     # make the matrix tall if needed
-    if (dim(h5)[1] < dim(h5)[2]) h5 <- t(h5)
+    if (dim(h5)[1] < dim(h5)[2]) {
+      h5 <- t(h5)
+    }
     h5[h5 > 0] <- 1
     h5.mat <- h5
   }
@@ -109,7 +109,7 @@ hdf5TFIDF <- function(h5, scale.factor = 1e5,
 
   message("Computing term frequency.")
   tf <- t(t(h5.mat) / DelayedMatrixStats::colSums2(h5.mat)) # term frequency
-  tf <- log1p(tf * scale.factor)                            # scale
+  tf <- log1p(tf * scale.factor) # scale
 
   message("Computing inverse document frequency.")
   idf <- log(1 + ncol(h5.mat) / DelayedMatrixStats::rowSums2(h5.mat)) # inverse document frequency
@@ -117,11 +117,11 @@ hdf5TFIDF <- function(h5, scale.factor = 1e5,
   # TODO: fix this ugliness...
   tf.mat <- as.matrix(tf)
   tf.sparse <- Matrix(tf.mat, sparse = TRUE) # cast the tf matrix back to a sparse matrix
-  tf.sparse <- t(tf.sparse)                  # transpose for TF-IDF
+  tf.sparse <- t(tf.sparse) # transpose for TF-IDF
 
   message("TF-IDF")
   tf.sparse@x <- tf.sparse@x * rep.int(idf, diff(tf.sparse@p)) # TF-IDF applied
-  tf.sparse <- t(tf.sparse)                                    # transpose again
+  tf.sparse <- t(tf.sparse) # transpose again
 
   # coerce back to dense matrix
   if (return.dense) {

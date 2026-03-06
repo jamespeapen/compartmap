@@ -18,7 +18,9 @@
 #' #Transform
 #' fisherZ(mat)
 fisherZ <- function(cormat) {
-  if (any(cormat == 1)) cormat <- .squeezeit(cormat)
+  if (any(cormat == 1)) {
+    cormat <- .squeezeit(cormat)
+  }
   atanh(cormat)
 }
 

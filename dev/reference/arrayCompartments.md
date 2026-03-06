@@ -184,6 +184,6 @@ if (requireNamespace("minfi", quietly = TRUE)) {
 #> Done cluster 1245 
 #> Done cluster 1845 
 #> Done cluster 2814 
-#> INFO [2026-03-06 20:03:03] Computing group level compartments
-#> INFO [2026-03-06 20:03:03] 
+#> INFO [2026-03-06 20:11:25] Computing group level compartments
+#> INFO [2026-03-06 20:11:25] 
 ```

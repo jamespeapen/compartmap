@@ -93,16 +93,14 @@ S4_register(MultiCompartmapCall)
 #' Get dimensions of `MultiCompartmapCall` matrix
 #' @concept s7getters
 #' @export
-method(dim, MultiCompartmapCall) <- function(x) {
-  dim(x@mat)
-}
+method(dim, MultiCompartmapCall) <- function(x) dim(x@mat)
+
 
 #' Get column names of `MultiCompartmapCall` matrix
 #' @concept s7getters
 #' @export
-method(names, MultiCompartmapCall) <- function(x) {
-  colnames(x@mat)
-}
+method(names, MultiCompartmapCall) <- function(x) colnames(x@mat)
+
 
 #' Get the data matrix from a `MultiCompartmapCall` or `scCompartmapCall`
 #'
@@ -110,13 +108,8 @@ method(names, MultiCompartmapCall) <- function(x) {
 #'
 #' @concept s7getters
 #' @export
-mat <- new_generic("mat", "x", function(x) {
-  S7_dispatch()
-})
-method(mat, MultiCompartmapCall) <- function(x) {
-  x@mat
-}
-
+mat <- new_generic("mat", "x", function(x) S7_dispatch())
+method(mat, MultiCompartmapCall) <- function(x) x@mat
 # }}}
 
 # SUBSETTERS ==============================================================={{{
@@ -197,9 +190,7 @@ method(filter, MultiCompartmapCall) <- function(x, threshold = 0.02) {
 #'
 #' @concept s7analysis
 #' @export
-agreement <- new_generic("agreement", "x", function(x, na.omit = TRUE) {
-  S7_dispatch()
-})
+agreement <- new_generic("agreement", "x", function(x, na.omit = TRUE) S7_dispatch())
 method(agreement, MultiCompartmapCall) <- function(x, na.omit = TRUE) {
   if (na.omit) {
     get_agreement(na.omit(x@mat))
@@ -219,15 +210,9 @@ method(agreement, MultiCompartmapCall) <- function(x, na.omit = TRUE) {
 #' @importFrom stats cor
 #' @concept s7analysis
 #' @export
-corr <- new_generic("corr", "x", function(x, na.omit = TRUE) {
-  S7_dispatch()
-})
+corr <- new_generic("corr", "x", function(x, na.omit = TRUE) S7_dispatch())
 method(corr, MultiCompartmapCall) <- function(x, na.omit = TRUE) {
-  if (na.omit) {
-    cor(na.omit(x@mat))
-  } else {
-    cor(x@mat)
-  }
+  if (na.omit) cor(na.omit(x@mat)) else cor(x@mat)
 }
 
 #' Compute the direction of change of singular vectors in the MultiCompartmentCall object
@@ -240,9 +225,7 @@ method(corr, MultiCompartmapCall) <- function(x, na.omit = TRUE) {
 #'
 #' @concept s7analysis
 #' @export
-differentiate <- new_generic("differentiate", "x", function(x) {
-  S7_dispatch()
-})
+differentiate <- new_generic("differentiate", "x", function(x) S7_dispatch())
 method(differentiate, MultiCompartmapCall) <- function(x) {
   x@df <- x@df[, .(n, pc, name, chr = seqlevels(x))] |>
     _[, .(pc = c(NA, diff(pc[-1])) / diff(n)), by = .(name, chr)] |>

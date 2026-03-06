@@ -106,8 +106,12 @@ extractOpenClosed <- function(
   assay = c("rna", "atac", "array")
 ) {
   # check for input to be GRanges
-  if (!is(gr, "GRanges")) stop("Input needs to be a GRanges.")
-  if (!("pc" %in% names(mcols(gr)))) stop("Need to have an mcols column be named 'pc'.")
+  if (!is(gr, "GRanges")) {
+    stop("Input needs to be a GRanges.")
+  }
+  if (!("pc" %in% names(mcols(gr)))) {
+    stop("Need to have an mcols column be named 'pc'.")
+  }
 
   assay <- match.arg(assay)
   is.atac_or_rna <- assay %in% c("atac", "rna")

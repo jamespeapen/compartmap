@@ -85,7 +85,7 @@ bootstrapCompartments <- function(
       if (anyNA(cor.bins$binmat.cor)) {
         absig <- matrix(rep(NA, nrow(cor.bins$binmat.cor)))
       } else {
-        absig <- getABSignal(cor.bins, assay = assay)
+        absig <- getABSignal(cor.bins, assay = assay, genome = genome)
       }
       return(absig)
     },

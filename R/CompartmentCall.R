@@ -125,11 +125,11 @@ method(DF, CompartmentCall) <- function(x) x@df[]
 method(dim, CompartmentCall) <- function(x) c(length(x@gr), 1)
 
 
-#' @concept s7getters
 #' Get GRanges of the `CompartmentCall`
 #'
 #' @param x A `CompartmentCall` object
 #'
+#' @concept s7getters
 #' @export
 method(granges, CompartmentCall) <- function(x) x@gr
 

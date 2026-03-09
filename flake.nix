@@ -1,6 +1,6 @@
 {
   description = "Flake to get compartmap development environment";
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+  inputs.nixpkgs.url = "github:rstats-on-nix/nixpkgs/r-bioc-devel";
   inputs.flake-utils.url = "github:numtide/flake-utils";
 
   outputs = { self, nixpkgs, flake-utils }:

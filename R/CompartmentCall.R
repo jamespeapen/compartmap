@@ -428,11 +428,7 @@ grscale <- function(gr, res) {
 }
 
 .resolution <- function(res) {
-  fct <- res / 1e5
-  if ((any(fct < 1) | any(fct >= 100))) {
-    stop("Unsupported resolution")
-  }
-  ifelse(fct < 10, paste(fct, "Kb"), paste(fct / 10, "Mb"))
+  scales::number(res, suffix = "b", scale_cut = scales::cut_short_scale())
 }
 
 # Store the BiocGenerics %in% to differentiate from base::`%in%`

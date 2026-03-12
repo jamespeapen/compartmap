@@ -8,9 +8,9 @@
 \alias{scCompartmapCall}
 \title{Compartment Call objects for analysis (experimental)}
 \usage{
-CompartmentCall(pc, res, gr, name = NULL, unitarized = FALSE)
+CompartmentCall(pc, res, gr, assay, name = NULL, unitarized = FALSE)
 
-CompartmapCall(gr, res, name = NULL, unitarized = FALSE)
+CompartmapCall(gr, res, assay, name = NULL, unitarized = FALSE)
 
 MultiCompartmapCall(
   ccalls,

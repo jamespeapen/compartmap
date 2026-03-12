@@ -76,12 +76,13 @@ CompartmentCall <- new_class(
     gr = methods::getClass("GRanges"),
     df = methods::getClass("data.table"),
     res = class_numeric,
+    assay = class_character,
     unitarized = class_logical,
     filtered = class_logical,
     filter_threshold = class_numeric,
     seqinfo = methods::getClass("Seqinfo")
   ),
-  constructor = function(pc, res, gr, name = NULL, unitarized = FALSE) {
+  constructor = function(pc, res, gr, assay, name = NULL, unitarized = FALSE) {
     df <- data.table(pc = as.vector(pc))[, .(n = .I, pc, name = name)]
     new_object(
       S7_object(),
@@ -89,6 +90,7 @@ CompartmentCall <- new_class(
       gr = granges(gr),
       df = df,
       res = res,
+      assay = assay,
       unitarized = unitarized,
       filtered = FALSE,
       filter_threshold = 0,
@@ -159,6 +161,15 @@ method(seqlevels, CompartmentCall) <- function(x) {
 #' @export
 resolution <- new_generic("resolution", "x", function(x) S7_dispatch())
 method(resolution, CompartmentCall) <- function(x) x@res
+
+#' Get the assay of the `CompartmentCall`
+#'
+#' @param x A `CompartmentCall` object
+#'
+#' @concept s7getters
+#' @export
+get_assay <- new_generic("get_assay", "x", function(x) S7_dispatch())
+method(get_assay, CompartmentCall) <- function(x) x@assay
 
 #' Check if the `CompartmentCall` was unitarized
 #'
@@ -319,7 +330,7 @@ fix_sign <- new_generic("fix_sign", "x", function(x) S7_dispatch())
 method(fix_sign, CompartmentCall) <- function(x) {
   gr <- x@gr
   gr$pc <- x@df[, pc]
-  if (flipSign(gr, genome(gr))) {
+  if (flipSign(gr, genome(gr), x@assay)) {
     x <- flip(x)
   }
   x
@@ -448,6 +459,7 @@ method(print, CompartmentCall) <- function(x, ...) {
   sprintf(
     "<%s object>
   @name        : %s
+  @assay       : %s
   @res         : %s
   @gr          : GRanges with %d bins
   @df          : data.table of compartment calls (n = bin index, pc = singular values)
@@ -455,6 +467,7 @@ method(print, CompartmentCall) <- function(x, ...) {
   @filtered    : %s%s",
     class_type,
     x@name,
+    x@assay,
     .resolution(x@res),
     length(x@gr),
     x@unitarized,
@@ -470,7 +483,7 @@ method(print, CompartmentCall) <- function(x, ...) {
 CompartmapCall <- new_class(
   "CompartmapCall",
   parent = CompartmentCall,
-  constructor = function(gr, res, name = NULL, unitarized = FALSE) {
+  constructor = function(gr, res, assay, name = NULL, unitarized = FALSE) {
     df <- data.table(pc = gr$pc)[, `:=`(n = .I, name = name)][, .(n, pc, name)]
     new_object(
       S7_object(),
@@ -478,6 +491,7 @@ CompartmapCall <- new_class(
       gr = granges(gr),
       df = df,
       res = res,
+      assay = assay,
       unitarized = unitarized,
       filtered = FALSE,
       filter_threshold = 0,

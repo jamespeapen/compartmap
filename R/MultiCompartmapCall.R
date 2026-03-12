@@ -32,6 +32,7 @@ MultiCompartmapCall <- new_class(
     }
 
     unique_res <- all_same(resolution, "All resolutions must be the same")
+    unique_assay <- all_same(get_assay, "All assays must be the same")
     unique_gr <- all_same(granges, "All GRanges must contain the same ranges")
     all_filtered <- all_same(is_filtered, "All objects must be filtered")
     all_ft <- all_same(get_filter_threshold, "All objects must be filtered to the same threshold")
@@ -68,6 +69,7 @@ MultiCompartmapCall <- new_class(
       gr = unique_gr[[1]],
       df = df,
       res = unique_res,
+      assay = unique_assay,
       unitarized = all_unitarized,
       filtered = all_filtered,
       filter_threshold = all_ft,

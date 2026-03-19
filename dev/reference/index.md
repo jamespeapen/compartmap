@@ -25,6 +25,11 @@
 
   Get the `@df` slot from a CompartmentCall object.
 
+- [`get_assay()`](https://huishenlab.github.io/compartmap/dev/reference/get_assay.md)
+  :
+
+  Get the assay of the `CompartmentCall`
+
 - [`get_filter_threshold()`](https://huishenlab.github.io/compartmap/dev/reference/get_filter_threshold.md)
   : Check the threshold at which an object's calls were filtered,
   returning 0 if not filtered

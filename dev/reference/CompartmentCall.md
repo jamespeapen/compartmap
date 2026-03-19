@@ -8,9 +8,9 @@ which `CompartmapCall()` and `MultiCompartmapCall()` are derived.
 ## Usage
 
 ``` r
-CompartmentCall(pc, res, gr, name = NULL, unitarized = FALSE)
+CompartmentCall(pc, res, gr, assay, name = NULL, unitarized = FALSE)
 
-CompartmapCall(gr, res, name = NULL, unitarized = FALSE)
+CompartmapCall(gr, res, assay, name = NULL, unitarized = FALSE)
 
 MultiCompartmapCall(
   ccalls,

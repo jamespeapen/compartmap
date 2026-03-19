@@ -98,7 +98,7 @@ CompartmentCall <- new_class(
     )
   },
   validator = function(self) {
-    if (is.na(genome(self@gr))) {
+    if (anyNA(genome(self@gr))) {
       "`gr`'s `genome` must be specified. Set with `genome(gr)` <- [genome]"
     }
   }

@@ -415,20 +415,33 @@ method(fill_missing, CompartmentCall) <- function(x, ref.gr) {
 ) {
   . <- NULL
   pc <- NULL
-  if (label_coords) {
-    coord_pd <- x@df[, .(n, pc, coord = grscale(x@gr, res))]
-    p <- ggplot(coord_pd, aes(x = coord, y = pc, group = 1)) +
-      theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
-  } else {
-    p <- ggplot(x@df, aes(x = n, y = pc))
-  }
-  p <- p + scale_y_continuous(limits = ylim)
 
-  switch(
+  pd <- x@df
+  x_axis <- "n"
+  if (label_coords) {
+    pd <- x@df[, .(n, pc, name, coord = grscale(x@gr, res))]
+    x_axis <- "coord"
+  }
+
+  p <- switch(
     type,
-    line = p + geom_line(linewidth = width),
-    bar = p + geom_bar(stat = "identity", width = width)
+    line = {
+      ggplot(pd, aes(x = .data[[x_axis]], y = pc, color = name, group = name)) +
+        geom_line()
+    },
+    bar = {
+      ggplot(pd, aes(x = .data[[x_axis]], y = pc, group = name, fill = pc > 0)) +
+        geom_col(width = width) +
+        facet_grid(rows = vars(name)) +
+        scale_fill_manual(values = c("deeppink4", "grey50")) +
+        theme(legend.position = "none")
+    }
   )
+
+  if (label_coords) {
+    p <- p + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+  }
+  p + scale_y_continuous(limits = ylim)
 }
 
 grscale <- function(gr, res) {

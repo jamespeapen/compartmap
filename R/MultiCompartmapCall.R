@@ -278,7 +278,7 @@ method(differentiate, MultiCompartmapCall) <- function(x) {
     type,
     line = {
       ggplot(pd, aes(x = .data[[x_axis]], y = pc, color = name, group = name)) +
-        geom_line()
+        geom_line(linewidth = width)
     },
     bar = {
       ggplot(pd, aes(x = .data[[x_axis]], y = pc, group = name, fill = pc > 0)) +

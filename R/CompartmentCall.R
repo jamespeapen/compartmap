@@ -411,7 +411,7 @@ method(fill_missing, CompartmentCall) <- function(x, ref.gr) {
   label_coords = FALSE,
   res = "kb",
   width = 0.5,
-  ylim = c(-1, 1)
+  ylim = NULL
 ) {
   . <- NULL
   pc <- NULL
@@ -422,6 +422,8 @@ method(fill_missing, CompartmentCall) <- function(x, ref.gr) {
     pd <- x@df[, .(n, pc, name, coord = grscale(x@gr, res))]
     x_axis <- "coord"
   }
+
+  lim <- ylim %||% range(pd$pc) |> abs() |> max() * c(-1, 1)
 
   p <- switch(
     type,

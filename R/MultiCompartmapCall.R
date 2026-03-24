@@ -264,8 +264,8 @@ method(differentiate, MultiCompartmapCall) <- function(x) {
   type = "line",
   label_coords = FALSE,
   res = "mb",
-  width = 1.0,
-  ylim = c(-1, 1)
+  width = 0.5,
+  ylim = NULL
 ) {
   pd <- x@df
   x_axis <- "n"
@@ -273,6 +273,8 @@ method(differentiate, MultiCompartmapCall) <- function(x) {
     pd <- x@df[, .(n, pc, name, coord = grscale(x@gr, res))]
     x_axis <- "coord"
   }
+
+  lim <- ylim %||% range(pd$pc) |> abs() |> max() * c(-1, 1)
 
   p <- switch(
     type,

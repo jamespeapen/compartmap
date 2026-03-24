@@ -290,7 +290,7 @@ method(differentiate, MultiCompartmapCall) <- function(x) {
   )
 
   if (label_coords) {
-    p <- theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+    p <- p + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
   }
   p + scale_y_continuous(limits = ylim)
 }

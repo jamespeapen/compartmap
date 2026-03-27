@@ -116,6 +116,10 @@ submitted through GitHub issues.
 
   Check if the `CompartmentCall` was filtered.
 
+- [`is_open()`](https://huishenlab.github.io/compartmap/dev/reference/is_open.md)
+  [`is_closed()`](https://huishenlab.github.io/compartmap/dev/reference/is_open.md)
+  : Find indices of open and closed compartments
+
 - [`is_unitarized()`](https://huishenlab.github.io/compartmap/dev/reference/is_unitarized.md)
   :
 

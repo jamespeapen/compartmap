@@ -207,6 +207,23 @@ method(is_filtered, CompartmentCall) <- function(x) x@filtered
 get_filter_threshold <- new_generic("filter_threshold", "x", function(x) S7_dispatch())
 method(get_filter_threshold, CompartmentCall) <- function(x) x@filter_threshold
 
+#' Find indices of open and closed compartments
+#'
+#' @param subject A `CompartmentCall` object
+#'
+#' @return
+#' - `is_open`: boolean vector where TRUE means open
+#' - `is_closed`: boolean vector where TRUE means closed
+#' @concept s7getters
+#' @export
+is_open <- new_generic("is_open", "x", function(x) S7_dispatch())
+method(is_open, CompartmentCall) <- function(x) x@df[, pc > 0]
+
+#' @rdname is_open
+#' @export
+is_closed <- new_generic("is_closed", "x", function(x) S7_dispatch())
+method(is_closed, CompartmentCall) <- function(x) Negate(is_open)(x)
+
 # }}}
 
 # SUBSETTERS ==============================================================={{{

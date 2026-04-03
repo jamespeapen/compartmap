@@ -5,10 +5,10 @@
 \title{Normalize quantiles
 From limma version 3.64.3}
 \usage{
-normalize_quantiles(m, ties = TRUE)
+normalize_quantiles(A, ties = TRUE)
 }
 \arguments{
-\item{m}{Numeric matrix of compartment call singular values}
+\item{A}{Numeric matrix of compartment call singular values}
 
 \item{ties}{logical. If TRUE, ties in each column of A are treated in careful way.
 tied values will be normalized to the mean of the corresponding pooled

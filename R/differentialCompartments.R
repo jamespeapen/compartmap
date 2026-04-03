@@ -74,13 +74,14 @@ plot_dc <- function(
   alpha = 0.5,
   ylim = c(-0.5, 0.5)
 ) {
+  pval <- name <- NULL
   seq_idx <- get_sequential_idx(md[, which(pval <= alpha_level)]) |>
     _[, .(start = as.double(start), end = as.double(end))] |>
     unique() |>
     _[start == end, `:=`(start = start - 0.25, end = end + 0.25)]
-  cutoff <- qchisq(p = alpha_level, df = call_pd[, length(unique(name))] - 1, lower.tail = FALSE)
+  cutoff <- qchisq(p = alpha_level, df = ccall_pd[, length(unique(name))] - 1, lower.tail = FALSE)
 
-  cplot <- ggplot(call_pd, aes(x = n, y = pc)) +
+  cplot <- ggplot(ccall_pd, aes(x = n, y = pc)) +
     geom_line(aes(color = name)) +
     geom_hline(yintercept = 0) +
     geom_rect(

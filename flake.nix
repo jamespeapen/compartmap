@@ -25,7 +25,9 @@
         impute
         Matrix
         parallelly
+        patchwork
         reshape2
+        robust
         RMTstat
         rtracklayer
         scales

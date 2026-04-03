@@ -11,7 +11,7 @@
   label_coords = FALSE,
   res = "kb",
   width = 0.5,
-  ylim = c(-1, 1)
+  ylim = NULL
 )
 }
 \arguments{

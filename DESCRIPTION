@@ -39,6 +39,7 @@ Imports:
    methods,
    grid,
    ggplot2,
+   patchwork,
    reshape2,
    scales,
    DelayedArray,

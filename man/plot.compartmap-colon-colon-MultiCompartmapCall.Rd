@@ -10,8 +10,8 @@
   type = "line",
   label_coords = FALSE,
   res = "mb",
-  width = 1,
-  ylim = c(-1, 1)
+  width = 0.5,
+  ylim = NULL
 )
 }
 \arguments{

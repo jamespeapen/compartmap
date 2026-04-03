@@ -296,3 +296,73 @@ method(differentiate, MultiCompartmapCall) <- function(x) {
   }
   p + scale_y_continuous(limits = ylim)
 }
+
+#' Compute differential compartments based on Mahalanobis distance
+#'
+#' @param x A `MultiCompartmentCall` object
+#' @param cov_method Method to compute covariance. "base": `stats::cov`,
+#' "robust": `robust::covRob()`, "mcd": `robust::covRob(estim = "mcd")`
+#' @param alpha_level Significance level to use (default: 0.05)
+#'
+#' @concept s7analysis
+#' @export
+diff_compartments <- new_generic(
+  "diff_compartments",
+  "x",
+  function(x, cov_method = c("base", "robust", "mcd"), alpha_level = 0.05) {
+    S7_dispatch()
+  }
+)
+method(diff_compartments, MultiCompartmapCall) <- function(
+  x,
+  cov_method = c("base", "robust", "mcd"),
+  alpha_level = 0.05
+) {
+  md <- compute_mahalanobis(x@mat, cov_method)
+  seq_idx <- get_sequential_idx(md[, which(pval < alpha_level)])[, .(start, end)] |> unique()
+  gr <- reduce(dc_bins(x@gr, md, alpha_level))
+  mcols(gr)$bin_start = seq_idx$start
+  mcols(gr)$bin_end = seq_idx$end
+  gr
+}
+
+#' Compute differential compartments based on Mahalanobis distance
+#'
+#' @param x A `MultiCompartmentCall` object
+#' @param cov_method Method to compute covariance. "base": `stats::cov`,
+#' @param alpha_level Significance level to use (default: 0.05)
+#' @param show_md Whether to plot the Mahalanobis distance
+#' @param fill Color of the `geom_rect`
+#' @param alpha Transparency of the `geom_rect`
+#' @param ylim The y-axis limits
+#'
+#' @concept s7analysis
+#' @importFrom ggplot2 ggplot geom_hline geom_rect
+#' @export
+plot_diff_compartments <- new_generic(
+  "plot_diff_compartments",
+  "x",
+  function(
+    x,
+    cov_method = c("base", "robust", "mcd"),
+    alpha_level = 0.05,
+    show_md = TRUE,
+    fill = "red",
+    alpha = 0.5,
+    ylim = c(-0.1, 0.1)
+  ) {
+    S7_dispatch()
+  }
+)
+method(plot_diff_compartments, MultiCompartmapCall) <- function(
+  x,
+  cov_method = c("base", "robust", "mcd"),
+  alpha_level = 0.05,
+  show_md = TRUE,
+  fill = "red",
+  alpha = 0.5,
+  ylim = c(-0.1, 0.1)
+) {
+  md <- compute_mahalanobis(x@mat, cov_method)
+  plot_dc(x@df, md, alpha_level = alpha_level, show_md = show_md, fill = fill, alpha = alpha, ylim = ylim)
+}

@@ -1,6 +1,11 @@
 #' Normalize quantiles
 #' From limma version 3.64.3
-#' @param m Matrix of compartment call singular values
+#' @param m Numeric matrix of compartment call singular values
+#' @param ties logical. If TRUE, ties in each column of A are treated in careful way.
+#' tied values will be normalized to the mean of the corresponding pooled
+#' quantiles.
+
+#' @importFrom stats approx
 normalize_quantiles <- function(m, ties = TRUE) {
   n <- dim(A)
   if (is.null(n)) {

@@ -8,7 +8,11 @@ From limma version 3.64.3}
 normalize_quantiles(m, ties = TRUE)
 }
 \arguments{
-\item{m}{Matrix of compartment call singular values}
+\item{m}{Numeric matrix of compartment call singular values}
+
+\item{ties}{logical. If TRUE, ties in each column of A are treated in careful way.
+tied values will be normalized to the mean of the corresponding pooled
+quantiles.}
 }
 \description{
 Normalize quantiles

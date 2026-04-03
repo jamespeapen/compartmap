@@ -21,47 +21,47 @@ License: GPL-3 + file LICENSE
 biocViews: Genetics, Epigenetics, ATACSeq, RNASeq, SingleCell
 Depends:
    R (>= 4.4.0),
-   SummarizedExperiment,
+   HDF5Array,
    RaggedExperiment,
-   HDF5Array
+   SummarizedExperiment
 Imports:
-   BiocSingular,
-   BiocParallel,
-   futile.logger,
    BiocGenerics,
-   rlang,
-   S4Vectors,
-   IRanges,
-   GenomicRanges,
+   BiocParallel,
+   BiocSingular,
+   data.table,
+   DelayedArray,
+   DelayedMatrixStats,
+   futile.logger,
    GenomeInfoDb,
+   GenomicRanges,
+   ggplot2,
+   grid,
+   impute,
+   IRanges,
+   Matrix,
+   methods,
    parallel,
    parallelly,
-   methods,
-   grid,
-   ggplot2,
    patchwork,
    reshape2,
-   scales,
-   DelayedArray,
-   rtracklayer,
-   DelayedMatrixStats,
-   Matrix,
+   rlang,
    RMTstat,
-   impute,
-   data.table,
-   S7
+   rtracklayer,
+   S4Vectors,
+   S7,
+   scales
 Suggests:
-   csaw,
-   minfi,
-   minfiData,
    BiocStyle,
    covr,
-   testthat,
+   csaw,
    knitr,
+   markdown,
+   minfi,
+   minfiData,
    Rcpp,
    rmarkdown,
    SingleCellExperiment,
-   markdown
+   testthat
 RoxygenNote: 7.3.2
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr

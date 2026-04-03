@@ -46,6 +46,7 @@ Imports:
    reshape2,
    rlang,
    RMTstat,
+   robust,
    rtracklayer,
    S4Vectors,
    S7,

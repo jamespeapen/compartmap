@@ -60,6 +60,7 @@
 #' @param res The binning resolution used
 #' @param gr The GRanges of the bins or the output of `scCompartments` or
 #' `getArrayCompartments` containing the 'pc' column
+#' @param assay What assay is this from: RNA, ATAC, methylation, Hi-C?
 #' @param name An identifier for the object. For `CompartmentCall` and
 #' `CompartmapCall`, this is becomes the column name for the object when added
 #' to a `MultiCompartmapCall` object
@@ -209,7 +210,7 @@ method(get_filter_threshold, CompartmentCall) <- function(x) x@filter_threshold
 
 #' Find indices of open and closed compartments
 #'
-#' @param subject A `CompartmentCall` object
+#' @param x A `CompartmentCall` object
 #'
 #' @return
 #' - `is_open`: boolean vector where TRUE means open
@@ -390,7 +391,7 @@ method(fill_missing, CompartmentCall) <- function(x, ref.gr) {
 
 
 #' Get the difference between two CompartmentCall objects call values
-#' @param x, y CompartmentCall objects to compare
+#' @param x,y CompartmentCall objects to compare
 #' @concept s7analysis
 #' @rdname CompartmentCall_difference
 #' @export

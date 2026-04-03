@@ -10,7 +10,7 @@ is_open(x)
 is_closed(x)
 }
 \arguments{
-\item{subject}{A \code{CompartmentCall} object}
+\item{x}{A \code{CompartmentCall} object}
 }
 \value{
 \itemize{

@@ -30,6 +30,8 @@ scCompartmapCall(re, res, name, unitarized = FALSE, unitarize = FALSE)
 \item{gr}{The GRanges of the bins or the output of \code{scCompartments} or
 \code{getArrayCompartments} containing the 'pc' column}
 
+\item{assay}{What assay is this from: RNA, ATAC, methylation, Hi-C?}
+
 \item{name}{An identifier for this set of compartment calls}
 
 \item{unitarized}{Whether the singular values have been unitarized}

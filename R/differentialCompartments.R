@@ -2,6 +2,9 @@
 #' @param mat Matrix of singular values
 #' @param cov_method Method to compute covariance. "base": `stats::cov`,
 #' "robust": `robust::covRob()`, "mcd": `robust::covRob(estim = "mcd")`
+#'
+#' @importFrom stats mahalanobis pchisq
+#'
 #' @export
 compute_mahalanobis <- function(mat, cov_method = c("base", "robust", "mcd")) {
   norm_mat <- normalize_quantiles(mat)
@@ -57,6 +60,7 @@ get_sequential_idx <- function(v) {
 #'
 #' @importFrom ggplot2 ggplot geom_hline geom_rect labs
 #' @importFrom patchwork wrap_plots
+#' @importFrom stats qchisq
 #'
 #' @examples
 #' v <- c(1:4, 5, 7:9)

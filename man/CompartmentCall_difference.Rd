@@ -7,7 +7,7 @@
 \method{-}{`compartmap::CompartmentCall`}(x, y)
 }
 \arguments{
-\item{x, }{y CompartmentCall objects to compare}
+\item{x, y}{CompartmentCall objects to compare}
 }
 \description{
 Get the difference between two CompartmentCall objects call values

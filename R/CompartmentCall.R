@@ -374,7 +374,7 @@ method(fix_sign, CompartmentCall) <- function(x) {
 #'
 #' @concept s7ranges
 #' @export
-fill_missing <- new_generic("flip", "x", function(x, ref.gr) S7_dispatch())
+fill_missing <- new_generic("fill_missing", "x", function(x, ref.gr) S7_dispatch())
 method(fill_missing, CompartmentCall) <- function(x, ref.gr) {
   ref_length <- length(ref.gr)
   stopifnot("Reference GRanges is not bigger than CompartmentCall object" = ref_length >= length(x@gr))

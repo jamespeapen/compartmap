@@ -160,8 +160,8 @@ method(seqlevels, CompartmentCall) <- function(x) {
 #'
 #' @concept s7getters
 #' @export
-resolution <- new_generic("resolution", "x", function(x) S7_dispatch())
-method(resolution, CompartmentCall) <- function(x) x@res
+get_resolution <- new_generic("get_resolution", "x", function(x) S7_dispatch())
+method(get_resolution, CompartmentCall) <- function(x) x@res
 
 #' Get the assay of the `CompartmentCall`
 #'

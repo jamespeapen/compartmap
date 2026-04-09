@@ -31,7 +31,7 @@ MultiCompartmapCall <- new_class(
       i
     }
 
-    unique_res <- all_same(resolution, "All resolutions must be the same")
+    unique_res <- all_same(get_resolution, "All resolutions must be the same")
     unique_gr <- all_same(granges, "All GRanges must contain the same ranges")
     all_filtered <- all_same(is_filtered, "All objects must be filtered")
     all_ft <- all_same(get_filter_threshold, "All objects must be filtered to the same threshold")

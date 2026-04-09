@@ -517,7 +517,12 @@ CompartmapCall <- new_class(
   "CompartmapCall",
   parent = CompartmentCall,
   constructor = function(gr, res, assay, name = NULL, unitarized = FALSE) {
-    df <- data.table(pc = gr$pc)[, `:=`(n = .I, name = name)][, .(n, pc, name)]
+    if ("score" %in% colnames(mcols(gr))) {
+      df <- data.table(pc = gr$score)
+    } else {
+      df <- data.table(pc = gr$pc)
+    }
+    df <- df[, `:=`(n = .I, name = name)][, .(n, pc, name)]
     new_object(
       S7_object(),
       name = name %||% shQuote(substitute(gr), "cmd2"),

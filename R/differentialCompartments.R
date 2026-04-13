@@ -7,17 +7,21 @@
 #'
 #' @export
 compute_mahalanobis <- function(mat, cov_method = c("base", "robust", "mcd")) {
+  na_row_idx <- which(is.na(mat), arr.ind = TRUE)[, 1]
   norm_mat <- normalize_quantiles(mat)
+  full_mat <- na.omit(norm_mat)
+
   cv <- switch(
     match.arg(cov_method),
-    base = cov(norm_mat),
-    robust = robust::covRob(norm_mat)$cov,
-    mcd = robust::covRob(norm_mat, estim = "mcd")$cov,
+    base = cov(full_mat),
+    robust = robust::covRob(full_mat)$cov,
+    mcd = robust::covRob(full_mat, estim = "mcd")$cov,
   )
 
-  md <- mahalanobis(norm_mat, colMeans(norm_mat), cv)
-  pvals <- pchisq(md, df = ncol(norm_mat) - 1, lower.tail = FALSE)
-  data.table(md = md, pval = pvals)[, n := .I][]
+  md <- mahalanobis(full_mat, colMeans(full_mat), cv)
+  pvals <- pchisq(md, df = ncol(mat) - 1, lower.tail = FALSE)
+  mdf <- data.table(n = seq_len(nrow(mat)))
+  mdf[!(n %in% na_row_idx), `:=`(md = md, pval = pvals)][]
 }
 
 #' Get bins with significant Mahalanobis distances

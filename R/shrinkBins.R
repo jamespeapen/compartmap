@@ -147,6 +147,6 @@ atac_fun <- function(x) {
   yv.norm <- sum((x - grand.mean)^2)
   sdsq <- if (is.null(targets)) sd(x)^2 else sd(x[targets])^2
 
-  c <- 1 - (((m - 3) * sdsq) / yv.norm)
-  grand.mean + c * (x - grand.mean)
+  C <- 1 - (((m - 3) * sdsq) / yv.norm)
+  grand.mean + C * (x - grand.mean)
 }

@@ -341,14 +341,27 @@ method(flip, CompartmentCall) <- function(x) {
 #' Correct the sign of the compartment call vector
 #'
 #' @param x A `CompartmentCall` object
+#' @param na.rm Whether to remove NAs. The presence of NAs can reduce the
+#' accuracy of the sign flip as the open vs closed gene densities cannot be
+#' computed correctly
 #'
 #' @concept s7analysis
 #' @export
-fix_sign <- new_generic("fix_sign", "x", function(x) S7_dispatch())
-method(fix_sign, CompartmentCall) <- function(x) {
+fix_sign <- new_generic("fix_sign", "x", function(x, na.rm = FALSE) S7_dispatch())
+method(fix_sign, CompartmentCall) <- function(x, na.rm = FALSE) {
+  nas_present <- anyNA(x@df)
+  if (!na.rm & nas_present) {
+    warning(
+      "NAs found - flipping may fail. If you think the NAs will not affect the distribution of expression values set `na.rm = TRUE`"
+    )
+  }
   gr <- x@gr
   gr$pc <- x@df[, pc]
-  if (flipSign(gr, genome(gr), x@assay)) {
+  gr_full <- gr
+  if (na.rm) {
+    gr_full <- gr[!is.na(gr$pc)]
+  }
+  if (flipSign(gr_full, genome(gr), x@assay)) {
     x <- flip(x)
   }
   x

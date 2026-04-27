@@ -4,10 +4,14 @@
 \alias{fix_sign}
 \title{Correct the sign of the compartment call vector}
 \usage{
-fix_sign(x)
+fix_sign(x, na.rm = FALSE)
 }
 \arguments{
 \item{x}{A \code{CompartmentCall} object}
+
+\item{na.rm}{Whether to remove NAs. The presence of NAs can reduce the
+accuracy of the sign flip as the open vs closed gene densities cannot be
+computed correctly}
 }
 \description{
 Correct the sign of the compartment call vector

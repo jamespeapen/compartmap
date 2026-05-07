@@ -344,6 +344,7 @@ plot_diff_compartments <- new_generic(
   "x",
   function(
     x,
+    type = c("line", "bar"),
     cov_method = c("base", "robust", "mcd"),
     alpha_level = 0.05,
     show_md = TRUE,
@@ -356,6 +357,7 @@ plot_diff_compartments <- new_generic(
 )
 method(plot_diff_compartments, MultiCompartmapCall) <- function(
   x,
+  type = c("line", "bar"),
   cov_method = c("base", "robust", "mcd"),
   alpha_level = 0.05,
   show_md = TRUE,
@@ -364,5 +366,5 @@ method(plot_diff_compartments, MultiCompartmapCall) <- function(
   ylim = c(-0.1, 0.1)
 ) {
   md <- compute_mahalanobis(x@mat, cov_method)
-  plot_dc(x@df, md, alpha_level = alpha_level, show_md = show_md, fill = fill, alpha = alpha, ylim = ylim)
+  plot_dc(x@df, md, type = type, alpha_level = alpha_level, show_md = show_md, fill = fill, alpha = alpha, ylim = ylim)
 }

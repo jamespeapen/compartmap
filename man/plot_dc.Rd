@@ -7,6 +7,7 @@
 plot_dc(
   ccall_pd,
   md,
+  type = c("line", "bar"),
   show_md = TRUE,
   alpha_level = 0.05,
   fill = "maroon",

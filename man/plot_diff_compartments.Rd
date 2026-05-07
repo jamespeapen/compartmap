@@ -6,6 +6,7 @@
 \usage{
 plot_diff_compartments(
   x,
+  type = c("line", "bar"),
   cov_method = c("base", "robust", "mcd"),
   alpha_level = 0.05,
   show_md = TRUE,

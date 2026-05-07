@@ -72,6 +72,7 @@ get_sequential_idx <- function(v) {
 plot_dc <- function(
   ccall_pd,
   md,
+  type = c("line", "bar"),
   show_md = TRUE,
   alpha_level = 0.05,
   fill = "maroon",
@@ -85,18 +86,37 @@ plot_dc <- function(
     _[start == end, `:=`(start = start - 0.25, end = end + 0.25)]
   cutoff <- qchisq(p = alpha_level, df = ccall_pd[, length(unique(name))] - 1, lower.tail = FALSE)
 
-  cplot <- ggplot(ccall_pd, aes(x = n, y = pc)) +
-    geom_line(aes(color = name)) +
-    geom_hline(yintercept = 0) +
-    geom_rect(
-      data = seq_idx,
-      inherit.aes = FALSE,
-      aes(xmin = start, xmax = end, ymin = ylim[1], ymax = ylim[2]),
-      fill = fill,
-      alpha = alpha
-    ) +
-    scale_y_continuous(limits = ylim) +
-    theme(panel.grid = element_blank())
+  cplot <- switch(
+    type,
+    line = {
+      ggplot(ccall_pd, aes(x = n, y = cscore, color = name)) +
+        geom_line() +
+        geom_hline(yintercept = 0) +
+        geom_rect(
+          data = seq_idx,
+          inherit.aes = FALSE,
+          aes(xmin = start, xmax = end, ymin = ylim[1], ymax = ylim[2]),
+          fill = fill,
+          alpha = alpha
+        ) +
+        scale_y_continuous(limits = ylim) +
+        theme(panel.grid = element_blank())
+    },
+    bar = {
+      ggplot(ccall_pd, aes(x = n, y = cscore, fill = cscore > 0)) +
+        geom_col() +
+        geom_hline(yintercept = 0) +
+        geom_rect(
+          data = seq_idx,
+          inherit.aes = FALSE,
+          aes(xmin = start, xmax = end, ymin = ylim[1], ymax = ylim[2]),
+          fill = fill,
+          alpha = alpha
+        ) +
+        scale_y_continuous(limits = ylim) +
+        theme(panel.grid = element_blank())
+    }
+  )
 
   if (show_md) {
     mdplot <- ggplot(md, aes(x = n, y = md)) +

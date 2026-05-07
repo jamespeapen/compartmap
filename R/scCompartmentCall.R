@@ -16,10 +16,10 @@ scCompartmapCall <- new_class(
   constructor = function(re, res, name, unitarized = FALSE, unitarize = FALSE) {
     grlist <- condenseSE(re)
     gen <- GenomeInfoDb::genome(re)
-    pcs <- lapply(grlist, function(i) {
-      mcols(i)[, 'pc']
+    cscores <- lapply(grlist, function(i) {
+      mcols(i)[, 'cscore']
     })
-    mat <- do.call(cbind, pcs)
+    mat <- do.call(cbind, cscores)
 
     if (unitarize && !unitarized) {
       mat <- apply(mat, 2, .unitarize)
@@ -31,7 +31,7 @@ scCompartmapCall <- new_class(
       as.data.table(mat)[, n := .I],
       id.vars = "n",
       variable.name = "name",
-      value.name = "pc"
+      value.name = "cscore"
     )
 
     gr <- GRanges(rownames(mat))

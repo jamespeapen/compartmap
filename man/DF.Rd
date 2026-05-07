@@ -11,7 +11,7 @@ DF(x)
 }
 \description{
 \code{n}: bin indices corresponding to indices of the \code{GRanges} object in \verb{@gr}
-\code{pc}: compartment call singular values
+\code{cscore}: compartment call singular values
 \code{name}: The name of the individual \code{CompartmentCall} in a
 \code{MultiCompartmapCall} object
 }

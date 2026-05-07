@@ -151,7 +151,7 @@ getCompartments <- function(
   obj.cor <- getCorMatrix(obj.bins, squeeze = !group)
 
   if (anyNA(obj.cor$binmat.cor)) {
-    obj.cor$gr$pc <- matrix(rep(NA, nrow(obj.cor$binmat.cor)))
+    obj.cor$gr$cscore <- matrix(rep(NA, nrow(obj.cor$binmat.cor)))
     obj.svd <- obj.cor$gr
   } else {
     # compute SVD of correlation matrix

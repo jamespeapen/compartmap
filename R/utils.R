@@ -92,7 +92,7 @@ getChrs <- function(obj) {
 #' theoretically we can recover these but need an additional utility to find
 #' consensus
 #'
-#' @param obj Input list object with elements 'pc' and 'gr'
+#' @param obj Input list object with elements 'cscore' and 'gr'
 #' @return A filtered list object
 #' @export
 #' @keywords internal

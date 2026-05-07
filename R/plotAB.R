@@ -79,8 +79,8 @@ plotAB <- function(
   stopifnot("'grAB' is not a GRanges object" = is(grAB, "GenomicRanges"))
   mcolnames <- names(mcols(grAB))
 
-  if (!("pc" %in% mcolnames)) {
-    stop("'pc' column containing compartment call singular values isn't among the mcols() of the input")
+  if (!("cscore" %in% mcolnames)) {
+    stop("'cscore' column containing compartment call singular values isn't among the mcols() of the input")
   }
 
   if (with.ci && !("conf.est" %in% mcolnames)) {
@@ -90,7 +90,7 @@ plotAB <- function(
   if (!is.null(chr)) {
     grAB <- keepSeqlevels(grAB, chr, pruning.mode = "coarse")
   }
-  mat.AB <- as(mcols(grAB)[, "pc"], "matrix")
+  mat.AB <- as(mcols(grAB)[, "cscore"], "matrix")
   if (unitarize) {
     mat.AB <- .unitarize(mat.AB)
   }

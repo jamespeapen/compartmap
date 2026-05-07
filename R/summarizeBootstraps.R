@@ -17,8 +17,6 @@
 #' @examples
 summarizeBootstraps <- function(boot.list, est.ab, q = 0.95, assay = c("rna", "atac")) {
   # go through the estimated A/B compartments and compute proportions from the boot.list
-  est.ab$score <- est.ab$pc
-
   is.atac_or_rna <- assay %in% c("atac", "rna")
 
   flog.debug("Summarizing bootstraps")
@@ -42,9 +40,6 @@ summarizeBootstraps <- function(boot.list, est.ab, q = 0.95, assay = c("rna", "a
 }
 
 .getSummary <- function(gr.boot, est.ab) {
-  # add the pc to the granges object
-  gr.boot$score <- gr.boot$pc
-
   # generate a dummy GRanges object
   est.ab.dummy <- est.ab
   est.ab.dummy$boot.open <- 0

@@ -23,7 +23,7 @@
 #'   res = 1e6, genome = "hg19",
 #'   group = TRUE, bootstrap = FALSE
 #' )
-#' chr14_domain_inflections <- getDomainInflections(chr14_domains, what = "pc")
+#' chr14_domain_inflections <- getDomainInflections(chr14_domains, what = "cscore")
 getDomainInflections <- function(
   gr,
   what = "score",

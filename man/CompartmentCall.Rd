@@ -8,7 +8,7 @@
 \alias{scCompartmapCall}
 \title{Compartment Call objects for analysis (experimental)}
 \usage{
-CompartmentCall(pc, res, gr, assay, name = NULL, unitarized = FALSE)
+CompartmentCall(cscore, res, gr, assay, name = NULL, unitarized = FALSE)
 
 CompartmapCall(gr, res, assay, name = NULL, unitarized = FALSE)
 
@@ -23,12 +23,12 @@ MultiCompartmapCall(
 scCompartmapCall(re, res, name, unitarized = FALSE, unitarize = FALSE)
 }
 \arguments{
-\item{pc}{The singular values from a compartment call}
+\item{cscore}{The singular values from a compartment call}
 
 \item{res}{The binning resolution used}
 
 \item{gr}{The GRanges of the bins or the output of \code{scCompartments} or
-\code{getArrayCompartments} containing the 'pc' column}
+\code{getArrayCompartments} containing the 'cscore' column}
 
 \item{assay}{What assay is this from: RNA, ATAC, methylation, Hi-C?}
 
@@ -89,7 +89,7 @@ classes like \code{GRanges} and \code{SummarizedExperiment}.
 when making \code{MultiCompartmapCall} objects
 \item \code{gr}, \code{granges()}: A \code{GRanges} object of the compartment bins
 \item \code{df}, \code{DF()}: a \code{data.table} of bin indices in column \code{n} and compartment
-call singular values in column \code{pc}. For \code{MultiCompartmapCall} and
+call singular values in column \code{cscore}. For \code{MultiCompartmapCall} and
 \code{scCompartmapCall} objects, this is in a tidy format, with an additional
 \code{name} column.
 \item \code{res}, \code{resolution()}: The genomic resolution at which the compartments

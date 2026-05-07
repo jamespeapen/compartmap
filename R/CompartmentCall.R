@@ -43,7 +43,7 @@
 #' when making `MultiCompartmapCall` objects
 #' - `gr`, `granges()`: A `GRanges` object of the compartment bins
 #' - `df`, `DF()`: a `data.table` of bin indices in column `n` and compartment
-#' call singular values in column `pc`. For `MultiCompartmapCall` and
+#' call singular values in column `cscore`. For `MultiCompartmapCall` and
 #' `scCompartmapCall` objects, this is in a tidy format, with an additional
 #' `name` column.
 #' - `res`, `resolution()`: The genomic resolution at which the compartments
@@ -56,10 +56,10 @@
 #' agreement between cells in a `scCompartmapCall` and groups in a
 #' `MultiCompartmapCall` object.
 #'
-#' @param pc The singular values from a compartment call
+#' @param cscore The singular values from a compartment call
 #' @param res The binning resolution used
 #' @param gr The GRanges of the bins or the output of `scCompartments` or
-#' `getArrayCompartments` containing the 'pc' column
+#' `getArrayCompartments` containing the 'cscore' column
 #' @param assay What assay is this from: RNA, ATAC, methylation, Hi-C?
 #' @param name An identifier for the object. For `CompartmentCall` and
 #' `CompartmapCall`, this is becomes the column name for the object when added
@@ -83,8 +83,8 @@ CompartmentCall <- new_class(
     filter_threshold = class_numeric,
     seqinfo = methods::getClass("Seqinfo")
   ),
-  constructor = function(pc, res, gr, assay, name = NULL, unitarized = FALSE) {
-    df <- data.table(pc = as.vector(pc))[, .(n = .I, pc, name = name)]
+  constructor = function(cscore, res, gr, assay, name = NULL, unitarized = FALSE) {
+    df <- data.table(cscore = as.vector(cscore))[, .(n = .I, cscore, name = name)]
     new_object(
       S7_object(),
       name = name %||% shQuote(substitute(gr), "cmd2"),
@@ -111,7 +111,7 @@ S4_register(CompartmentCall)
 #' Get the `@df` slot from a CompartmentCall object.
 #'
 #' `n`: bin indices corresponding to indices of the `GRanges` object in `@gr`
-#' `pc`: compartment call singular values
+#' `cscore`: compartment call singular values
 #' `name`: The name of the individual `CompartmentCall` in a
 #' `MultiCompartmapCall` object
 #'
@@ -218,7 +218,7 @@ method(get_filter_threshold, CompartmentCall) <- function(x) x@filter_threshold
 #' @concept s7getters
 #' @export
 is_open <- new_generic("is_open", "x", function(x) S7_dispatch())
-method(is_open, CompartmentCall) <- function(x) x@df[, pc > 0]
+method(is_open, CompartmentCall) <- function(x) x@df[, cscore > 0]
 
 #' @rdname is_open
 #' @export
@@ -268,7 +268,7 @@ method(subset_chr, CompartmentCall) <- function(x, chr) {
 #' @export
 filter <- new_generic("filter", "x", function(x, threshold = 0.02) S7_dispatch())
 method(filter, CompartmentCall) <- function(x, threshold = 0.02) {
-  filter_rows <- x@df[, abs(pc) >= threshold]
+  filter_rows <- x@df[, abs(cscore) >= threshold]
   x <- x[filter_rows]
   x@filtered <- TRUE
   x@filter_threshold <- threshold
@@ -315,9 +315,9 @@ method(unitarize, CompartmentCall) <- function(x, medianCenter = TRUE) {
   df <- x@df
   if (inherits(x, "compartmap::MultiCompartmapCall")) {
     x@mat <- apply(x@mat, 2, .unitarize, medianCenter = medianCenter)
-    x@df <- x@df[, .(n, pc = .unitarize(pc, medianCenter = medianCenter)), by = name][, .(n, pc, name)]
+    x@df <- x@df[, .(n, cscore = .unitarize(cscore, medianCenter = medianCenter)), by = name][, .(n, cscore, name)]
   } else {
-    x@df <- x@df[, .(n, pc = .unitarize(pc, medianCenter = medianCenter), name)]
+    x@df <- x@df[, .(n, cscore = .unitarize(cscore, medianCenter = medianCenter), name)]
   }
 
   x@unitarized <- TRUE
@@ -334,7 +334,7 @@ method(unitarize, CompartmentCall) <- function(x, medianCenter = TRUE) {
 #' @export
 flip <- new_generic("flip", "x", function(x) S7_dispatch())
 method(flip, CompartmentCall) <- function(x) {
-  x@df <- x@df[, .(n, pc = -pc, name)]
+  x@df <- x@df[, .(n, cscore = -cscore, name)]
   x
 }
 
@@ -356,10 +356,10 @@ method(fix_sign, CompartmentCall) <- function(x, na.rm = FALSE) {
     )
   }
   gr <- x@gr
-  gr$pc <- x@df[, pc]
+  gr$cscore <- x@df[, cscore]
   gr_full <- gr
   if (na.rm) {
-    gr_full <- gr[!is.na(gr$pc)]
+    gr_full <- gr[!is.na(gr$cscore)]
   }
   if (flipSign(gr_full, genome(gr), x@assay)) {
     x <- flip(x)
@@ -395,7 +395,7 @@ method(fill_missing, CompartmentCall) <- function(x, ref.gr) {
 
   ref_idx <- seq_len(ref_length)
   df <- data.table(n = ifelse(ref.gr %gin% x@gr, ref_idx, NA))
-  df[!is.na(n), `:=`(pc = x@df$pc, name = x@name)]
+  df[!is.na(n), `:=`(cscore = x@df$cscore, name = x@name)]
   df[, n := .I][]
   x@gr <- ref.gr
   x@df <- df
@@ -412,9 +412,9 @@ method(fill_missing, CompartmentCall) <- function(x, ref.gr) {
   stopifnot("Both objects must have the same GRanges" = length(x@gr) == length(y@gr))
   stopifnot("Both objects must have the same @df" = nrow(x@df) == nrow(y@df))
   df <- x@df
-  pc1 <- DF(x)[, pc]
-  pc2 <- DF(y)[, pc]
-  x@df <- x@df[, .(n, pc = pc1 - pc2, name = paste(x@name, "-", y@name))]
+  cscore1 <- DF(x)[, cscore]
+  cscore2 <- DF(y)[, cscore]
+  x@df <- x@df[, .(n, cscore = cscore1 - cscore2, name = paste(x@name, "-", y@name))]
   x
 }
 
@@ -445,25 +445,25 @@ method(fill_missing, CompartmentCall) <- function(x, ref.gr) {
   ylim = NULL
 ) {
   . <- NULL
-  pc <- NULL
+  cscore <- NULL
 
   pd <- x@df
   x_axis <- "n"
   if (label_coords) {
-    pd <- x@df[, .(n, pc, name, coord = grscale(x@gr, res))]
+    pd <- x@df[, .(n, cscore, name, coord = grscale(x@gr, res))]
     x_axis <- "coord"
   }
 
-  lim <- ylim %||% range(pd$pc) |> abs() |> max() * c(-1, 1)
+  lim <- ylim %||% range(pd$cscore) |> abs() |> max() * c(-1, 1)
 
   p <- switch(
     type,
     line = {
-      ggplot(pd, aes(x = .data[[x_axis]], y = pc, color = name, group = name)) +
+      ggplot(pd, aes(x = .data[[x_axis]], y = cscore, color = name, group = name)) +
         geom_line()
     },
     bar = {
-      ggplot(pd, aes(x = .data[[x_axis]], y = pc, group = name, fill = pc > 0)) +
+      ggplot(pd, aes(x = .data[[x_axis]], y = cscore, group = name, fill = cscore > 0)) +
         geom_col(width = width) +
         facet_grid(rows = vars(name)) +
         scale_fill_manual(values = c("deeppink4", "grey50")) +
@@ -508,7 +508,7 @@ method(print, CompartmentCall) <- function(x, ...) {
   @assay       : %s
   @res         : %s
   @gr          : GRanges with %d bins
-  @df          : data.table of compartment calls (n = bin index, pc = singular values)
+  @df          : data.table of compartment calls (n = bin index, cscore = singular values)
   @unitarized  : %s
   @filtered    : %s%s",
     class_type,
@@ -531,11 +531,11 @@ CompartmapCall <- new_class(
   parent = CompartmentCall,
   constructor = function(gr, res, assay, name = NULL, unitarized = FALSE) {
     if ("score" %in% colnames(mcols(gr))) {
-      df <- data.table(pc = gr$score)
+      df <- data.table(cscore = gr$score)
     } else {
-      df <- data.table(pc = gr$pc)
+      df <- data.table(cscore = gr$cscore)
     }
-    df <- df[, `:=`(n = .I, name = name)][, .(n, pc, name)]
+    df <- df[, `:=`(n = .I, name = name)][, .(n, cscore, name)]
     new_object(
       S7_object(),
       name = name %||% shQuote(substitute(gr), "cmd2"),

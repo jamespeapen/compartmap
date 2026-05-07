@@ -60,17 +60,17 @@ getABSignal <- function(
   gr <- x$gr
 
   flog.debug("Calculating eigenvectors.")
-  pc <- getSVD(x$binmat.cor, sing.vec = "right")
+  cscore <- getSVD(x$binmat.cor, sing.vec = "right")
   if (squeeze) {
-    pc <- ifisherZ(pc)
+    cscore <- ifisherZ(cscore)
   }
 
   flog.debug("Smoothing eigenvector.")
-  gr$pc <- meanSmoother(pc)
+  gr$cscore <- meanSmoother(cscore)
   flog.debug("Done smoothing.")
 
   if (flipSign(gr, genome, assay)) {
-    gr$pc <- -gr$pc
+    gr$cscore <- -gr$cscore
   }
   gr$compartments <- extractOpenClosed(gr, assay = assay)
   GenomeInfoDb::genome(gr) <- gen
@@ -80,7 +80,7 @@ getABSignal <- function(
 flipSign <- function(gr, genome, assay) {
   tx.gr <- getGenome(genome, "tx")
   gene_count <- countOverlaps(gr, tx.gr)
-  open <- gr$pc > 0
+  open <- gr$cscore > 0
   flip <- sum(gene_count[open]) < sum(gene_count[!open])
   if (assay == "array") {
     flip <- !flip
@@ -113,13 +113,13 @@ extractOpenClosed <- function(
   if (!is(gr, "GRanges")) {
     stop("Input needs to be a GRanges.")
   }
-  if (!("pc" %in% names(mcols(gr)))) {
-    stop("Need to have an mcols column be named 'pc'.")
+  if (!("cscore" %in% names(mcols(gr)))) {
+    stop("Need to have an mcols column be named 'cscore'.")
   }
 
   assay <- match.arg(assay)
   is.atac_or_rna <- assay %in% c("atac", "rna")
-  is.open <- .isCompartmentOpen(is.atac_or_rna, gr$pc, cutoff)
+  is.open <- .isCompartmentOpen(is.atac_or_rna, gr$cscore, cutoff)
   ifelse(is.open, "open", "closed")
 }
 

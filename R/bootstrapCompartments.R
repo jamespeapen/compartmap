@@ -3,7 +3,7 @@
 #'
 #' @name bootstrapCompartments
 #'
-#' @param obj List object of computed compartments for a sample with 'pc' and 'gr' as elements
+#' @param obj List object of computed compartments for a sample with 'cscore' and 'gr' as elements
 #' @param original.obj The original, full input SummarizedExperiment of all samples/cells
 #' @param BPPARAM BiocParallelParam for parallelizing bootstrapping
 #' @param bootstrap.samples How many bootstraps to run

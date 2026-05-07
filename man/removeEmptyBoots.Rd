@@ -7,7 +7,7 @@
 removeEmptyBoots(obj)
 }
 \arguments{
-\item{obj}{Input list object with elements 'pc' and 'gr'}
+\item{obj}{Input list object with elements 'cscore' and 'gr'}
 }
 \value{
 A filtered list object

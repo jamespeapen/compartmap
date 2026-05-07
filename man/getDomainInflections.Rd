@@ -35,5 +35,5 @@ chr14_domains <- scCompartments(k562_scrna_chr14,
   res = 1e6, genome = "hg19",
   group = TRUE, bootstrap = FALSE
 )
-chr14_domain_inflections <- getDomainInflections(chr14_domains, what = "pc")
+chr14_domain_inflections <- getDomainInflections(chr14_domains, what = "cscore")
 }

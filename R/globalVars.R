@@ -1,7 +1,7 @@
 utils::globalVariables(c(
   ".",
   "n",
-  "pc",
+  "cscore",
   "name",
   "coord"
 ))

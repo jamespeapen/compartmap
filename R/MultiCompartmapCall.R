@@ -62,7 +62,7 @@ MultiCompartmapCall <- new_class(
     df <- rbindlist(lapply(ccalls, function(i) {
       DF(i)[, name := get_name(i)][, name := factor(name, levels = colorder)][]
     }))
-    mat <- as.matrix(dcast(df, n ~ name, value.var = "pc")[, -1])
+    mat <- as.matrix(dcast(df, n ~ name, value.var = "cscore")[, -1])
 
     obj <- new_object(
       S7_object(),
@@ -231,11 +231,11 @@ method(corr, MultiCompartmapCall) <- function(x, na.omit = TRUE) {
 #' @export
 differentiate <- new_generic("differentiate", "x", function(x) S7_dispatch())
 method(differentiate, MultiCompartmapCall) <- function(x) {
-  x@df <- x@df[, .(n, pc, name, chr = seqlevels(x))] |>
-    _[, .(pc = c(NA, diff(pc[-1])) / diff(n)), by = .(name, chr)] |>
+  x@df <- x@df[, .(n, cscore, name, chr = seqlevels(x))] |>
+    _[, .(cscore = c(NA, diff(cscore[-1])) / diff(n)), by = .(name, chr)] |>
     _[, n := seq_len(.N), by = "name"] |>
     na.omit()
-  x@mat <- as.matrix(dcast(x@df, n ~ name, value.var = "pc")[, -1])
+  x@mat <- as.matrix(dcast(x@df, n ~ name, value.var = "cscore")[, -1])
   x
 }
 
@@ -270,20 +270,20 @@ method(differentiate, MultiCompartmapCall) <- function(x) {
   pd <- x@df
   x_axis <- "n"
   if (label_coords) {
-    pd <- x@df[, .(n, pc, name, coord = grscale(x@gr, res))]
+    pd <- x@df[, .(n, cscore, name, coord = grscale(x@gr, res))]
     x_axis <- "coord"
   }
 
-  lim <- ylim %||% range(pd$pc) |> abs() |> max() * c(-1, 1)
+  lim <- ylim %||% range(pd$cscore) |> abs() |> max() * c(-1, 1)
 
   p <- switch(
     type,
     line = {
-      ggplot(pd, aes(x = .data[[x_axis]], y = pc, color = name, group = name)) +
+      ggplot(pd, aes(x = .data[[x_axis]], y = cscore, color = name, group = name)) +
         geom_line(linewidth = width)
     },
     bar = {
-      ggplot(pd, aes(x = .data[[x_axis]], y = pc, group = name, fill = pc > 0)) +
+      ggplot(pd, aes(x = .data[[x_axis]], y = cscore, group = name, fill = cscore > 0)) +
         geom_col(width = width) +
         facet_grid(rows = vars(name)) +
         scale_fill_manual(values = c("deeppink4", "grey50")) +

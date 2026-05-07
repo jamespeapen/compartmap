@@ -22,7 +22,7 @@ bootstrapCompartments(
 )
 }
 \arguments{
-\item{obj}{List object of computed compartments for a sample with 'pc' and 'gr' as elements}
+\item{obj}{List object of computed compartments for a sample with 'cscore' and 'gr' as elements}
 
 \item{original.obj}{The original, full input SummarizedExperiment of all samples/cells}
 

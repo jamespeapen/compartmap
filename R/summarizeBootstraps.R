@@ -46,7 +46,7 @@ summarizeBootstraps <- function(boot.list, est.ab, q = 0.95, assay = c("rna", "a
   est.ab.dummy$boot.closed <- 0
 
   # determine whether compartment is open and convert the boolean to 1/0 binary result for proportions
-  gr.boot.isOpen <- gr.boot$compartments == "open"
+  gr.boot.isOpen <- gr.boot$cscore > 0
   gr.boot$open <- as.integer(gr.boot.isOpen)
   gr.boot$closed <- as.integer(!gr.boot.isOpen)
 
@@ -70,7 +70,7 @@ summarizeBootstraps <- function(boot.list, est.ab, q = 0.95, assay = c("rna", "a
 # failures (bootstrapped open/closed counts that don't match the input est.ab)
 # to pass to agrestiCoullCI
 .getCI <- function(est.ab, q) {
-  is.open <- est.ab$compartments == "open"
+  is.open <- est.ab$cscore > 0
   success <- rep(NA, length(est.ab))
   failure <- rep(NA, length(est.ab))
 

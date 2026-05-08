@@ -53,9 +53,9 @@ flipper <- function(input_obj, min.conf) {
   mcols(input_obj)$flip.compartment <- invert_compartments
 
   # add a new column for flipped scores
-  mcols(input_obj)$flip.score <- mcols(input_obj)$score
+  mcols(input_obj)$flip.score <- mcols(input_obj)$cscore
   # flip the score
-  mcols(input_obj)$flip.score[invert_compartments] <- -(mcols(input_obj)$score[invert_compartments])
+  mcols(input_obj)$flip.score[invert_compartments] <- -(mcols(input_obj)$cscore[invert_compartments])
 
   # add a new column for flipped CIs
   mcols(input_obj)$flip.conf.est <- mcols(input_obj)$conf.est

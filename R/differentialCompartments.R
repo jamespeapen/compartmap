@@ -79,6 +79,8 @@ plot_dc <- function(
   alpha = 0.5,
   ylim = c(-0.5, 0.5)
 ) {
+  type = match.arg(type)
+
   pval <- name <- NULL
   seq_idx <- get_sequential_idx(md[, which(pval <= alpha_level)]) |>
     _[, .(start = as.double(start), end = as.double(end))] |>

@@ -20,7 +20,15 @@ MultiCompartmapCall(
   filter_threshold = 0.02
 )
 
-scCompartmapCall(re, res, name, unitarized = FALSE, unitarize = FALSE)
+scCompartmapCall(
+  re,
+  res,
+  name,
+  assay = c("rna", "atac", "array"),
+  unitarized = FALSE,
+  unitarize = FALSE,
+  BPPARAM = bpparam()
+)
 }
 \arguments{
 \item{cscore}{The singular values from a compartment call}
@@ -45,6 +53,8 @@ scCompartmapCall(re, res, name, unitarized = FALSE, unitarize = FALSE)
 \item{filter_threshold}{The threshold at which to filter the singular values}
 
 \item{re}{A \code{RaggedExperiment} of single-cell compartment calls}
+
+\item{BPPARAM}{BiocParallelParam for parallelizing computation}
 }
 \description{
 These S7 classes hold compartment call values, and their genomic region and

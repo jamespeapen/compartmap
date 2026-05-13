@@ -4,13 +4,22 @@
 \alias{compute_mahalanobis}
 \title{Get the Mahalanobis distance for the singular values}
 \usage{
-compute_mahalanobis(mat, cov_method = c("base", "robust", "mcd"))
+compute_mahalanobis(
+  mat,
+  cov_method = c("base", "robust", "mcd"),
+  alpha_level = 0.05,
+  fdr = FALSE
+)
 }
 \arguments{
 \item{mat}{Matrix of singular values}
 
 \item{cov_method}{Method to compute covariance. "base": \code{stats::cov},
 "robust": \code{robust::covRob()}, "mcd": \code{robust::covRob(estim = "mcd")}}
+
+\item{alpha_level}{Significance level to use (default: 0.05)}
+
+\item{fdr}{Whether to perform Benjamini-Hochberg false discovery correction}
 }
 \description{
 Get the Mahalanobis distance for the singular values

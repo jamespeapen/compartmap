@@ -2,11 +2,13 @@
 #' @param mat Matrix of singular values
 #' @param cov_method Method to compute covariance. "base": `stats::cov`,
 #' "robust": `robust::covRob()`, "mcd": `robust::covRob(estim = "mcd")`
+#' @param alpha_level Significance level to use (default: 0.05)
+#' @param fdr Whether to perform Benjamini-Hochberg false discovery correction
 #'
 #' @importFrom stats mahalanobis pchisq
 #'
 #' @export
-compute_mahalanobis <- function(mat, cov_method = c("base", "robust", "mcd")) {
+compute_mahalanobis <- function(mat, cov_method = c("base", "robust", "mcd"), alpha_level = 0.05, fdr = FALSE) {
   na_row_idx <- which(is.na(mat), arr.ind = TRUE)[, 1]
   norm_mat <- normalize_quantiles(mat)
   full_mat <- na.omit(norm_mat)
@@ -18,8 +20,22 @@ compute_mahalanobis <- function(mat, cov_method = c("base", "robust", "mcd")) {
     mcd = robust::covRob(full_mat, estim = "mcd")$cov,
   )
 
-  md <- mahalanobis(full_mat, colMeans(full_mat), cv)
+  dist <- apply(full_mat, 1, \(i) {
+    sqrt(colSums(as.matrix(dist(i)))) / (ncol(full_mat) - 1)
+  }) |>
+    t()
+
+  dist.mean <- colMeans(dist)
+  dist.sd <- apply(dist, 2, sd)
+  dist.z <- sweep(dist, 2, dist.mean, FUN = "-") |> sweep(2, dist.sd, FUN = "/")
+  pmax <- apply(dist.z, 1, \(i) pnorm(max(i)))
+  cen <- full_mat * pmax
+
+  md <- mahalanobis(cen, colMeans(cen), cv)
   pvals <- pchisq(md, df = ncol(mat) - 1, lower.tail = FALSE)
+  if (fdr) {
+    pvals <- .p.adjust(pvals, method = "BH")
+  }
   mdf <- data.table(n = seq_len(nrow(mat)))
   mdf[!(n %in% na_row_idx), `:=`(md = md, pval = pvals)][]
 }
@@ -116,6 +132,7 @@ plot_dc <- function(
           alpha = alpha
         ) +
         scale_y_continuous(limits = ylim) +
+        facet_grid(rows = vars(name)) +
         theme(panel.grid = element_blank())
     }
   )

@@ -319,10 +319,11 @@ method(diff_compartments, MultiCompartmapCall) <- function(
   alpha_level = 0.05
 ) {
   md <- compute_mahalanobis(x@mat, cov_method)
-  seq_idx <- get_sequential_idx(md[, which(pval < alpha_level)])[, .(start, end)] |> unique()
-  gr <- reduce(dc_bins(x@gr, md, alpha_level))
-  mcols(gr)$bin_start = seq_idx$start
-  mcols(gr)$bin_end = seq_idx$end
+  sig_idx <- md[, which(pval < alpha_level)]
+  seq_idx <- get_sequential_idx(sig_idx)
+  gr <- dc_bins(x@gr, md, alpha_level)
+  mcols(gr)[, c("md", "pval")] = md[sig_idx, .(md, pval)]
+  mcols(gr)[, c("start", "start", "dc_id")] <- seq_idx[, .(start, end, dc_id)]
   gr
 }
 

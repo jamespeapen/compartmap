@@ -64,7 +64,8 @@ get_sequential_idx <- function(v) {
   intervals <- findInterval(v, non_consecutive)
   as.data.table(cbind(v, intervals)) |>
     _[, `:=`(start = min(v), end = max(v)), by = intervals] |>
-    _[, .(idx = v, start, end)]
+    _[, .(start, end)] |>
+    _[, dc_id := .GRP, by = .(start, end)]
 }
 
 #' Show differential compartments as overlaid `ggplot2::geom_rect()` over significant distances

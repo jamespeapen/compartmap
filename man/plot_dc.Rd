@@ -12,7 +12,8 @@ plot_dc(
   alpha_level = 0.05,
   fill = "maroon",
   alpha = 0.5,
-  ylim = c(-0.5, 0.5)
+  ylim = c(-0.5, 0.5),
+  label_ids = TRUE
 )
 }
 \arguments{
@@ -26,9 +27,11 @@ plot_dc(
 
 \item{fill}{Color of the \code{geom_rect}}
 
-\item{alpha}{The significance threshold}
+\item{alpha}{Transparency of the \code{geom_rect}}
 
 \item{ylim}{The y-axis limits}
+
+\item{label_ids}{Whether to differential bin ID labels}
 }
 \description{
 Show differential compartments as overlaid \code{ggplot2::geom_rect()} over significant distances

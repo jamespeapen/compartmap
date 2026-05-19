@@ -12,7 +12,8 @@ plot_diff_compartments(
   show_md = TRUE,
   fill = "red",
   alpha = 0.5,
-  ylim = c(-0.1, 0.1)
+  ylim = c(-0.1, 0.1),
+  label_ids = TRUE
 )
 }
 \arguments{
@@ -29,6 +30,8 @@ plot_diff_compartments(
 \item{alpha}{Transparency of the \code{geom_rect}}
 
 \item{ylim}{The y-axis limits}
+
+\item{label_ids}{Whether to differential bin ID labels}
 }
 \description{
 Compute differential compartments based on Mahalanobis distance

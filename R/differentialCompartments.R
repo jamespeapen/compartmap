@@ -77,7 +77,7 @@ get_sequential_idx <- function(v) {
 #' @param fill Color of the `geom_rect`
 #' @param alpha Transparency of the `geom_rect`
 #' @param ylim The y-axis limits
-#' @param alpha The significance threshold
+#' @param label_ids Whether to differential bin ID labels
 #'
 #' @importFrom ggplot2 ggplot geom_hline geom_rect labs
 #' @importFrom patchwork wrap_plots
@@ -94,14 +94,14 @@ plot_dc <- function(
   alpha_level = 0.05,
   fill = "maroon",
   alpha = 0.5,
-  ylim = c(-0.5, 0.5)
+  ylim = c(-0.5, 0.5),
+  label_ids = TRUE
 ) {
   type = match.arg(type)
 
   pval <- name <- NULL
   seq_idx <- get_sequential_idx(md[, which(pval <= alpha_level)]) |>
-    _[, .(start = as.double(start), end = as.double(end))] |>
-    unique() |>
+    _[, `:=`(start = as.double(start), end = as.double(end))] |>
     _[start == end, `:=`(start = start - 0.25, end = end + 0.25)]
   cutoff <- qchisq(p = alpha_level, df = ccall_pd[, length(unique(name))] - 1, lower.tail = FALSE)
 
@@ -113,6 +113,7 @@ plot_dc <- function(
         geom_hline(yintercept = 0) +
         geom_rect(
           data = seq_idx,
+          stat = "unique",
           inherit.aes = FALSE,
           aes(xmin = start, xmax = end, ymin = ylim[1], ymax = ylim[2]),
           fill = fill,
@@ -137,6 +138,17 @@ plot_dc <- function(
         theme(panel.grid = element_blank())
     }
   )
+
+  if (label_ids) {
+    cplot <- cplot +
+      geom_label(
+        data = seq_idx,
+        inherit.aes = FALSE,
+        aes(label = dc_id, x = (start + end) / 2, y = ylim[2], vjust = ifelse(dc_id %% 2 == 0, 1, 2.5)),
+        size = 2,
+        label.size = NA
+      )
+  }
 
   if (show_md) {
     mdplot <- ggplot(md, aes(x = n, y = md)) +

@@ -336,6 +336,7 @@ method(diff_compartments, MultiCompartmapCall) <- function(
 #' @param fill Color of the `geom_rect`
 #' @param alpha Transparency of the `geom_rect`
 #' @param ylim The y-axis limits
+#' @param label_ids Whether to differential bin ID labels
 #'
 #' @concept s7analysis
 #' @importFrom ggplot2 ggplot geom_hline geom_rect
@@ -351,7 +352,8 @@ plot_diff_compartments <- new_generic(
     show_md = TRUE,
     fill = "red",
     alpha = 0.5,
-    ylim = c(-0.1, 0.1)
+    ylim = c(-0.1, 0.1),
+    label_ids = TRUE
   ) {
     S7_dispatch()
   }
@@ -364,8 +366,19 @@ method(plot_diff_compartments, MultiCompartmapCall) <- function(
   show_md = TRUE,
   fill = "red",
   alpha = 0.5,
-  ylim = c(-0.1, 0.1)
+  ylim = c(-0.1, 0.1),
+  label_ids = TRUE
 ) {
   md <- compute_mahalanobis(x@mat, cov_method)
-  plot_dc(x@df, md, type = type, alpha_level = alpha_level, show_md = show_md, fill = fill, alpha = alpha, ylim = ylim)
+  plot_dc(
+    x@df,
+    md,
+    type = type,
+    alpha_level = alpha_level,
+    show_md = show_md,
+    fill = fill,
+    alpha = alpha,
+    ylim = ylim,
+    label_ids = label_ids
+  )
 }

@@ -10,7 +10,7 @@ plot_diff_compartments(
   cov_method = c("base", "robust", "mcd"),
   alpha_level = 0.05,
   show_md = TRUE,
-  fill = "red",
+  fill = "maroon",
   alpha = 0.5,
   ylim = c(-0.1, 0.1),
   label_ids = TRUE

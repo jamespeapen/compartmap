@@ -323,7 +323,7 @@ method(diff_compartments, MultiCompartmapCall) <- function(
   seq_idx <- get_sequential_idx(sig_idx)
   gr <- dc_bins(x@gr, md, alpha_level)
   mcols(gr)[, c("md", "pval")] = md[sig_idx, .(md, pval)]
-  mcols(gr)[, c("start", "start", "dc_id")] <- seq_idx[, .(start, end, dc_id)]
+  mcols(gr)[, c("start", "end", "dc_id")] <- seq_idx[, .(start, end, dc_id)]
   gr
 }
 

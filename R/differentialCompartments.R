@@ -111,14 +111,6 @@ plot_dc <- function(
       ggplot(ccall_pd, aes(x = n, y = cscore, color = name)) +
         geom_line() +
         geom_hline(yintercept = 0) +
-        geom_rect(
-          data = seq_idx,
-          stat = "unique",
-          inherit.aes = FALSE,
-          aes(xmin = start, xmax = end, ymin = ylim[1], ymax = ylim[2]),
-          fill = fill,
-          alpha = alpha
-        ) +
         scale_y_continuous(limits = ylim) +
         theme(panel.grid = element_blank())
     },
@@ -129,6 +121,7 @@ plot_dc <- function(
         geom_rect(
           data = seq_idx,
           inherit.aes = FALSE,
+          stat = "unique",
           aes(xmin = start, xmax = end, ymin = ylim[1], ymax = ylim[2]),
           fill = fill,
           alpha = alpha
@@ -138,6 +131,16 @@ plot_dc <- function(
         theme(panel.grid = element_blank())
     }
   )
+
+  cplot <- cplot +
+    geom_rect(
+      data = seq_idx,
+      stat = "unique",
+      inherit.aes = FALSE,
+      aes(xmin = start, xmax = end, ymin = ylim[1], ymax = ylim[2]),
+      fill = fill,
+      alpha = alpha
+    )
 
   if (label_ids) {
     cplot <- cplot +

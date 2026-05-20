@@ -118,14 +118,6 @@ plot_dc <- function(
       ggplot(ccall_pd, aes(x = n, y = cscore, fill = cscore > 0)) +
         geom_col() +
         geom_hline(yintercept = 0) +
-        geom_rect(
-          data = seq_idx,
-          inherit.aes = FALSE,
-          stat = "unique",
-          aes(xmin = start, xmax = end, ymin = ylim[1], ymax = ylim[2]),
-          fill = fill,
-          alpha = alpha
-        ) +
         scale_y_continuous(limits = ylim) +
         facet_grid(rows = vars(name)) +
         theme(panel.grid = element_blank())
@@ -147,7 +139,7 @@ plot_dc <- function(
       geom_label(
         data = seq_idx,
         inherit.aes = FALSE,
-        aes(label = dc_id, x = (start + end) / 2, y = ylim[2], vjust = ifelse(dc_id %% 2 == 0, 1, 2.5)),
+        aes(label = dc_id, x = (start + end) / 2, y = ylim[2], vjust = ifelse(dc_id %% 2 == 0, 1.5, 3)),
         size = 2,
         label.size = NA
       )

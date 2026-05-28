@@ -6,6 +6,7 @@
 #' @param squeeze    Whether squeezing was used (implies Fisher's Z transformation)
 #' @param assay What kind of assay are we working on ("array", "atac", "array")
 #' @param genome The genome to use for gene-density-based sign correction
+#' @param smooth Whether to smooth the singular vector
 #'
 #' @return    A list x to pass to getABSignal
 #'
@@ -53,21 +54,26 @@ getABSignal <- function(
   x,
   squeeze = FALSE,
   assay = c("rna", "atac", "array"),
-  genome = c("hg19", "hg38", "mm9", "mm10")
+  genome = c("hg19", "hg38", "mm9", "mm10"),
+  smooth = TRUE
 ) {
   assay <- match.arg(assay)
   gen <- match.arg(genome)
   gr <- x$gr
 
   flog.debug("Calculating eigenvectors.")
-  cscore <- getSVD(x$binmat.cor, sing.vec = "right")
+  cscore <- getSVD(x$binmat.cor, sing.vec = "right") |> as.vector()
   if (squeeze) {
     cscore <- ifisherZ(cscore)
   }
 
-  flog.debug("Smoothing eigenvector.")
-  gr$cscore <- meanSmoother(cscore)
-  flog.debug("Done smoothing.")
+  if (smooth) {
+    flog.debug("Smoothing eigenvector.")
+    gr$cscore <- meanSmoother(cscore)
+    flog.debug("Done smoothing.")
+  } else {
+    gr$cscore <- cscore
+  }
 
   if (flipSign(gr, genome, assay)) {
     gr$cscore <- -gr$cscore

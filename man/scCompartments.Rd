@@ -14,6 +14,7 @@ scCompartments(
   num.bootstraps = 100,
   genome = c("hg19", "hg38", "mm9", "mm10"),
   assay = c("atac", "rna"),
+  smooth = TRUE,
   boot.parallel = FALSE,
   BPPARAM = bpparam()
 )
@@ -36,6 +37,8 @@ scCompartments(
 \item{genome}{What genome to work on ("hg19", "hg38", "mm9", "mm10")}
 
 \item{assay}{What type of single-cell assay is the input data ("atac" or "rna")}
+
+\item{smooth}{Whether to smooth the singular vector}
 
 \item{boot.parallel}{Whether to run the bootstrapping in parallel. See details.}
 

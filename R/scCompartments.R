@@ -14,6 +14,7 @@
 #' @param assay What type of single-cell assay is the input data ("atac" or "rna")
 #' @param boot.parallel Whether to run the bootstrapping in parallel. See details.
 #' @param BPPARAM BiocParallelParam object to use for parallelization. See details.
+#' @param smooth Whether to smooth the singular vector
 #'
 #' @details
 #'
@@ -110,6 +111,7 @@ scCompartments <- function(
   num.bootstraps = 100,
   genome = c("hg19", "hg38", "mm9", "mm10"),
   assay = c("atac", "rna"),
+  smooth = TRUE,
   boot.parallel = FALSE,
   BPPARAM = bpparam()
 ) {
@@ -140,6 +142,7 @@ scCompartments <- function(
     num.bootstraps = num.bootstraps,
     genome = genome,
     assay = assay,
+    smooth = smooth,
     boot.parallel = boot.parallel,
     bpparams = bpparams
   )

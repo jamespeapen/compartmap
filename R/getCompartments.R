@@ -12,6 +12,7 @@ getCompartments <- function(
   num.bootstraps,
   genome,
   assay,
+  smooth = smooth,
   boot.parallel,
   bpparams
 ) {
@@ -58,6 +59,7 @@ getCompartments <- function(
           targets = targets,
           genome = genome,
           prior.means = prior.means,
+          smooth = smooth,
           bootstrap = bootstrap,
           num.bootstraps = num.bootstraps,
           bootstrap.means = bmeans
@@ -89,6 +91,7 @@ getCompartments <- function(
         targets = targets,
         genome = genome,
         prior.means = prior.means,
+        smooth = smooth,
         bootstrap = bootstrap,
         num.bootstraps = num.bootstraps,
         bootstrap.means = bmeans
@@ -115,6 +118,7 @@ getCompartments <- function(
   targets = NULL,
   genome = c("hg19", "hg38", "mm9", "mm10"),
   prior.means = NULL,
+  smooth = smooth,
   bootstrap = TRUE,
   num.bootstraps = 1000,
   bootstrap.means = NULL
@@ -155,7 +159,7 @@ getCompartments <- function(
     obj.svd <- obj.cor$gr
   } else {
     # compute SVD of correlation matrix
-    obj.svd <- getABSignal(obj.cor, assay = assay, genome = genome)
+    obj.svd <- getABSignal(obj.cor, assay = assay, genome = genome, smooth = smooth)
   }
 
   if (!bootstrap) {

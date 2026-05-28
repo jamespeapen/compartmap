@@ -8,7 +8,8 @@ getABSignal(
   x,
   squeeze = FALSE,
   assay = c("rna", "atac", "array"),
-  genome = c("hg19", "hg38", "mm9", "mm10")
+  genome = c("hg19", "hg38", "mm9", "mm10"),
+  smooth = TRUE
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ getABSignal(
 \item{assay}{What kind of assay are we working on ("array", "atac", "array")}
 
 \item{genome}{The genome to use for gene-density-based sign correction}
+
+\item{smooth}{Whether to smooth the singular vector}
 }
 \value{
 A list x to pass to getABSignal

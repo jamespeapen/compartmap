@@ -84,7 +84,7 @@ CompartmentCall <- new_class(
     seqinfo = methods::getClass("Seqinfo")
   ),
   constructor = function(cscore, res, gr, assay, name = NULL, unitarized = FALSE) {
-    df <- data.table(cscore = as.vector(cscore))[, .(n = .I, cscore, name = name)]
+    df <- data.table(cscore = as.vector(cscore))[, .(n = .I, pos = start(gr), cscore, name = name)]
     new_object(
       S7_object(),
       name = name %||% shQuote(substitute(gr), "cmd2"),
@@ -315,9 +315,12 @@ method(unitarize, CompartmentCall) <- function(x, medianCenter = TRUE) {
   df <- x@df
   if (inherits(x, "compartmap::MultiCompartmapCall")) {
     x@mat <- apply(x@mat, 2, .unitarize, medianCenter = medianCenter)
-    x@df <- x@df[, .(n, cscore = .unitarize(cscore, medianCenter = medianCenter)), by = name][, .(n, cscore, name)]
+    x@df <- df[,
+      cscore := .unitarize(cscore, medianCenter = medianCenter),
+      by = name
+    ][]
   } else {
-    x@df <- x@df[, .(n, cscore = .unitarize(cscore, medianCenter = medianCenter), name)]
+    x@df <- df[, cscore := .unitarize(cscore, medianCenter = medianCenter)]
   }
 
   x@unitarized <- TRUE
@@ -334,7 +337,7 @@ method(unitarize, CompartmentCall) <- function(x, medianCenter = TRUE) {
 #' @export
 flip <- new_generic("flip", "x", function(x) S7_dispatch())
 method(flip, CompartmentCall) <- function(x) {
-  x@df <- x@df[, .(n, cscore = -cscore, name)]
+  x@df <- data.table::copy(x@df)[, cscore := -cscore]
   x
 }
 
@@ -395,7 +398,7 @@ method(fill_missing, CompartmentCall) <- function(x, ref.gr) {
 
   ref_idx <- seq_len(ref_length)
   df <- data.table(n = ifelse(ref.gr %gin% x@gr, ref_idx, NA))
-  df[!is.na(n), `:=`(cscore = x@df$cscore, name = x@name)]
+  df[!is.na(n), `:=`(pos = x@df$pos, cscore = x@df$cscore, name = x@name)]
   df[, n := .I][]
   x@gr <- ref.gr
   x@df <- df
@@ -414,7 +417,7 @@ method(fill_missing, CompartmentCall) <- function(x, ref.gr) {
   df <- x@df
   cscore1 <- DF(x)[, cscore]
   cscore2 <- DF(y)[, cscore]
-  x@df <- x@df[, .(n, cscore = cscore1 - cscore2, name = paste(x@name, "-", y@name))]
+  x@df <- x@df[, `:=`(cscore = cscore1 - cscore2, name = paste(x@name, "-", y@name))]
   x
 }
 
@@ -423,23 +426,19 @@ method(fill_missing, CompartmentCall) <- function(x, ref.gr) {
 #' @param x `CompartmentCall` or `CompartmapCall` object
 #' @param ... Placeholder for the `plot` generic - arguments have not effect
 #' @param type Whether to plot the singular values as `"line"` or `"bar"` plots.
-#' @param label_coords Label the x-axis with genomic coordinates. Uses a
-#' numeric index when set to `FALSE`. Using coordinate labels can severely
-#' crowd the x-axis, especially with Kb-resolution calls.
 #' @param res The resolution to round the genomic coordinates to (kilobase:
 #' "kb" or megabase: "mb")
 #' @param width The width of the `geom_line` if `type = "line"` or the width
 #' of the bar if `type = "bar"` in the plot
 #' @param ylim Upper and lower bound for the y-axis
 #'
-#' @importFrom ggplot2 ggplot geom_line geom_bar scale_y_continuous theme element_text
+#' @importFrom ggplot2 ggplot geom_line geom_bar scale_x_continuous scale_y_continuous theme element_text
 #' @concept plotting
 #' @export
 `plot.compartmap::CompartmentCall` <- function(
   x,
   ...,
   type = "line",
-  label_coords = FALSE,
   res = "kb",
   width = 0.5,
   ylim = NULL
@@ -448,33 +447,27 @@ method(fill_missing, CompartmentCall) <- function(x, ref.gr) {
   cscore <- NULL
 
   pd <- x@df
-  x_axis <- "n"
-  if (label_coords) {
-    pd <- x@df[, .(n, cscore, name, coord = grscale(x@gr, res))]
-    x_axis <- "coord"
-  }
-
   lim <- ylim %||% range(pd$cscore) |> abs() |> max() * c(-1, 1)
 
   p <- switch(
     type,
     line = {
-      ggplot(pd, aes(x = .data[[x_axis]], y = cscore, color = name, group = name)) +
+      ggplot(pd, aes(x = pos, y = cscore, color = name, group = name)) +
         geom_line()
     },
     bar = {
-      ggplot(pd, aes(x = .data[[x_axis]], y = cscore, group = name, fill = cscore > 0)) +
-        geom_col(width = width) +
+      ggplot(pd, aes(x = pos, y = cscore, group = name, fill = cscore > 0)) +
+        geom_col() +
         facet_grid(rows = vars(name)) +
         scale_fill_manual(values = c("deeppink4", "grey50")) +
         theme(legend.position = "none")
     }
   )
 
-  if (label_coords) {
-    p <- p + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
-  }
-  p + scale_y_continuous(limits = ylim)
+  p +
+    scale_y_continuous(limits = ylim) +
+    scale_x_continuous(labels = \(x) x / 1e6) +
+    labs(x = paste(gsub("chr", "Chromosome ", seqlevels(x)), "(Mb)"))
 }
 
 grscale <- function(gr, res) {
@@ -535,7 +528,7 @@ CompartmapCall <- new_class(
     } else {
       df <- data.table(cscore = gr$cscore)
     }
-    df <- df[, `:=`(n = .I, name = name)][, .(n, cscore, name)]
+    df <- df[, `:=`(n = .I, name = name, pos = start(gr))][, .(n, pos, cscore, name)]
     new_object(
       S7_object(),
       name = name %||% shQuote(substitute(gr), "cmd2"),

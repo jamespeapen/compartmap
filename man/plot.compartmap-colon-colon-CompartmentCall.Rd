@@ -4,15 +4,7 @@
 \alias{plot.compartmap::CompartmentCall}
 \title{Plot singular values of a \code{CompartmentCall} object}
 \usage{
-\method{plot}{`compartmap::CompartmentCall`}(
-  x,
-  ...,
-  type = "line",
-  label_coords = FALSE,
-  res = "kb",
-  width = 0.5,
-  ylim = NULL
-)
+\method{plot}{`compartmap::CompartmentCall`}(x, ..., type = "line", res = "kb", width = 0.5, ylim = NULL)
 }
 \arguments{
 \item{x}{\code{CompartmentCall} or \code{CompartmapCall} object}
@@ -20,10 +12,6 @@
 \item{...}{Placeholder for the \code{plot} generic - arguments have not effect}
 
 \item{type}{Whether to plot the singular values as \code{"line"} or \code{"bar"} plots.}
-
-\item{label_coords}{Label the x-axis with genomic coordinates. Uses a
-numeric index when set to \code{FALSE}. Using coordinate labels can severely
-crowd the x-axis, especially with Kb-resolution calls.}
 
 \item{res}{The resolution to round the genomic coordinates to (kilobase:
 "kb" or megabase: "mb")}

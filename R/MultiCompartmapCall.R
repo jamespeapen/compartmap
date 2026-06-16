@@ -62,6 +62,7 @@ MultiCompartmapCall <- new_class(
     df <- rbindlist(lapply(ccalls, function(i) {
       DF(i)[, name := get_name(i)][, name := factor(name, levels = colorder)][]
     }))
+
     mat <- as.matrix(dcast(df, n ~ name, value.var = "cscore")[, -1])
 
     obj <- new_object(
@@ -231,8 +232,8 @@ method(corr, MultiCompartmapCall) <- function(x, na.omit = TRUE) {
 #' @export
 differentiate <- new_generic("differentiate", "x", function(x) S7_dispatch())
 method(differentiate, MultiCompartmapCall) <- function(x) {
-  x@df <- x@df[, .(n, cscore, name, chr = seqlevels(x))] |>
-    _[, .(cscore = c(NA, diff(cscore[-1])) / diff(n)), by = .(name, chr)] |>
+  x@df <- x@df[, .(n, pos, cscore, name, chr = seqlevels(x))] |>
+    _[, .(pos = pos[-1], cscore = c(NA, diff(cscore[-1])) / diff(n)), by = .(name, chr)] |>
     _[, n := seq_len(.N), by = "name"] |>
     na.omit()
   x@mat <- as.matrix(dcast(x@df, n ~ name, value.var = "cscore")[, -1])
@@ -246,9 +247,6 @@ method(differentiate, MultiCompartmapCall) <- function(x) {
 #' @param type Whether to plot the singular values as `"line"`plots. Bar plots
 #' will be facted by the individual `CompartmapCall` object names while the
 #' line plots are overlayed.
-#' @param label_coords Label the x-axis with genomic coordinates. Uses a
-#' numeric index when set to `FALSE`. Using coordinate labels can severely
-#' crowd the x-axis, especially with Kb-resolution calls.
 #' @param res The resolution to round the genomic coordinates to (kilobase:
 #' "kb" or megabase: "mb")
 #' @param width The width of the `geom_line` if `type = "line"` or the width
@@ -262,39 +260,32 @@ method(differentiate, MultiCompartmapCall) <- function(x) {
   x,
   ...,
   type = "line",
-  label_coords = FALSE,
   res = "mb",
   width = 0.5,
   ylim = NULL
 ) {
   pd <- x@df
-  x_axis <- "n"
-  if (label_coords) {
-    pd <- x@df[, .(n, cscore, name, coord = grscale(x@gr, res))]
-    x_axis <- "coord"
-  }
-
   lim <- ylim %||% range(pd$cscore) |> abs() |> max() * c(-1, 1)
 
   p <- switch(
     type,
     line = {
-      ggplot(pd, aes(x = .data[[x_axis]], y = cscore, color = name, group = name)) +
+      ggplot(pd, aes(x = pos, y = cscore, color = name, group = name)) +
         geom_line(linewidth = width)
     },
     bar = {
-      ggplot(pd, aes(x = .data[[x_axis]], y = cscore, group = name, fill = cscore > 0)) +
-        geom_col(width = width) +
+      ggplot(pd, aes(x = pos, y = cscore, group = name, fill = cscore > 0)) +
+        geom_col() +
         facet_grid(rows = vars(name)) +
         scale_fill_manual(values = c("deeppink4", "grey50")) +
         theme(legend.position = "none")
     }
   )
 
-  if (label_coords) {
-    p <- p + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
-  }
-  p + scale_y_continuous(limits = ylim)
+  p +
+    scale_y_continuous(limits = ylim) +
+    scale_x_continuous(labels = \(x) x / 1e6) +
+    labs(x = paste(gsub("chr", "Chromosome ", seqlevels(x)), "(Mb)"))
 }
 
 #' Compute differential compartments based on Mahalanobis distance

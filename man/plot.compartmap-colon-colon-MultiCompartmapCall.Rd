@@ -4,15 +4,7 @@
 \alias{plot.compartmap::MultiCompartmapCall}
 \title{Plot singular values from a \code{MultiCompartmapCall} object}
 \usage{
-\method{plot}{`compartmap::MultiCompartmapCall`}(
-  x,
-  ...,
-  type = "line",
-  label_coords = FALSE,
-  res = "mb",
-  width = 0.5,
-  ylim = NULL
-)
+\method{plot}{`compartmap::MultiCompartmapCall`}(x, ..., type = "line", res = "mb", width = 0.5, ylim = NULL)
 }
 \arguments{
 \item{x}{\code{MultiCompartmapCall}}
@@ -22,10 +14,6 @@
 \item{type}{Whether to plot the singular values as \code{"line"}plots. Bar plots
 will be facted by the individual \code{CompartmapCall} object names while the
 line plots are overlayed.}
-
-\item{label_coords}{Label the x-axis with genomic coordinates. Uses a
-numeric index when set to \code{FALSE}. Using coordinate labels can severely
-crowd the x-axis, especially with Kb-resolution calls.}
 
 \item{res}{The resolution to round the genomic coordinates to (kilobase:
 "kb" or megabase: "mb")}

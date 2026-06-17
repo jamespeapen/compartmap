@@ -63,9 +63,9 @@ get_sequential_idx <- function(v) {
   non_consecutive <- v[which(diff(v) != 1)] + 1
   intervals <- findInterval(v, non_consecutive)
   as.data.table(cbind(v, intervals)) |>
-    _[, `:=`(start = min(v), end = max(v)), by = intervals] |>
-    _[, .(start, end)] |>
-    _[, dc_id := .GRP, by = .(start, end)]
+    _[, `:=`(start_idx = min(v), end_idx = max(v)), by = intervals] |>
+    _[, .(start_idx, end_idx)] |>
+    _[, dc_id := .GRP, by = .(start_idx, end_idx)]
 }
 
 #' Show differential compartments as overlaid `ggplot2::geom_rect()` over significant distances
@@ -101,8 +101,8 @@ plot_dc <- function(
 
   pval <- name <- NULL
   seq_idx <- get_sequential_idx(md[, which(pval <= alpha_level)]) |>
-    _[, `:=`(start = as.double(start), end = as.double(end))] |>
-    _[start == end, `:=`(start = start - 0.25, end = end + 0.25)]
+    _[, `:=`(start_idx = as.double(start_idx), end_idx = as.double(end_idx))] |>
+    _[start_idx == end_idx, `:=`(start_idx = start_idx - 0.25, end = end_idx + 0.25)]
   cutoff <- qchisq(p = alpha_level, df = ccall_pd[, length(unique(name))] - 1, lower.tail = FALSE)
 
   cplot <- switch(
@@ -129,7 +129,7 @@ plot_dc <- function(
       data = seq_idx,
       stat = "unique",
       inherit.aes = FALSE,
-      aes(xmin = start, xmax = end, ymin = ylim[1], ymax = ylim[2]),
+      aes(xmin = start_idx, xmax = end_idx, ymin = ylim[1], ymax = ylim[2]),
       fill = fill,
       alpha = alpha
     )
@@ -139,7 +139,7 @@ plot_dc <- function(
       geom_label(
         data = seq_idx,
         inherit.aes = FALSE,
-        aes(label = dc_id, x = (start + end) / 2, y = ylim[2], vjust = ifelse(dc_id %% 2 == 0, 1.5, 3)),
+        aes(label = dc_id, x = (start_idx + end_idx) / 2, y = ylim[2], vjust = ifelse(dc_id %% 2 == 0, 1.5, 3)),
         size = 2,
         label.size = NA
       )

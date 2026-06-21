@@ -77,7 +77,11 @@ get_sequential_idx <- function(v) {
 #' @param fill Color of the `geom_rect`
 #' @param alpha Transparency of the `geom_rect`
 #' @param ylim The y-axis limits
+#' @param xlim The x-axis limits
 #' @param label_ids Whether to differential bin ID labels
+#' @param select Column name or index to compute differential compartments on.
+#' Set this to plot the compartment scores of all input columns but show
+#' differential compartments based only on the provided columns.
 #'
 #' @importFrom ggplot2 ggplot geom_hline geom_rect labs
 #' @importFrom patchwork wrap_plots
@@ -89,33 +93,37 @@ get_sequential_idx <- function(v) {
 plot_dc <- function(
   ccall_pd,
   md,
+  select,
   type = c("line", "bar"),
   show_md = TRUE,
   alpha_level = 0.05,
   fill = "maroon",
   alpha = 0.5,
   ylim = c(-0.5, 0.5),
+  xlim = NULL,
   label_ids = TRUE
 ) {
   type = match.arg(type)
-
   pval <- name <- NULL
-  seq_idx <- get_sequential_idx(md[, which(pval <= alpha_level)]) |>
-    _[, `:=`(start_idx = as.double(start_idx), end_idx = as.double(end_idx))] |>
-    _[start_idx == end_idx, `:=`(start_idx = start_idx - 0.25, end = end_idx + 0.25)]
-  cutoff <- qchisq(p = alpha_level, df = ccall_pd[, length(unique(name))] - 1, lower.tail = FALSE)
+  xlim <- xlim %||% range(ccall_pd$pos)
+
+  md_pd <- as.data.table(md) |> setnames(c("start", "end"), c("start_idx", "end_idx"))
+  dc_pd <- get_sequential_idx(which(md$pval < alpha_level)) |>
+    unique() |>
+    _[, .(start_pos = start(md[start_idx]), end_pos = end(md[end_idx]), dc_id)]
+  cutoff <- qchisq(p = alpha_level, df = length(select) - 1, lower.tail = FALSE)
 
   cplot <- switch(
     type,
     line = {
-      ggplot(ccall_pd, aes(x = n, y = cscore, color = name)) +
+      ggplot(ccall_pd, aes(x = pos, y = cscore, color = name)) +
         geom_line() +
         geom_hline(yintercept = 0) +
         scale_y_continuous(limits = ylim) +
         theme(panel.grid = element_blank())
     },
     bar = {
-      ggplot(ccall_pd, aes(x = n, y = cscore, fill = cscore > 0)) +
+      ggplot(ccall_pd, aes(x = pos, y = cscore, fill = cscore > 0)) +
         geom_col() +
         geom_hline(yintercept = 0) +
         scale_y_continuous(limits = ylim) +
@@ -123,13 +131,17 @@ plot_dc <- function(
         theme(panel.grid = element_blank())
     }
   )
+  chr <- md_pd[, unique(seqnames)]
+  cplot <- cplot +
+    scale_x_continuous(labels = \(x) x / 1e6, limits = xlim) +
+    labs(x = paste(gsub("chr", "Chromosome", chr), "(Mb)"), y = "Compartment score")
 
   cplot <- cplot +
     geom_rect(
-      data = seq_idx,
+      data = dc_pd,
       stat = "unique",
       inherit.aes = FALSE,
-      aes(xmin = start_idx, xmax = end_idx, ymin = ylim[1], ymax = ylim[2]),
+      aes(xmin = start_pos, xmax = end_pos, ymin = ylim[1], ymax = ylim[2]),
       fill = fill,
       alpha = alpha
     )
@@ -137,20 +149,24 @@ plot_dc <- function(
   if (label_ids) {
     cplot <- cplot +
       geom_label(
-        data = seq_idx,
+        data = dc_pd,
         inherit.aes = FALSE,
-        aes(label = dc_id, x = (start_idx + end_idx) / 2, y = ylim[2], vjust = ifelse(dc_id %% 2 == 0, 1.5, 3)),
+        aes(label = dc_id, x = (start_pos + end_pos) / 2, y = ylim[2], vjust = ifelse(dc_id %% 2 == 0, 1.5, 3)),
         size = 2,
         label.size = NA
       )
   }
 
   if (show_md) {
-    mdplot <- ggplot(md, aes(x = n, y = md)) +
+    mdplot <- as.data.table(md) |>
+      setnames(c("start", "end"), c("start_pos", "end_pos")) |>
+      ggplot(aes(x = start_pos, y = md)) +
       geom_line() +
       geom_hline(yintercept = cutoff, linetype = "dotted") +
-      labs(y = "Mahalanobis distance")
+      scale_x_continuous(labels = \(x) x / 1e6, limits = xlim) +
+      labs(x = paste(gsub("chr", "Chromosome", chr), "(Mb)"), y = "Mahalanobis distance")
 
+    cplot <- cplot + theme(axis.text.x = element_blank(), axis.title.x = element_blank())
     return(wrap_plots(list(cplot, mdplot), nrow = 2))
   }
   cplot

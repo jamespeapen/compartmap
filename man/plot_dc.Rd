@@ -7,12 +7,14 @@
 plot_dc(
   ccall_pd,
   md,
+  select,
   type = c("line", "bar"),
   show_md = TRUE,
   alpha_level = 0.05,
   fill = "maroon",
   alpha = 0.5,
   ylim = c(-0.5, 0.5),
+  xlim = NULL,
   label_ids = TRUE
 )
 }
@@ -20,6 +22,10 @@ plot_dc(
 \item{ccall_pd}{The \verb{@df} slot of a \code{MultiCompartmapCall} object}
 
 \item{md}{data.table output from \code{compute_mahalanobis()}}
+
+\item{select}{Column name or index to compute differential compartments on.
+Set this to plot the compartment scores of all input columns but show
+differential compartments based only on the provided columns.}
 
 \item{show_md}{Whether to plot the Mahalanobis distance}
 
@@ -30,6 +36,8 @@ plot_dc(
 \item{alpha}{Transparency of the \code{geom_rect}}
 
 \item{ylim}{The y-axis limits}
+
+\item{xlim}{The x-axis limits}
 
 \item{label_ids}{Whether to differential bin ID labels}
 }

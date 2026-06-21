@@ -354,7 +354,11 @@ method(diff_compartments, MultiCompartmapCall) <- function(
 #' @param fill Color of the `geom_rect`
 #' @param alpha Transparency of the `geom_rect`
 #' @param ylim The y-axis limits
+#' @param xlim The x-axis limits
 #' @param label_ids Whether to differential bin ID labels
+#' @param select Column name or index to compute differential compartments on.
+#' Set this to plot the compartment scores of all object columns but show
+#' differential compartments based only on the provided columns.
 #'
 #' @concept s7analysis
 #' @importFrom ggplot2 ggplot geom_hline geom_rect
@@ -371,7 +375,9 @@ plot_diff_compartments <- new_generic(
     fill = "maroon",
     alpha = 0.5,
     ylim = c(-0.1, 0.1),
-    label_ids = TRUE
+    xlim = NULL,
+    label_ids = TRUE,
+    select = NULL
   ) {
     S7_dispatch()
   }
@@ -385,18 +391,23 @@ method(plot_diff_compartments, MultiCompartmapCall) <- function(
   fill = "maroon",
   alpha = 0.5,
   ylim = c(-0.1, 0.1),
-  label_ids = TRUE
+  xlim = NULL,
+  label_ids = TRUE,
+  select = NULL
 ) {
-  md <- compute_mahalanobis(x@mat, cov_method)
+  select <- select %||% names(x)
+  md <- get_md(x[, select], cov_method)
   plot_dc(
     x@df,
     md,
+    select = select,
     type = type,
     alpha_level = alpha_level,
     show_md = show_md,
     fill = fill,
     alpha = alpha,
     ylim = ylim,
+    xlim = xlim,
     label_ids = label_ids
   )
 }

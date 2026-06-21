@@ -13,7 +13,9 @@ plot_diff_compartments(
   fill = "maroon",
   alpha = 0.5,
   ylim = c(-0.1, 0.1),
-  label_ids = TRUE
+  xlim = NULL,
+  label_ids = TRUE,
+  select = NULL
 )
 }
 \arguments{
@@ -31,7 +33,13 @@ plot_diff_compartments(
 
 \item{ylim}{The y-axis limits}
 
+\item{xlim}{The x-axis limits}
+
 \item{label_ids}{Whether to differential bin ID labels}
+
+\item{select}{Column name or index to compute differential compartments on.
+Set this to plot the compartment scores of all object columns but show
+differential compartments based only on the provided columns.}
 }
 \description{
 Compute differential compartments based on Mahalanobis distance

@@ -396,12 +396,12 @@ method(fill_missing, CompartmentCall) <- function(x, ref.gr) {
   stopifnot("Reference GRanges is not bigger than CompartmentCall object" = ref_length >= length(x@gr))
   stopifnot("All CompartmentCall bins must be present in the reference GRanges" = all(x@gr %gin% ref.gr))
 
-  ref_idx <- seq_len(ref_length)
-  df <- data.table(n = ifelse(ref.gr %gin% x@gr, ref_idx, NA))
-  df[!is.na(n), `:=`(pos = x@df$pos, cscore = x@df$cscore, name = x@name)]
-  df[, n := .I][]
-  x@gr <- ref.gr
-  x@df <- df
+  ol <- findOverlaps(x@gr, ref.gr)
+  mcols(ref.gr)[, c("cscore", "name")] <- NA
+  ref.gr[subjectHits(ol)]$cscore <- x@df[queryHits(ol), cscore]
+  ref.gr[subjectHits(ol)]$name <- x@df[queryHits(ol), name]
+  x@gr <- granges(ref.gr)
+  x@df <- as.data.table(mcols(ref.gr))[, .(n = .I, pos = start(ref.gr), cscore, name)]
   x
 }
 

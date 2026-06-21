@@ -34,7 +34,7 @@ compute_mahalanobis <- function(mat, cov_method = c("base", "robust", "mcd"), al
   md <- mahalanobis(cen, colMeans(cen), cv)
   pvals <- pchisq(md, df = ncol(mat) - 1, lower.tail = FALSE)
   if (fdr) {
-    pvals <- .p.adjust(pvals, method = "BH")
+    pvals <- p.adjust(pvals, method = "BH")
   }
   mdf <- data.table(n = seq_len(nrow(mat)))
   mdf[!(n %in% na_row_idx), `:=`(md = md, pval = pvals)][]

@@ -288,6 +288,33 @@ method(differentiate, MultiCompartmapCall) <- function(x) {
     labs(x = paste(gsub("chr", "Chromosome ", seqlevels(x)), "(Mb)"))
 }
 
+#' Compute Mahalanobis distances and pvalues - unfiltered
+#'
+#' @param x A `MultiCompartmentCall` object
+#' @param cov_method Method to compute covariance. "base": `stats::cov`,
+#' "robust": `robust::covRob()`, "mcd": `robust::covRob(estim = "mcd")`
+#' @param alpha_level Significance level to use (default: 0.05)
+#'
+#' @concept s7analysis
+#' @export
+get_md <- new_generic(
+  "get_md",
+  "x",
+  function(x, cov_method = c("base", "robust", "mcd")) {
+    S7_dispatch()
+  }
+)
+method(get_md, MultiCompartmapCall) <- function(
+  x,
+  cov_method = c("base", "robust", "mcd")
+) {
+  md <- compute_mahalanobis(x@mat, cov_method)
+  gr <- x@gr
+  mcols(gr)[, c("md", "pval")] = md[, .(md, pval)]
+  gr
+}
+
+
 #' Compute differential compartments based on Mahalanobis distance
 #'
 #' @param x A `MultiCompartmentCall` object

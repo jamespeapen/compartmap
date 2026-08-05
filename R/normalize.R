@@ -4,8 +4,8 @@
 #' @param ties logical. If TRUE, ties in each column of A are treated in careful way.
 #' tied values will be normalized to the mean of the corresponding pooled
 #' quantiles.
-
 #' @importFrom stats approx
+#' @keywords internal
 normalize_quantiles <- function(A, ties = TRUE) {
   n <- dim(A)
   if (is.null(n)) {

@@ -87,9 +87,6 @@ flipSign <- function(gr, genome, assay) {
   gene_count <- countOverlaps(gr, tx.gr)
   open <- gr$cscore > 0
   flip <- sum(gene_count[open]) < sum(gene_count[!open])
-  if (assay == "array") {
-    flip <- !flip
-  }
   flip
 }
 

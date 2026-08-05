@@ -16,6 +16,7 @@ arrayCompartments(
   array.type = c("hm450", "EPIC"),
   genome = c("hg19", "hg38", "mm9", "mm10"),
   other = NULL,
+  smooth = TRUE,
   boot.parallel = TRUE,
   BPPARAM = bpparam()
 )
@@ -42,6 +43,8 @@ arrayCompartments(
 \item{genome}{What genome to work on ("hg19", "hg38", "mm9", "mm10")}
 
 \item{other}{Another arbitrary genome to compute compartments on}
+
+\item{smooth}{Whether to smooth the singular vector}
 
 \item{boot.parallel}{Whether to run the bootstrapping in parallel. See details.}
 

@@ -16,6 +16,7 @@
 #' @param other Another arbitrary genome to compute compartments on
 #' @param boot.parallel Whether to run the bootstrapping in parallel. See details.
 #' @param BPPARAM BiocParallelParam object to use for parallelization. See details.
+#' @param smooth Whether to smooth the singular vector
 #'
 #' @inherit scCompartments details
 #'
@@ -53,6 +54,7 @@ arrayCompartments <- function(
   array.type = c("hm450", "EPIC"),
   genome = c("hg19", "hg38", "mm9", "mm10"),
   other = NULL,
+  smooth = TRUE,
   boot.parallel = TRUE,
   BPPARAM = bpparam()
 ) {
@@ -89,6 +91,7 @@ arrayCompartments <- function(
     bootstrap = bootstrap,
     num.bootstraps = num.bootstraps,
     genome = genome,
+    smooth = smooth,
     group = group,
     boot.parallel = boot.parallel,
     bpparams = bpparams

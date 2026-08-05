@@ -6,6 +6,7 @@
 #' @param fdr Whether to perform Benjamini-Hochberg false discovery correction
 #'
 #' @importFrom stats mahalanobis pchisq
+#' @concept diffCompartments
 #'
 #' @export
 compute_mahalanobis <- function(mat, cov_method = c("base", "robust", "mcd"), alpha_level = 0.05, fdr = FALSE) {
@@ -44,6 +45,9 @@ compute_mahalanobis <- function(mat, cov_method = c("base", "robust", "mcd"), al
 #' @param gr Matrix of singular values
 #' @param md data.table output from `compute_mahalanobis()`
 #' @param alpha_level Significance level to use (default: 0.05)
+#'
+#' @concept diffCompartments
+#'
 #' @export
 dc_bins <- function(gr, md, alpha_level = 0.05) {
   gr[which(md$pval <= alpha_level)]
@@ -55,6 +59,9 @@ dc_bins <- function(gr, md, alpha_level = 0.05) {
 #' row-specific data if necessary
 #'
 #' @param v Indices of significant Mahalanobis distances
+#'
+#' @concept diffCompartments
+#'
 #' @examples
 #' v <- c(1:4, 5, 7:9)
 #' get_sequential_idx(v)
@@ -86,6 +93,8 @@ get_sequential_idx <- function(v) {
 #' @importFrom ggplot2 ggplot geom_hline geom_rect labs
 #' @importFrom patchwork wrap_plots
 #' @importFrom stats qchisq
+#'
+#' @concept diffCompartments
 #'
 #' @examples
 #' v <- c(1:4, 5, 7:9)

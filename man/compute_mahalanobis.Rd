@@ -24,3 +24,4 @@ compute_mahalanobis(
 \description{
 Get the Mahalanobis distance for the singular values
 }
+\concept{diffCompartments}

@@ -16,3 +16,4 @@ dc_bins(gr, md, alpha_level = 0.05)
 \description{
 Get bins with significant Mahalanobis distances
 }
+\concept{diffCompartments}

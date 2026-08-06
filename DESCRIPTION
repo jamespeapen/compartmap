@@ -63,8 +63,8 @@ Suggests:
    rmarkdown,
    SingleCellExperiment,
    testthat
-RoxygenNote: 7.3.2
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr
 LazyData: TRUE
 LazyDataCompression: xz
+Config/roxygen2/version: 8.0.0

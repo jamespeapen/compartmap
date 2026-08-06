@@ -79,18 +79,21 @@ get_sequential_idx <- function(v) {
 #'
 #' @param ccall_pd The `@df` slot of a `MultiCompartmapCall` object
 #' @param md data.table output from `compute_mahalanobis()`
+#' @param select Column name or index to compute differential compartments on
+#' Set this to plot the compartment scores of all input columns but show
+#' differential compartments based only on the provided columns.
 #' @param alpha_level Significance level to use (default: 0.05)
 #' @param show_md Whether to plot the Mahalanobis distance
-#' @param fill Color of the `geom_rect`
+#' @param shade Color of the `geom_rect` used to shade differential bins
 #' @param alpha Transparency of the `geom_rect`
 #' @param ylim The y-axis limits
 #' @param xlim The x-axis limits
 #' @param label_ids Whether to differential bin ID labels
-#' @param select Column name or index to compute differential compartments on.
-#' Set this to plot the compartment scores of all input columns but show
-#' differential compartments based only on the provided columns.
+#' @param color The line colors used for the each sample
+#' @param fill The colors used for positive and negative values in bar plots
+#' @param linewidth The width of lines in the line plot
 #'
-#' @importFrom ggplot2 ggplot geom_hline geom_rect labs
+#' @importFrom ggplot2 ggplot geom_hline geom_rect labs scale_color_manual
 #' @importFrom patchwork wrap_plots
 #' @importFrom stats qchisq
 #'
@@ -106,11 +109,14 @@ plot_dc <- function(
   type = c("line", "bar"),
   show_md = TRUE,
   alpha_level = 0.05,
-  fill = "maroon",
+  shade = "maroon",
   alpha = 0.5,
   ylim = c(-0.5, 0.5),
   xlim = NULL,
-  label_ids = TRUE
+  label_ids = TRUE,
+  color = NULL,
+  fill = NULL,
+  linewidth = 0.5
 ) {
   type = match.arg(type)
   pval <- name <- NULL
@@ -125,19 +131,23 @@ plot_dc <- function(
   cplot <- switch(
     type,
     line = {
+      color <- color %||% scales::hue_pal()(ccall_pd[, length(unique(name))])
       ggplot(ccall_pd, aes(x = pos, y = cscore, color = name)) +
-        geom_line() +
+        geom_line(linewidth = linewidth) +
         geom_hline(yintercept = 0) +
         scale_y_continuous(limits = ylim) +
+        scale_color_manual(values = color) +
         theme(panel.grid = element_blank())
     },
     bar = {
+      fill <- fill %||% c("deeppink4", "gray50")
       ggplot(ccall_pd, aes(x = pos, y = cscore, fill = cscore > 0)) +
         geom_col() +
         geom_hline(yintercept = 0) +
         scale_y_continuous(limits = ylim) +
         facet_grid(rows = vars(name)) +
-        theme(panel.grid = element_blank())
+        scale_fill_manual(values = fill)
+      theme(panel.grid = element_blank(), legend.position = "none")
     }
   )
   chr <- md_pd[, unique(seqnames)]
@@ -151,7 +161,7 @@ plot_dc <- function(
       stat = "unique",
       inherit.aes = FALSE,
       aes(xmin = start_pos, xmax = end_pos, ymin = ylim[1], ymax = ylim[2]),
-      fill = fill,
+      fill = shade,
       alpha = alpha
     )
 

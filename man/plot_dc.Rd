@@ -11,11 +11,14 @@ plot_dc(
   type = c("line", "bar"),
   show_md = TRUE,
   alpha_level = 0.05,
-  fill = "maroon",
+  shade = "maroon",
   alpha = 0.5,
   ylim = c(-0.5, 0.5),
   xlim = NULL,
-  label_ids = TRUE
+  label_ids = TRUE,
+  color = NULL,
+  fill = NULL,
+  linewidth = 0.5
 )
 }
 \arguments{
@@ -23,7 +26,7 @@ plot_dc(
 
 \item{md}{data.table output from \code{compute_mahalanobis()}}
 
-\item{select}{Column name or index to compute differential compartments on.
+\item{select}{Column name or index to compute differential compartments on
 Set this to plot the compartment scores of all input columns but show
 differential compartments based only on the provided columns.}
 
@@ -31,7 +34,7 @@ differential compartments based only on the provided columns.}
 
 \item{alpha_level}{Significance level to use (default: 0.05)}
 
-\item{fill}{Color of the \code{geom_rect}}
+\item{shade}{Color of the \code{geom_rect} used to shade differential bins}
 
 \item{alpha}{Transparency of the \code{geom_rect}}
 
@@ -40,6 +43,12 @@ differential compartments based only on the provided columns.}
 \item{xlim}{The x-axis limits}
 
 \item{label_ids}{Whether to differential bin ID labels}
+
+\item{color}{The line colors used for the each sample}
+
+\item{fill}{The colors used for positive and negative values in bar plots}
+
+\item{linewidth}{The width of lines in the line plot}
 }
 \description{
 Show differential compartments as overlaid \code{ggplot2::geom_rect()} over significant distances

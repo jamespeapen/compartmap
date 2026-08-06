@@ -351,7 +351,7 @@ method(diff_compartments, MultiCompartmapCall) <- function(
 #' @param cov_method Method to compute covariance. "base": `stats::cov`,
 #' @param alpha_level Significance level to use (default: 0.05)
 #' @param show_md Whether to plot the Mahalanobis distance
-#' @param fill Color of the `geom_rect`
+#' @param shade Color of the `geom_rect`
 #' @param alpha Transparency of the `geom_rect`
 #' @param ylim The y-axis limits
 #' @param xlim The x-axis limits
@@ -359,6 +359,9 @@ method(diff_compartments, MultiCompartmapCall) <- function(
 #' @param select Column name or index to compute differential compartments on.
 #' Set this to plot the compartment scores of all object columns but show
 #' differential compartments based only on the provided columns.
+#' @param color The line colors used for the each sample
+#' @param fill The colors used for positive and negative values in bar plots
+#' @param linewidth The width of lines in the line plot
 #'
 #' @concept s7analysis
 #' @importFrom ggplot2 ggplot geom_hline geom_rect
@@ -372,12 +375,15 @@ plot_diff_compartments <- new_generic(
     cov_method = c("base", "robust", "mcd"),
     alpha_level = 0.05,
     show_md = TRUE,
-    fill = "maroon",
+    shade = "maroon",
     alpha = 0.5,
     ylim = c(-0.1, 0.1),
     xlim = NULL,
     label_ids = TRUE,
-    select = NULL
+    select = NULL,
+    color = NULL,
+    fill = NULL,
+    linewidth = 0.5
   ) {
     S7_dispatch()
   }
@@ -388,12 +394,15 @@ method(plot_diff_compartments, MultiCompartmapCall) <- function(
   cov_method = c("base", "robust", "mcd"),
   alpha_level = 0.05,
   show_md = TRUE,
-  fill = "maroon",
+  shade = "maroon",
   alpha = 0.5,
   ylim = c(-0.1, 0.1),
   xlim = NULL,
   label_ids = TRUE,
-  select = NULL
+  select = NULL,
+  color = NULL,
+  fill = NULL,
+  linewidth = 0.5
 ) {
   select <- select %||% names(x)
   md <- get_md(x[, select], cov_method)
@@ -404,10 +413,13 @@ method(plot_diff_compartments, MultiCompartmapCall) <- function(
     type = type,
     alpha_level = alpha_level,
     show_md = show_md,
-    fill = fill,
+    shade = shade,
     alpha = alpha,
     ylim = ylim,
     xlim = xlim,
-    label_ids = label_ids
+    label_ids = label_ids,
+    color = color,
+    fill = fill,
+    linewidth = linewidth
   )
 }

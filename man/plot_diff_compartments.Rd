@@ -10,12 +10,15 @@ plot_diff_compartments(
   cov_method = c("base", "robust", "mcd"),
   alpha_level = 0.05,
   show_md = TRUE,
-  fill = "maroon",
+  shade = "maroon",
   alpha = 0.5,
   ylim = c(-0.1, 0.1),
   xlim = NULL,
   label_ids = TRUE,
-  select = NULL
+  select = NULL,
+  color = NULL,
+  fill = NULL,
+  linewidth = 0.5
 )
 }
 \arguments{
@@ -27,7 +30,7 @@ plot_diff_compartments(
 
 \item{show_md}{Whether to plot the Mahalanobis distance}
 
-\item{fill}{Color of the \code{geom_rect}}
+\item{shade}{Color of the \code{geom_rect}}
 
 \item{alpha}{Transparency of the \code{geom_rect}}
 
@@ -40,6 +43,12 @@ plot_diff_compartments(
 \item{select}{Column name or index to compute differential compartments on.
 Set this to plot the compartment scores of all object columns but show
 differential compartments based only on the provided columns.}
+
+\item{color}{The line colors used for the each sample}
+
+\item{fill}{The colors used for positive and negative values in bar plots}
+
+\item{linewidth}{The width of lines in the line plot}
 }
 \description{
 Compute differential compartments based on Mahalanobis distance

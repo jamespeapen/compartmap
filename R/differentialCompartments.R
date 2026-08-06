@@ -183,14 +183,15 @@ plot_dc <- function(
   }
 
   if (show_md) {
-    mdpd <- as.data.table(md)
-    ylims <- mdpd[start >= xlim[1] & start <= xlim[2]][, range(md, na.rm = TRUE)]
+    mdpd <- as.data.table(md)[start >= xlim[1] & start <= xlim[2]]
+    ylims <- mdpd[, range(md^2, na.rm = TRUE)]
     mdplot <- mdpd |>
       setnames(c("start", "end"), c("start_pos", "end_pos")) |>
       ggplot(aes(x = start_pos, y = md^2)) +
       geom_line() +
       geom_hline(yintercept = cutoff, linetype = "dotted") +
       scale_x_continuous(labels = \(x) x / 1e6, limits = xlim) +
+      scale_y_continuous(limits = ylims) +
       labs(x = paste(gsub("chr", "Chromosome", chr), "(Mb)"), y = bquote(MD^2))
 
     cplot <- cplot + theme(axis.text.x = element_blank(), axis.title.x = element_blank())

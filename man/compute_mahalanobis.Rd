@@ -2,13 +2,13 @@
 % Please edit documentation in R/differentialCompartments.R
 \name{compute_mahalanobis}
 \alias{compute_mahalanobis}
-\title{Get the Mahalanobis distance for the singular values}
+\title{Get the Mahalanobis distances for the compartment scores}
 \usage{
 compute_mahalanobis(
   mat,
   cov_method = c("base", "robust", "mcd"),
   alpha_level = 0.05,
-  fdr = FALSE
+  fdr = TRUE
 )
 }
 \arguments{
@@ -22,6 +22,11 @@ compute_mahalanobis(
 \item{fdr}{Whether to perform Benjamini-Hochberg false discovery correction}
 }
 \description{
-Get the Mahalanobis distance for the singular values
+Get the Mahalanobis distances for the compartment scores
+}
+\details{
+The resulting data frame contains the mahalanobis distances and p-values
+computed based on the squared mahalanobis distances on the Chi-squared
+distribution.
 }
 \concept{diffCompartments}

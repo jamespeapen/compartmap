@@ -1,4 +1,10 @@
-#' Get the Mahalanobis distance for the singular values
+#' Get the Mahalanobis distances for the compartment scores
+#'
+#' @details
+#' The resulting data frame contains the mahalanobis distances and p-values
+#' computed based on the squared mahalanobis distances on the Chi-squared
+#' distribution.
+#'
 #' @param mat Matrix of singular values
 #' @param cov_method Method to compute covariance. "base": `stats::cov`,
 #' "robust": `robust::covRob()`, "mcd": `robust::covRob(estim = "mcd")`
@@ -9,7 +15,7 @@
 #' @concept diffCompartments
 #'
 #' @export
-compute_mahalanobis <- function(mat, cov_method = c("base", "robust", "mcd"), alpha_level = 0.05, fdr = FALSE) {
+compute_mahalanobis <- function(mat, cov_method = c("base", "robust", "mcd"), alpha_level = 0.05, fdr = TRUE) {
   na_row_idx <- which(is.na(mat), arr.ind = TRUE)[, 1]
   norm_mat <- normalize_quantiles(mat)
   full_mat <- na.omit(norm_mat)
@@ -33,7 +39,7 @@ compute_mahalanobis <- function(mat, cov_method = c("base", "robust", "mcd"), al
   cen <- full_mat * pmax
 
   md <- mahalanobis(cen, colMeans(cen), cv)
-  pvals <- pchisq(md, df = ncol(mat) - 1, lower.tail = FALSE)
+  pvals <- pchisq(md^2, df = ncol(mat) - 1, lower.tail = FALSE)
   if (fdr) {
     pvals <- p.adjust(pvals, method = "BH")
   }
@@ -177,13 +183,15 @@ plot_dc <- function(
   }
 
   if (show_md) {
-    mdplot <- as.data.table(md) |>
+    mdpd <- as.data.table(md)
+    ylims <- mdpd[start >= xlim[1] & start <= xlim[2]][, range(md, na.rm = TRUE)]
+    mdplot <- mdpd |>
       setnames(c("start", "end"), c("start_pos", "end_pos")) |>
-      ggplot(aes(x = start_pos, y = md)) +
+      ggplot(aes(x = start_pos, y = md^2)) +
       geom_line() +
       geom_hline(yintercept = cutoff, linetype = "dotted") +
       scale_x_continuous(labels = \(x) x / 1e6, limits = xlim) +
-      labs(x = paste(gsub("chr", "Chromosome", chr), "(Mb)"), y = "Mahalanobis distance")
+      labs(x = paste(gsub("chr", "Chromosome", chr), "(Mb)"), y = bquote(Mahalanobis ~ distance^2))
 
     cplot <- cplot + theme(axis.text.x = element_blank(), axis.title.x = element_blank())
     return(wrap_plots(list(cplot, mdplot), nrow = 2))

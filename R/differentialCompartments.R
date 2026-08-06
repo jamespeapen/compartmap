@@ -191,7 +191,7 @@ plot_dc <- function(
       geom_line() +
       geom_hline(yintercept = cutoff, linetype = "dotted") +
       scale_x_continuous(labels = \(x) x / 1e6, limits = xlim) +
-      labs(x = paste(gsub("chr", "Chromosome", chr), "(Mb)"), y = bquote(Mahalanobis ~ distance^2))
+      labs(x = paste(gsub("chr", "Chromosome", chr), "(Mb)"), y = bquote(MD^2))
 
     cplot <- cplot + theme(axis.text.x = element_blank(), axis.title.x = element_blank())
     return(wrap_plots(list(cplot, mdplot), nrow = 2))

@@ -20,6 +20,7 @@
         BiocParallel
         DelayedArray
         DelayedMatrixStats
+        GenomeInfoDb
         GenomicRanges
         ggplot2
         impute

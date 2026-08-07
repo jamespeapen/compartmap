@@ -80,7 +80,7 @@
       ];
 
       # default package
-      rDeps = [ Depends Imports Suggests ];
+      rDeps = Depends ++ Imports ++ Suggests;
       compartmap = pkgs.rPackages.buildRPackage {
         name = "compartmap";
         src = self;

@@ -324,14 +324,14 @@ method(get_md, MultiCompartmapCall) <- function(
 #'
 #' @concept s7analysis
 #' @export
-diff_compartments <- new_generic(
+get_dc <- new_generic(
   "diff_compartments",
   "x",
   function(x, cov_method = c("base", "robust", "mcd"), alpha_level = 0.05) {
     S7_dispatch()
   }
 )
-method(diff_compartments, MultiCompartmapCall) <- function(
+method(get_dc, MultiCompartmapCall) <- function(
   x,
   cov_method = c("base", "robust", "mcd"),
   alpha_level = 0.05
@@ -366,8 +366,8 @@ method(diff_compartments, MultiCompartmapCall) <- function(
 #' @concept s7analysis
 #' @importFrom ggplot2 ggplot geom_hline geom_rect
 #' @export
-plot_diff_compartments <- new_generic(
-  "plot_diff_compartments",
+plot_dc <- new_generic(
+  "plot_dc",
   "x",
   function(
     x,
@@ -388,7 +388,7 @@ plot_diff_compartments <- new_generic(
     S7_dispatch()
   }
 )
-method(plot_diff_compartments, MultiCompartmapCall) <- function(
+method(plot_dc, MultiCompartmapCall) <- function(
   x,
   type = c("line", "bar"),
   cov_method = c("base", "robust", "mcd"),
@@ -406,7 +406,7 @@ method(plot_diff_compartments, MultiCompartmapCall) <- function(
 ) {
   select <- select %||% names(x)
   md <- get_md(x[, select], cov_method)
-  plot_dc(
+  dc_plotter(
     x@df,
     md,
     select = select,

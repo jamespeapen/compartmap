@@ -108,7 +108,7 @@ get_sequential_idx <- function(v) {
 #' @examples
 #' v <- c(1:4, 5, 7:9)
 #' get_sequential_idx(v)
-plot_dc <- function(
+dc_plotter <- function(
   ccall_pd,
   md,
   select,

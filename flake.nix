@@ -65,13 +65,14 @@
       sysDeps = with pkgs; [
         R
       ];
-
-      tex = (pkgs.texlive.combine {
-        inherit (pkgs.texlive) scheme-medium
+      tex = pkgs.texliveSmall.withPackages (
+        ps: with ps; [
         inconsolata
         xkeyval
-        etoolbox;
-      });
+        etoolbox
+        ]
+      );
+
       sysDevDeps = with pkgs; [
         air-formatter
         checkbashisms

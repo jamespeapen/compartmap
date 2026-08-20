@@ -24,7 +24,7 @@ scCompartmapCall <- new_class(
     BPPARAM = bpparam()
   ) {
     grlist <- condenseSE(re)
-    gen <- GenomeInfoDb::genome(re)
+    gen <- Seqinfo::genome(re)
     cscores <- bplapply(
       grlist,
       function(i) {
@@ -48,7 +48,7 @@ scCompartmapCall <- new_class(
     )
 
     gr <- GRanges(rownames(mat))
-    GenomeInfoDb::genome(gr) <- gen
+    Seqinfo::genome(gr) <- gen
 
     new_object(
       S7_object(),

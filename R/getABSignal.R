@@ -78,7 +78,7 @@ getABSignal <- function(
   if (flipSign(gr, genome, assay)) {
     gr$cscore <- -gr$cscore
   }
-  GenomeInfoDb::genome(gr) <- gen
+  Seqinfo::genome(gr) <- gen
   return(gr)
 }
 

@@ -96,15 +96,17 @@ importFrom(BiocSingular,
 )
 importFrom(GenomeInfoDb,
   "seqlevelsStyle<-",
-  genome,
   keepSeqlevels,
-  keepStandardChromosomes,
-  seqlengths,
-  seqlevels
+  keepStandardChromosomes
 )
 importFrom(S4Vectors,
   queryHits,
   subjectHits
+)
+importFrom(Seqinfo,
+  genome,
+  seqlengths,
+  seqlevels
 )
 importFrom(data.table,
   ":=",

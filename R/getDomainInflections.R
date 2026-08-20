@@ -12,7 +12,7 @@
 #'
 #' @import GenomicRanges
 #' @importFrom S4Vectors subjectHits queryHits
-#' @importFrom GenomeInfoDb seqlengths
+#' @importFrom Seqinfo seqlengths
 #' @importFrom methods as is
 #' @importFrom utils data
 #' @export

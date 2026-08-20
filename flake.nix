@@ -32,6 +32,7 @@
         RMTstat
         rtracklayer
         scales
+        Seqinfo
         S7
       ];
 

@@ -142,7 +142,7 @@ getGenome <- function(
 #'
 #' @return The seqlengths of a specific chromosome
 #'
-#' @importFrom GenomeInfoDb seqlengths seqlevels genome
+#' @importFrom Seqinfo seqlengths seqlevels genome
 #' @import GenomicRanges
 #'
 #' @examples
@@ -273,7 +273,8 @@ sparseToDenseMatrix <- function(
 #'
 #' @import SummarizedExperiment
 #' @import GenomicRanges
-#' @importFrom GenomeInfoDb seqlengths seqlevels seqlevelsStyle<-  keepSeqlevels keepStandardChromosomes
+#' @importFrom Seqinfo seqlengths seqlevels
+#' @importFrom GenomeInfoDb seqlevelsStyle<-  keepSeqlevels keepStandardChromosomes
 #'
 #' @export
 

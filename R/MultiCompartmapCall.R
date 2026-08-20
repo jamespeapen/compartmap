@@ -150,7 +150,7 @@ method(mat, MultiCompartmapCall) <- function(x) x@mat
   }
 
   x@gr <- x@gr[i]
-  GenomeInfoDb::seqlevels(x@gr) <- GenomeInfoDb::seqlevelsInUse(x@gr)
+  Seqinfo::seqlevels(x@gr) <- Seqinfo::seqlevelsInUse(x@gr)
   x@mat <- x@mat[i, j, drop = FALSE]
   x@df <- x@df[n %in% i & name %in% subset_names]
   x@df[, n := seq_len(.N), by = name][]

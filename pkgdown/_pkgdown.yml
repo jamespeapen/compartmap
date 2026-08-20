@@ -39,13 +39,16 @@ reference:
   contents:
     - filterCompartments
     - fixCompartments
-    - extractOpenClosed
     - getABSignal
+- title: Differential compartment utilities
+  contents:
+    - has_concept("diffCompartments")
 - title: Correlation matrix
   contents:
     - estRMT
     - getCorMatrix
     - getDenoisedCorMatrix
+    - denoiseCorMatrix
 - title: Data transformation
   contents:
     - transformTFIDF
@@ -102,4 +105,5 @@ reference:
 - title: Datasets
   contents:
     - has_keyword("data")
+    - has_keyword("reference_data")
 

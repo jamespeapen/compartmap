@@ -67,6 +67,7 @@ dc_bins <- function(gr, md, alpha_level = 0.05) {
 #' @param v Indices of significant Mahalanobis distances
 #'
 #' @concept diffCompartments
+#' @keywords internal
 #'
 #' @examples
 #' v <- c(1:4, 5, 7:9)
@@ -104,6 +105,7 @@ get_sequential_idx <- function(v) {
 #' @importFrom stats qchisq
 #'
 #' @concept diffCompartments
+#' @keywords internal
 #'
 #' @examples
 #' v <- c(1:4, 5, 7:9)

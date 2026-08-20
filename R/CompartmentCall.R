@@ -236,6 +236,7 @@ method(is_closed, CompartmentCall) <- function(x) Negate(is_open)(x)
 #'
 #' @concept s7ranges
 #' @export
+#' @keywords internal
 `[.compartmap::CompartmentCall` <- function(x, i = NULL) {
   i <- i %||% seq_len(nrow(x@mat))
   x@df <- x@df[i]
@@ -487,6 +488,8 @@ grscale <- function(gr, res) {
 }
 
 #' Print `CompartmentCall`
+#' @export
+#' @keywords internal
 method(print, CompartmentCall) <- function(x, ...) {
   message(.print_CompartmentCall(x))
 }

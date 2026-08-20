@@ -58,3 +58,4 @@ v <- c(1:4, 5, 7:9)
 get_sequential_idx(v)
 }
 \concept{diffCompartments}
+\keyword{internal}

@@ -15,3 +15,4 @@
 Subset rows of a \code{CompartmentCall} object
 }
 \concept{s7ranges}
+\keyword{internal}

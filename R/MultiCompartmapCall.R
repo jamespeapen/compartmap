@@ -126,6 +126,7 @@ method(mat, MultiCompartmapCall) <- function(x) x@mat
 #'
 #' @concept s7ranges
 #' @export
+#' @keywords internal
 `[.compartmap::MultiCompartmapCall` <- function(x, i = NULL, j = NULL) {
   i <- i %||% seq_len(nrow(x@mat))
   j <- j %||% seq_len(ncol(x@mat))
@@ -164,6 +165,7 @@ method(mat, MultiCompartmapCall) <- function(x) x@mat
 #' @param x A `CompartmentCall` object
 #'
 #' @export
+#' @keywords internal
 method(print, MultiCompartmapCall) <- function(x, ...) {
   column_label <- ifelse(inherits(x, "compartmap::scCompartmapCall"), "cells", "samples")
   msg <- message(

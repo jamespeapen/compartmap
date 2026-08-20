@@ -96,6 +96,7 @@ S4_register(MultiCompartmapCall)
 # GETTERS ==================================================================={{{
 #' Get dimensions of `MultiCompartmapCall` matrix
 #' @concept s7getters
+#' @rdname dim
 #' @export
 method(dim, MultiCompartmapCall) <- function(x) dim(x@mat)
 

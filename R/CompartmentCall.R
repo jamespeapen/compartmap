@@ -122,8 +122,9 @@ S4_register(CompartmentCall)
 DF <- new_generic("DF", "x", function(x) S7_dispatch())
 method(DF, CompartmentCall) <- function(x) x@df[]
 
-#' Get dimensions of `MultiCompartmapCall` matrix
+#' Get dimensions of `CompartmapCall` matrix
 #' @concept s7getters
+#' @rdname dim
 #' @export
 method(dim, CompartmentCall) <- function(x) c(length(x@gr), 1)
 

@@ -124,7 +124,7 @@ dc_plotter <- function(
   fill = NULL,
   linewidth = 0.5
 ) {
-  type = match.arg(type)
+  type <- match.arg(type)
   pval <- name <- NULL
   xlim <- xlim %||% range(ccall_pd$pos)
 

@@ -310,7 +310,7 @@ method(get_md, MultiCompartmapCall) <- function(
 ) {
   md <- compute_mahalanobis(x@mat, cov_method)
   gr <- x@gr
-  mcols(gr)[, c("md", "pval")] = md[, .(md, pval)]
+  mcols(gr)[, c("md", "pval")] <- md[, .(md, pval)]
   gr
 }
 
@@ -340,7 +340,7 @@ method(get_dc, MultiCompartmapCall) <- function(
   sig_idx <- md[, which(pval < alpha_level)]
   seq_idx <- get_sequential_idx(sig_idx)
   gr <- dc_bins(x@gr, md, alpha_level)
-  mcols(gr)[, c("md", "pval")] = md[sig_idx, .(md, pval)]
+  mcols(gr)[, c("md", "pval")] <- md[sig_idx, .(md, pval)]
   mcols(gr)[, c("start_idx", "end_idx", "dc_id")] <- seq_idx[, .(start_idx, end_idx, dc_id)]
   gr
 }

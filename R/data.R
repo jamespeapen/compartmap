@@ -62,142 +62,90 @@ NULL
 #' @usage data(array_data_chr14, package = "compartmap")
 NULL
 
-#' hg38 seqlengths as a GRanges object
+#' Human and mouse seqlengths as GRanges objects
 #'
-#' This object was generated using the BSgenome.Hsapiens.UCSC.hg38 package.
-#' The script used for this object is found in the inst/scripts directory
-#'
-#' @name hg38.gr
-#' @docType data
+#' These objects were generated using the
+#' BSgenome.Hsapiens.UCSC.hg19/BSgenome.Hsapiens.UCSC.hg38 and Mus.musculus
+#' packages. The script used is found in the inst/scripts directory
+#' @name seqlengths
 #' @author Benjamin K Johnson \email{ben.johnson@vai.org}
-#' @keywords data
+#' @docType data
+#' @keywords reference_data
 #' @usage data(hg38.gr, package = "compartmap")
 NULL
 
-#' hg19 seqlengths as a GRanges object
-#'
-#' This object was generated using the Homo.sapiens package.
-#' The script used for this object is found in the inst/scripts directory
-#'
+#' @name hg38.gr
+#' @rdname seqlengths
+"hg38.gr"
+
 #' @name hg19.gr
-#' @docType data
-#' @author Benjamin K Johnson \email{ben.johnson@vai.org}
-#' @keywords data
-#' @usage data(hg19.gr, package = "compartmap")
-NULL
+#' @rdname seqlengths
+"hg19.gr"
 
-#' mm10 seqlengths as a GRanges object
-#'
-#' This object was generated using the Mus.musculus package.
-#' The script used for this object is found in the inst/scripts directory
-#'
-#' @name mm10.gr
-#' @docType data
-#' @author Benjamin K Johnson \email{ben.johnson@vai.org}
-#' @keywords data
-#' @usage data(mm10.gr, package = "compartmap")
-NULL
-
-#' mm9 seqlengths as a GRanges object
-#'
-#' This object was generated using the BSgenome.Mmusculus.UCSC.mm9 package.
-#' The script used for this object is found in the inst/scripts directory
-#'
 #' @name mm9.gr
-#' @docType data
-#' @author Benjamin K Johnson \email{ben.johnson@vai.org}
-#' @keywords data
-#' @usage data(mm9.gr, package = "compartmap")
-NULL
+#' @rdname seqlengths
+"mm9.gr"
 
-#' hg38 open sea CpG as a GRanges object
+#' @name mm10.gr
+#' @rdname seqlengths
+"mm10.gr"
+
+#' Human and mouse open sea CpGs as GRanges objects
 #'
-#' This object was generated using the BSgenome.Hsapiens.UCSC.hg38 package.
+#' These objects were generated using the
+#' BSgenome.Hsapiens.UCSC.hg19/BSgenome.Hsapiens.UCSC.hg38 and Mus.musculus
+#' packages.
 #'
-#' @name openSeas.hg38
-#' @docType data
+#' @name openSeas
 #' @author Benjamin K Johnson \email{ben.johnson@vai.org}
-#' @keywords data
+#' @docType data
+#' @keywords reference_data
 #' @usage data(openSeas.hg38, package = "compartmap")
 NULL
 
-#' hg19 open sea CpG as a GRanges object
-#'
-#' This object was generated using the Homo.sapiens package.
-#'
+#' @name openSeas.hg38
+#' @rdname openSeas
+"openSeas.hg38"
+
 #' @name openSeas.hg19
-#' @docType data
-#' @author Benjamin K Johnson \email{ben.johnson@vai.org}
-#' @keywords data
-#' @usage data(openSeas.hg19, package = "compartmap")
-NULL
+#' @rdname openSeas
+"openSeas.hg19"
 
-#' mm10 open sea CpG as a GRanges object
-#'
-#' This object was generated using the Mus.musculus package.
-#'
-#' @name openSeas.mm10
-#' @docType data
-#' @author Benjamin K Johnson \email{ben.johnson@vai.org}
-#' @keywords data
-#' @usage data(openSeas.mm10, package = "compartmap")
-NULL
-
-#' mm9 open sea CpG as a GRanges object
-#'
-#' This object was generated using the BSgenome.Mmusculus.UCSC.mm9 package.
-#'
 #' @name openSeas.mm9
-#' @docType data
-#' @author Benjamin K Johnson \email{ben.johnson@vai.org}
-#' @keywords data
-#' @usage data(openSeas.mm9, package = "compartmap")
-NULL
+#' @rdname openSeas
+"openSeas.mm9"
 
-#' hg38 genes as a GRanges object
+#' @name openSeas.mm10
+#' @rdname openSeas
+"openSeas.mm10"
+
+
+#' Human and mouse genes as GRanges objects
 #'
-#' This object was generated using the TxDb.Hsapiens.UCSC.hg19.knownGene package.
-#' The script used for this object is found in the inst/scripts directory
+#' This object was generated using the
+#' TxDb.Hsapiens.UCSC.hg19.knownGene/TxDb.Hsapiens.UCSC.hg38.knownGene/TxDb.Mmusculus.UCSC.mm9.knownGene/TxDb.Mmusculus.UCSC.mm10.knownGene
+#' package. The script used for this object is found in the inst/scripts
+#' directory
 #'
-#' @name hg38.tx.gr
-#' @docType data
+#' @name genes
 #' @author James Eapen \email{james.eapen@vai.org}
-#' @keywords data
+#' @docType data
+#' @keywords reference_data
 #' @usage data(hg38.tx.gr, package = "compartmap")
 NULL
 
-#' hg19 genes as a GRanges object
-#'
-#' This object was generated using the TxDb.Hsapiens.UCSC.hg19.knownGene package.
-#' The script used for this object is found in the inst/scripts directory
-#'
+#' @name hg38.tx.gr
+#' @rdname genes
+"hg38.tx.gr"
+
 #' @name hg19.tx.gr
-#' @docType data
-#' @author James Eapen \email{james.eapen@vai.org}
-#' @keywords data
-#' @usage data(hg19.tx.gr, package = "compartmap")
-NULL
+#' @rdname genes
+"hg19.tx.gr"
 
-#' mm9 genes as a GRanges object
-#'
-#' This object was generated using the TxDb.Mmusculus.UCSC.mm9.knownGene package.
-#' The script used for this object is found in the inst/scripts directory
-#'
 #' @name mm9.tx.gr
-#' @docType data
-#' @author James Eapen \email{james.eapen@vai.org}
-#' @keywords data
-#' @usage data(mm9.tx.gr, package = "compartmap")
-NULL
+#' @rdname genes
+"mm9.tx.gr"
 
-#' mm10 genes as a GRanges object
-#'
-#' This object was generated using the TxDb.Mmusculus.UCSC.mm10.knownGene package.
-#' The script used for this object is found in the inst/scripts directory
-#'
 #' @name mm10.tx.gr
-#' @docType data
-#' @author James Eapen \email{james.eapen@vai.org}
-#' @keywords data
-#' @usage data(mm10.tx.gr, package = "compartmap")
-NULL
+#' @rdname genes
+"mm10.tx.gr"

@@ -324,7 +324,7 @@ method(get_md, MultiCompartmapCall) <- function(
 #' "robust": `robust::covRob()`, "mcd": `robust::covRob(estim = "mcd")`
 #' @param alpha_level Significance level to use (default: 0.05)
 #'
-#' @concept s7analysis
+#' @concept diffCompartments
 #' @export
 get_dc <- new_generic(
   "diff_compartments",
@@ -347,7 +347,7 @@ method(get_dc, MultiCompartmapCall) <- function(
   gr
 }
 
-#' Compute differential compartments based on Mahalanobis distance
+#' Plot differential compartments based on Mahalanobis distance
 #'
 #' @param x A `MultiCompartmentCall` object
 #' @param cov_method Method to compute covariance. "base": `stats::cov`,
@@ -365,7 +365,7 @@ method(get_dc, MultiCompartmapCall) <- function(
 #' @param fill The colors used for positive and negative values in bar plots
 #' @param linewidth The width of lines in the line plot
 #'
-#' @concept s7analysis
+#' @concept diffCompartments
 #' @importFrom ggplot2 ggplot geom_hline geom_rect
 #' @export
 plot_dc <- new_generic(

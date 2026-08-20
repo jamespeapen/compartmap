@@ -17,4 +17,4 @@ get_dc(x, cov_method = c("base", "robust", "mcd"), alpha_level = 0.05)
 \description{
 Compute differential compartments based on Mahalanobis distance
 }
-\concept{s7analysis}
+\concept{diffCompartments}

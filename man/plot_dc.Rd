@@ -2,7 +2,7 @@
 % Please edit documentation in R/MultiCompartmapCall.R
 \name{plot_dc}
 \alias{plot_dc}
-\title{Compute differential compartments based on Mahalanobis distance}
+\title{Plot differential compartments based on Mahalanobis distance}
 \usage{
 plot_dc(
   x,
@@ -51,6 +51,6 @@ differential compartments based only on the provided columns.}
 \item{linewidth}{The width of lines in the line plot}
 }
 \description{
-Compute differential compartments based on Mahalanobis distance
+Plot differential compartments based on Mahalanobis distance
 }
-\concept{s7analysis}
+\concept{diffCompartments}

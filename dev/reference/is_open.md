@@ -12,7 +12,7 @@ is_closed(x)
 
 ## Arguments
 
-- subject:
+- x:
 
   A `CompartmentCall` object
 

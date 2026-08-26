@@ -89,16 +89,3 @@ flipSign <- function(gr, genome, assay) {
   flip <- sum(gene_count[open]) < sum(gene_count[!open])
   flip
 }
-
-# Check if a compartment is open based on assay type and eigenvalue
-#
-# For ATAC/RNA:
-# eigen < cutoff - closed
-# eigen > cutoff - open
-#
-# For methylation the logic is flipped:
-# eigen < cutoff - open
-# eigen > cutoff - closed
-.isCompartmentOpen <- function(is.atac_or_rna, eigen, cutoff) {
-  (is.atac_or_rna & eigen > cutoff) | (!is.atac_or_rna & eigen < cutoff)
-}

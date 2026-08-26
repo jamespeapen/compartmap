@@ -76,16 +76,6 @@ required_workers <- function(workers) {
   sum(Reduce(`*`, workers), workers[1])
 }
 
-#' Verify that the input BiocParallelParam is valid
-#' @param bp A BiocParallelParam or list of 2 BiocParallelParam objects
-#' @importFrom BiocParallel bpnworkers
-#' @return TRUE if the total `bpnworkers` in the input does not exceed
-#' available resources as defined by `parallelly::availableCores()`
-#' @keywords internal
-verify_bp <- function(bp) {
-  verify_workers(get_bpnworkers(bp))
-}
-
 #' Verify that requested thread count is not higher than available
 #' @param n_workers The number of workers to check availability
 #' @return TRUE if the requested `thread_count` does not exceed available

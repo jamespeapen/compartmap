@@ -472,13 +472,6 @@ method(fill_missing, CompartmentCall) <- function(x, ref.gr) {
     labs(x = paste(gsub("chr", "Chromosome ", seqlevels(x)), "(Mb)"))
 }
 
-grscale <- function(gr, res) {
-  scale_factor <- switch(tolower(res), kb = list(1e5, "Kb"), mb = list(1e6, "Mb"))
-  start_scaled <- start(gr) / as.numeric(scale_factor[1])
-  end_scaled <- round(end(gr) / as.numeric(scale_factor[1], 4))
-  paste0(Seqinfo::seqlevels(gr), ":", start_scaled, "-", end_scaled, " ", scale_factor[2])
-}
-
 .resolution <- function(res) {
   scales::number(res, suffix = "b", scale_cut = scales::cut_short_scale())
 }

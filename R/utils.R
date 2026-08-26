@@ -378,9 +378,10 @@ cleanAssay <- function(by = c("row", "col")) {
 #' @examples
 #' if (requireNamespace("minfi", quietly = TRUE)) {
 #'   data("array_data_chr14", package = "compartmap")
-#'   compartmap:::cleanAssayRows(array.data.chr14, assay = "array")
+#'   cleanAssayRows(array.data.chr14, assay = "array")
 #' }
 #' @keywords internal
+#' @export
 cleanAssayRows <- cleanAssay(by = "row")
 
 #' Remove columns/cells/samples with NAs exceeding a threshold. See `cleanAssay()`
@@ -394,9 +395,10 @@ cleanAssayRows <- cleanAssay(by = "row")
 #' @examples
 #' if (requireNamespace("minfi", quietly = TRUE)) {
 #'   data("array_data_chr14", package = "compartmap")
-#'   compartmap:::cleanAssayCols(array.data.chr14, assay = "array")
+#'   cleanAssayCols(array.data.chr14, assay = "array")
 #' }
 #' @keywords internal
+#' @export
 cleanAssayCols <- cleanAssay(by = "col")
 
 #' Filter to open sea CpG loci

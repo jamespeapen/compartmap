@@ -22,7 +22,7 @@ Remove columns/cells/samples with NAs exceeding a threshold. See \code{cleanAssa
 \examples{
 if (requireNamespace("minfi", quietly = TRUE)) {
   data("array_data_chr14", package = "compartmap")
-  compartmap:::cleanAssayCols(array.data.chr14, assay = "array")
+  cleanAssayCols(array.data.chr14, assay = "array")
 }
 }
 \keyword{internal}

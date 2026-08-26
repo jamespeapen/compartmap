@@ -12,8 +12,4 @@ verifySE(obj)
 \description{
 Check if the assay is a SummarizedExperiment
 }
-\examples{
-data("k562_scrna_chr14", package = "compartmap")
-compartmap:::verifySE(k562_scrna_chr14)
-}
 \keyword{internal}

@@ -22,7 +22,7 @@ Remove rows with NAs exceeding a threshold. See \code{cleanAssay()}
 \examples{
 if (requireNamespace("minfi", quietly = TRUE)) {
   data("array_data_chr14", package = "compartmap")
-  compartmap:::cleanAssayRows(array.data.chr14, assay = "array")
+  cleanAssayRows(array.data.chr14, assay = "array")
 }
 }
 \keyword{internal}

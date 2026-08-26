@@ -50,7 +50,8 @@ Imports:
    rtracklayer,
    S4Vectors,
    S7,
-   scales
+   scales,
+   Seqinfo
 Suggests:
    BiocStyle,
    covr,

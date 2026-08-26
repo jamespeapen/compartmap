@@ -355,7 +355,7 @@ method(flip, CompartmentCall) <- function(x) {
 fix_sign <- new_generic("fix_sign", "x", function(x, na.rm = FALSE) S7_dispatch())
 method(fix_sign, CompartmentCall) <- function(x, na.rm = FALSE) {
   nas_present <- anyNA(x@df)
-  if (!na.rm & nas_present) {
+  if (!na.rm && nas_present) {
     warning(
       "NAs found - flipping may fail. If you think the NAs will not affect the distribution of expression values set `na.rm = TRUE`"
     )

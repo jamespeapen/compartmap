@@ -14,7 +14,7 @@ normalize_quantiles <- function(A, ties = TRUE) {
   if (n[2] == 1) {
     return(A)
   }
-  O <- S <- array(, n)
+  O <- S <- array(NA, n)
   nobs <- rep(n[1], n[2])
   i <- (0:(n[1] - 1)) / (n[1] - 1)
   for (j in 1:n[2]) {

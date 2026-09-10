@@ -13,10 +13,3 @@ verifySE(obj)
 - obj:
 
   Input object
-
-## Examples
-
-``` r
-data("k562_scrna_chr14", package = "compartmap")
-compartmap:::verifySE(k562_scrna_chr14)
-```

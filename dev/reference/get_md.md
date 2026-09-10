@@ -5,7 +5,12 @@ Compute Mahalanobis distances and pvalues - unfiltered
 ## Usage
 
 ``` r
-get_md(x, cov_method = c("base", "robust", "mcd"))
+get_md(
+  x,
+  cov_method = c("base", "robust", "mcd"),
+  alpha_level = 0.05,
+  fdr = TRUE
+)
 ```
 
 ## Arguments
@@ -24,3 +29,7 @@ get_md(x, cov_method = c("base", "robust", "mcd"))
 - alpha_level:
 
   Significance level to use (default: 0.05)
+
+- fdr:
+
+  Whether to perform Benjamini-Hochberg false discovery correction

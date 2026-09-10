@@ -26,3 +26,8 @@ findOverlaps(
 - subject:
 
   A `CompartmentCall` object
+
+-  maxgap,  minoverlap,  type, :
+
+  select, ignore.strand See `?findOverlaps` in the `GenomicRanges`
+  package.

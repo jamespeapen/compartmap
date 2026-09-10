@@ -13,10 +13,3 @@ verifyCoords(obj)
 - obj:
 
   Input object
-
-## Examples
-
-``` r
-data("k562_scrna_chr14", package = "compartmap")
-compartmap:::verifyCoords(k562_scrna_chr14)
-```

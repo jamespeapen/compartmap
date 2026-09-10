@@ -8,6 +8,20 @@ Denoising of Covariance matrix using Random Matrix Theory
 denoiseCorMatrix(cormat, rows, cols)
 ```
 
+## Arguments
+
+- cormat:
+
+  Correlation matrix of the data matrix
+
+- rows:
+
+  Row count of the data matrix
+
+- cols:
+
+  Column count of the data matrix
+
 ## Details
 
 Given a random matrix \\X\_{m\times n}\\ with independently and

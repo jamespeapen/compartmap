@@ -32,7 +32,7 @@ A filtered matrix
 ``` r
 if (requireNamespace("minfi", quietly = TRUE)) {
   data("array_data_chr14", package = "compartmap")
-  compartmap:::cleanAssayCols(array.data.chr14, assay = "array")
+  cleanAssayCols(array.data.chr14, assay = "array")
 }
 #> class: GenomicRatioSet 
 #> dim: 15078 11 

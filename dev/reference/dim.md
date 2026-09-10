@@ -13,3 +13,9 @@ dim(x)
 ## S7 method for class <compartmap::MultiCompartmapCall>
 dim(x)
 ```
+
+## Arguments
+
+- x:
+
+  A `CompartmentCall` object

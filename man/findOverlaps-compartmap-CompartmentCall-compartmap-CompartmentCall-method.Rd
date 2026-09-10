@@ -19,6 +19,8 @@ findOverlaps(
 \item{query}{A string vector of chromosomes to subset to}
 
 \item{subject}{A \code{CompartmentCall} object}
+
+\item{ maxgap,  minoverlap,  type, }{select, ignore.strand See \code{?findOverlaps} in the \code{GenomicRanges} package.}
 }
 \description{
 Find overlaps between \code{CompartmentCall} objects

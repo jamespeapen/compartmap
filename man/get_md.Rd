@@ -4,7 +4,12 @@
 \alias{get_md}
 \title{Compute Mahalanobis distances and pvalues - unfiltered}
 \usage{
-get_md(x, cov_method = c("base", "robust", "mcd"))
+get_md(
+  x,
+  cov_method = c("base", "robust", "mcd"),
+  alpha_level = 0.05,
+  fdr = TRUE
+)
 }
 \arguments{
 \item{x}{A \code{MultiCompartmentCall} object}
@@ -13,6 +18,8 @@ get_md(x, cov_method = c("base", "robust", "mcd"))
 "robust": \code{robust::covRob()}, "mcd": \code{robust::covRob(estim = "mcd")}}
 
 \item{alpha_level}{Significance level to use (default: 0.05)}
+
+\item{fdr}{Whether to perform Benjamini-Hochberg false discovery correction}
 }
 \description{
 Compute Mahalanobis distances and pvalues - unfiltered

@@ -24,6 +24,8 @@ plot_dc(
 \arguments{
 \item{x}{A \code{MultiCompartmentCall} object}
 
+\item{type}{Whether to plot scores as \code{"line"} or \code{"bar"}}
+
 \item{cov_method}{Method to compute covariance. "base": \code{stats::cov},}
 
 \item{alpha_level}{Significance level to use (default: 0.05)}

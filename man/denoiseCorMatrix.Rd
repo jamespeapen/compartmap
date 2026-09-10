@@ -6,6 +6,13 @@
 \usage{
 denoiseCorMatrix(cormat, rows, cols)
 }
+\arguments{
+\item{cormat}{Correlation matrix of the data matrix}
+
+\item{rows}{Row count of the data matrix}
+
+\item{cols}{Column count of the data matrix}
+}
 \description{
 Denoising of Covariance matrix using Random Matrix Theory
 }

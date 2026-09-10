@@ -146,7 +146,6 @@ estRMT <- function(mat, dim_ratio = NA, cutoff = c("max", "each"), eigenTreat = 
 #' Denoising of Covariance matrix using Random Matrix Theory
 #'
 #' @details
-
 #' Given a random matrix \eqn{X_{m\times n}} with independently and identically
 #' distributed values, the eigendecomposition of its covariance matrix \eqn{C}
 #' is
@@ -175,6 +174,10 @@ estRMT <- function(mat, dim_ratio = NA, cutoff = c("max", "each"), eigenTreat = 
 #' upper bound of its Marchenko-Pastur distribution. Eigenvalues above this
 #' bound violate this assumption and allow us to reconstruct the correlation
 #' matrix excluding the elements representing random noise.
+#'
+#' @param cormat Correlation matrix of the data matrix
+#' @param rows Row count of the data matrix
+#' @param cols Column count of the data matrix
 denoiseCorMatrix <- function(cormat, rows, cols) {
   ed <- eigen(cormat, symmetric = TRUE)
   cutoff <- (1 + sqrt(rows / cols))^2

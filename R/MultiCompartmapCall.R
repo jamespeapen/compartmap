@@ -97,12 +97,14 @@ S4_register(MultiCompartmapCall)
 #' Get dimensions of `MultiCompartmapCall` matrix
 #' @concept s7getters
 #' @rdname dim
+#' @alias dim
 #' @export
 method(dim, MultiCompartmapCall) <- function(x) dim(x@mat)
 
 
 #' Get column names of `MultiCompartmapCall` matrix
 #' @concept s7getters
+#' @alias names
 #' @export
 method(names, MultiCompartmapCall) <- function(x) colnames(x@mat)
 
@@ -165,6 +167,7 @@ method(mat, MultiCompartmapCall) <- function(x) x@mat
 #'
 #' @param x A `CompartmentCall` object
 #'
+#' @alias print
 #' @export
 #' @keywords internal
 method(print, MultiCompartmapCall) <- function(x, ...) {
@@ -297,21 +300,24 @@ method(differentiate, MultiCompartmapCall) <- function(x) {
 #' @param cov_method Method to compute covariance. "base": `stats::cov`,
 #' "robust": `robust::covRob()`, "mcd": `robust::covRob(estim = "mcd")`
 #' @param alpha_level Significance level to use (default: 0.05)
+#' @param fdr Whether to perform Benjamini-Hochberg false discovery correction
 #'
 #' @concept s7analysis
 #' @export
 get_md <- new_generic(
   "get_md",
   "x",
-  function(x, cov_method = c("base", "robust", "mcd")) {
+  function(x, cov_method = c("base", "robust", "mcd"), alpha_level = 0.05, fdr = TRUE) {
     S7_dispatch()
   }
 )
 method(get_md, MultiCompartmapCall) <- function(
   x,
-  cov_method = c("base", "robust", "mcd")
+  cov_method = c("base", "robust", "mcd"),
+  alpha_level = 0.05,
+  fdr = TRUE
 ) {
-  md <- compute_mahalanobis(x@mat, cov_method)
+  md <- compute_mahalanobis(x@mat, cov_method, alpha_level, fdr)
   gr <- x@gr
   mcols(gr)[, c("md", "pval")] <- md[, .(md, pval)]
   gr
@@ -351,6 +357,7 @@ method(get_dc, MultiCompartmapCall) <- function(
 #' Plot differential compartments based on Mahalanobis distance
 #'
 #' @param x A `MultiCompartmentCall` object
+#' @param type Whether to plot scores as `"line"` or `"bar"`
 #' @param cov_method Method to compute covariance. "base": `stats::cov`,
 #' @param alpha_level Significance level to use (default: 0.05)
 #' @param show_md Whether to plot the Mahalanobis distance

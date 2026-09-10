@@ -11,7 +11,7 @@
 #' @param alpha_level Significance level to use (default: 0.05)
 #' @param fdr Whether to perform Benjamini-Hochberg false discovery correction
 #'
-#' @importFrom stats mahalanobis pchisq
+#' @importFrom stats mahalanobis pchisq na.omit p.adjust
 #' @concept diffCompartments
 #'
 #' @export
@@ -67,6 +67,7 @@ dc_bins <- function(gr, md, alpha_level = 0.05) {
 #' @param v Indices of significant Mahalanobis distances
 #'
 #' @concept diffCompartments
+#' @importFrom data.table .GRP
 #' @keywords internal
 #'
 #' @examples
@@ -74,6 +75,7 @@ dc_bins <- function(gr, md, alpha_level = 0.05) {
 #' get_sequential_idx(v)
 #' @export
 get_sequential_idx <- function(v) {
+  start_idx <- end_idx <- dc_id <- NULL
   non_consecutive <- v[which(diff(v) != 1)] + 1
   intervals <- findInterval(v, non_consecutive)
   as.data.table(cbind(v, intervals)) |>
@@ -100,7 +102,8 @@ get_sequential_idx <- function(v) {
 #' @param fill The colors used for positive and negative values in bar plots
 #' @param linewidth The width of lines in the line plot
 #'
-#' @importFrom ggplot2 ggplot geom_hline geom_rect labs scale_color_manual
+#' @importFrom data.table setnames
+#' @importFrom ggplot2 ggplot geom_hline geom_rect geom_label labs scale_color_manual
 #' @importFrom patchwork wrap_plots
 #' @importFrom stats qchisq
 #'
@@ -127,7 +130,9 @@ dc_plotter <- function(
   linewidth = 0.5
 ) {
   type <- match.arg(type)
-  pval <- name <- NULL
+  pval <- name
+  dc_id <- start_pos <- end_pos <- NULL
+  start_idx <- end_idx <- NULL
   xlim <- xlim %||% range(ccall_pd$pos)
 
   md_pd <- as.data.table(md) |> setnames(c("start", "end"), c("start_idx", "end_idx"))

@@ -11,6 +11,9 @@ dim(x)
 ## S7 method for class <compartmap::MultiCompartmapCall>
 dim(x)
 }
+\arguments{
+\item{x}{A \code{CompartmentCall} object}
+}
 \description{
 Get dimensions of \code{CompartmapCall} matrix
 

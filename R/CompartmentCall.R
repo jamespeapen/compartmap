@@ -123,8 +123,12 @@ DF <- new_generic("DF", "x", function(x) S7_dispatch())
 method(DF, CompartmentCall) <- function(x) x@df[]
 
 #' Get dimensions of `CompartmapCall` matrix
+#'
+#' @param x A `CompartmentCall` object
+#'
 #' @concept s7getters
 #' @rdname dim
+#' @alias dim
 #' @export
 method(dim, CompartmentCall) <- function(x) c(length(x@gr), 1)
 
@@ -134,6 +138,7 @@ method(dim, CompartmentCall) <- function(x) c(length(x@gr), 1)
 #' @param x A `CompartmentCall` object
 #'
 #' @concept s7getters
+#' @alias granges
 #' @export
 method(granges, CompartmentCall) <- function(x) x@gr
 
@@ -142,6 +147,7 @@ method(granges, CompartmentCall) <- function(x) x@gr
 #' @param x A `CompartmentCall` object
 #'
 #' @concept s7getters
+#' @alias seqinfo
 #' @export
 method(seqinfo, CompartmentCall) <- function(x) x@seqinfo
 
@@ -150,6 +156,7 @@ method(seqinfo, CompartmentCall) <- function(x) x@seqinfo
 #' @param x A `CompartmentCall` object
 #'
 #' @concept s7getters
+#' @alias seqlevels
 #' @export
 method(seqlevels, CompartmentCall) <- function(x) {
   methods::selectMethod('seqlevels', 'GRanges')(x)
@@ -283,8 +290,10 @@ method(filter, CompartmentCall) <- function(x, threshold = 0.02) {
 #'
 #' @param subject A `CompartmentCall` object
 #' @param query A string vector of chromosomes to subset to
+#' @param maxgap, minoverlap, type, select, ignore.strand See `?findOverlaps` in the `GenomicRanges` package.
 #'
 #' @concept s7ranges
+#' @alias findOverlaps
 #' @export
 method(findOverlaps, list(CompartmentCall, CompartmentCall)) <- function(
   query,
@@ -482,6 +491,7 @@ method(fill_missing, CompartmentCall) <- function(x, ref.gr) {
 }
 
 #' Print `CompartmentCall`
+#' @alias print
 #' @export
 #' @keywords internal
 method(print, CompartmentCall) <- function(x, ...) {

@@ -29,10 +29,6 @@ plot_dc(
 
   A `MultiCompartmentCall` object
 
-- type:
-
-  Whether to plot scores as `"line"` or `"bar"`
-
 - cov_method:
 
   Method to compute covariance. "base":
